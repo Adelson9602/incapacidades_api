@@ -10,7 +10,7 @@ import routes from './routes'
 
 const app = express()
 app.set('trust proxy', true)
-app.set('port', 9090)
+app.set('port', 3012)
 
 app.set('pkg', pkg)
 

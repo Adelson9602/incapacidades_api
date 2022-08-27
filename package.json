@@ -1,7 +1,7 @@
 {
-  "name": "api_afiliaciones",
+  "name": "incapacidades_api",
   "version": "1.0.0",
-  "description": "Api para web app afiliaciones",
+  "description": "Api para web app incapacidades",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -9,13 +9,13 @@
     "start": "node dist/src/index.js"
   },
   "engines": {
-      "node": "16.16.0"
+    "node": "16.16.0"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Adelson9602/afiliaciones_api/issues"
+    "url": "https://github.com/Adelson9602/incapacidades_api/issues"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.2.3",

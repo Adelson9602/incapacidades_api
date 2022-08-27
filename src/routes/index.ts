@@ -6,7 +6,7 @@ const router = express.Router()
 const pathRouter = `${__dirname}`
 const messageError = {
   message: 'Ruta no encontrada',
-  error: 'La ruta no esta dinponible o no existe'
+  error: 'La ruta no esta disponible o no existe'
 }
 
 const removeExtension = (fileName: string):string => {

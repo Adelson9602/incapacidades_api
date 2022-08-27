@@ -2,16 +2,11 @@ import mysql from 'mysql'
 // The method createConnection receive one object how parameter with the settings for connect to the db
 
 const db = mysql.createConnection({
-  host: '162.243.174.93',
-  user: 'remoto',
-  password: 'Produccion2022@',
-  database: 'asesores_integrales',
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'incapacidades',
   multipleStatements: true
-  // HEROKU
-  // host: 'us-cdbr-east-06.cleardb.net',
-  // user: 'bcd06649b4628e',
-  // password: 'f33ddf6f',
-  // database: 'heroku_0eca0ac55deaf70'
 })
 
 db.connect((err) => {

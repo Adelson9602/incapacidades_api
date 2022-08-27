@@ -1,3 +1,3 @@
-export const scriptDeleteBeneficiario = (idPersona: number) => {
-  return `DELETE FROM beneficiario WHERE idpersona = ${idPersona}`
+export const scriptDeleteBeneficiario = () => {
+  return ''
 }

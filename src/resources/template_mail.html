@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div style="border: 1px solid #e3e3e3;
+    border-radius: 15px;
+    padding: 15px;
+    width: 610px;
+    text-align: justify;
+    background-image: url('https://qinspecting.com/img/background_email.png');
+    background-size: cover;
+  ">
+    <img src="https://qinspecting.com/img/logo.png" style="height: 40px; margin: auto">
+    <div>
+
+      <h3> Estimad@ <b>{{nombres}}</b> </h3>
+      <p>Recientemente nos llegó una solicitud de recuperación de contraseña, dicha solicitud se llevó a cabo a través
+        de nuestro aplicativo. <br>
+        Nos permitimos informarle que sus datos de acceso son los siguientes.
+      </p>
+      <ul style="
+        padding-left: 0;
+        margin-bottom: 0;
+        border-radius: .25rem;
+        width: 520px;
+        font-weight: bold;
+      ">
+        <li style="
+        position: relative;
+        display: block;
+        padding: .5rem .5rem;
+        color: #212529;
+        text-decoration: none;
+        background-color: #fff;
+        /* border: 1px solid rgba(0,0,0,.125); */
+      ">Usuario: {{numeroDocumento}}</li>
+        <li style="
+        position: relative;
+        display: block;
+        padding: .5rem .5rem;
+        color: #212529;
+        text-decoration: none;
+        background-color: #fff;
+        /* border: 1px solid rgba(0,0,0,.125); */
+      ">Contraseña: {{password}}</li>
+      </ul>
+      <p style="margin-bottom: 7px;">Para ingresar de nuevo, por favor visite el siguiente enlace</p>
+      <a href="{{urlQi}}" style="
+        text-decoration: none;
+        border: 1px solid;
+        padding: 5px;
+        border-radius: 5px;
+        background-color: green;
+        color: #ffff;
+      ">Ir a Qinspecting</a>
+      <p style="margin-bottom: 0px;">También puedes ingresar desde nuestra app disponible en la tienda</p>
+      <img src="https://qinspecting.com/img/google-play.png" style="height: 40px;">
+      <p>Al acceder a nuestro aplicativo usando los medios indicados anteriormente, podrá agilizar su proceso de
+        inspección vehicular, apoyando el cudidado del medio ambiente. <br>
+        Si usted no realizó esta petición, por favor, ignore este mensaje</p>
+      <p>Saludos cordiales,</p>
+      <p><b>Qinspecting Colombia</b></p>
+      <img src="https://www.qinspecting.com/img/FRASE_AMBIENTAL_FIRMAS.jpg" style="height: 70px;">
+    </div>
+  </div>
+</body>
+
+</html>

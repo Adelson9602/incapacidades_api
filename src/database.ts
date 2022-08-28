@@ -5,25 +5,18 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'incapacidades',
+  database: 'clientes',
   multipleStatements: true
 })
 
 db.connect((err) => {
-  console.log('****************************')
-  console.log('******** INICIANDO *********')
-  console.log('****************************')
   if (err) {
-    console.log('****************************')
     console.log('*********  EERROR  *********')
-    console.log('****************************')
     console.log(err.message)
     console.log(err)
     throw err
   } else {
-    console.log('****************************')
     console.log('******** CONECTADO *********')
-    console.log('****************************')
   }
 })
 

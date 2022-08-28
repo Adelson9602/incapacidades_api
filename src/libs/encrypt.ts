@@ -12,7 +12,7 @@ const compareDataAES = (password: string, passwordEncryt: string) => {
 }
 
 const encryptedAES = (data: string):string => {
-  const key = CryptoJS.HmacSHA1('sha256', config.SECRET)
+  const key = CryptoJS.HmacSHA1('sha256', config.SECRET_KEY)
   const iv = CryptoJS.HmacSHA1('sha256', config.IV)
   const encrypted = CryptoJS.AES.encrypt(data, key, {
     iv,
@@ -23,7 +23,7 @@ const encryptedAES = (data: string):string => {
 }
 
 const decryptedAES = (encrypted: string):string => {
-  const key = CryptoJS.HmacSHA1('sha256', config.SECRET)
+  const key = CryptoJS.HmacSHA1('sha256', config.SECRET_KEY)
   const iv = CryptoJS.HmacSHA1('sha256', config.IV)
   const decrypted = CryptoJS.AES.decrypt(encrypted, key, {
     iv,

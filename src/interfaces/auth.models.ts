@@ -3,32 +3,35 @@ export interface User {
   password: string
 }
 
+export interface Token {
+  id: number,
+  pwd: string
+}
+
 export interface UserData {
-  idPersona: number;
-  idTipoDocumento: number;
-  identificacion: string;
+  usuario: number;
+  password: string;
+  fkIdRol: number;
+  estadoUsuario: number;
+  documentoPersona: number;
   primerNombre: string;
   segundoNombre: string;
   primerApellido: string;
   segundoApellido: string;
+  genero: string;
   fechaNacimiento: string;
-  sexo: string;
-  usuario: string;
-  password: string;
-  estado: number;
-  idPrivilegios: number;
-  documentoPersona: string;
-  correo: null | string;
-  celular: null | string;
-  zona: number | null;
-  direccion: null | string;
-  idCiudad: number | null;
-  nombrePrivilegio: string;
-  idDepartamento: number | null;
-  tipoDocumento: string;
+  fkIdTipoDocumento: number;
 }
 
-export interface Token {
-  id: number,
-  pwd: string
+export interface Cliente {
+  idEmpresa: number;
+  razonSocial: string;
+  nombreSistema: string;
+  urlLogo: string;
+  nombreBase: string;
+  estado: number;
+  direccion: string;
+  telefono: string;
+  email: string;
+  dataUser?: UserData
 }

@@ -6,4 +6,8 @@ const router = Router()
 
 router.get('/menu', verifyToken, getCtroler.getMenu)
 
+router.get('/rols', verifyToken, getCtroler.getRols)
+
+router.get('/documents_type', verifyToken, getCtroler.getDocumentsType)
+
 module.exports = router

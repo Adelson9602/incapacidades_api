@@ -1,7 +1,7 @@
-export const scriptDocumentsType = (): string => {
-  return 'SELECT idTipoDocumento, nombreTipoDocumento FROM tipodocumento'
+export const scriptDocumentsType = (base: string): string => {
+  return `SELECT idTipoDocumento, nombreTipoDocumento FROM ${base}.tipodocumento`
 }
 
-export const scriptRols = (): string => {
-  return 'SELECT idRol, nombreRol FROM roles'
+export const scriptRols = (base: string): string => {
+  return `SELECT idRol, nombreRol FROM ${base}.roles`
 }

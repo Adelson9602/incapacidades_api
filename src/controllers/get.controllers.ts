@@ -28,7 +28,8 @@ export const getMenu = (req: Request, res: Response) => {
 
 export const getRols = (req: Request, res: Response) => {
   try {
-    const query = scriptRols()
+    const base:string = req.headers.base as string
+    const query = scriptRols(base)
     db.query(query, (err, rows) => {
       if (!err) {
         if (rows.length > 0) {
@@ -51,7 +52,8 @@ export const getRols = (req: Request, res: Response) => {
 
 export const getDocumentsType = (req: Request, res: Response) => {
   try {
-    const query = scriptDocumentsType()
+    const base:string = req.headers.base as string
+    const query = scriptDocumentsType(base)
     db.query(query, (err, rows) => {
       if (!err) {
         if (rows.length > 0) {

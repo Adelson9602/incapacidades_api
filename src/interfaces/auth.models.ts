@@ -9,10 +9,6 @@ export interface Token {
 }
 
 export interface UserData {
-  usuario: number;
-  password: string;
-  fkIdRol: number;
-  estadoUsuario: number;
   documentoPersona: number;
   primerNombre: string;
   segundoNombre: string;
@@ -21,6 +17,11 @@ export interface UserData {
   genero: string;
   fechaNacimiento: string;
   fkIdTipoDocumento: number;
+  usuario: number;
+  password: string;
+  fkIdRol: number;
+  estadoUsuario: number;
+  fotoPerfil: string;
 }
 
 export interface Cliente {

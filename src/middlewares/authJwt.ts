@@ -9,13 +9,12 @@ import { MysqlError } from 'mysql'
 export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   try {
     const paramToken:string = req.headers['x-access-token'] as string
-    const { base } = req.body
+    const base:string = req.headers.base as string
     if (!paramToken) return res.status(403).json({ message: 'No ha enviado un token válido', error: 'Para poder realizar operaciones con la API debe enviar un token de autenticación' })
-    res.json(base)
 
     const decode = jwt.verify(paramToken, process.env.SECRET_KEY || config.SECRET_KEY) as Token
 
-    const query = `SELECT * FROM ${base}.usuario WHERE usuario = '${decode.id}';`
+    const query = `SELECT * FROM ${base}.usuarios WHERE usuario = '${decode.id}';`
 
     db.query(query, async (error: MysqlError, rows: UserData[]) => {
       if (!error) {

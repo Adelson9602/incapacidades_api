@@ -6,9 +6,10 @@ import { ResultSql } from '../interfaces/get.models'
 
 export const insertUser = async (req: Request, res: Response) => {
   try {
-    const script = scriptCreatePerson(req.body)
+    const base:string = req.headers.base as string
+    const script = scriptCreatePerson(req.body, base)
     const result = await executeQuery<ResultSql>(script, true).then(() => {
-      const query = sccriptCreateUser(req.body)
+      const query = sccriptCreateUser(req.body, base)
       return executeQuery<ResultSql>(query, true)
     })
     res.json({

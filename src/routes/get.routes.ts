@@ -10,4 +10,6 @@ router.get('/rols', verifyToken, getCtroler.getRols)
 
 router.get('/documents_type', verifyToken, getCtroler.getDocumentsType)
 
+router.get('/users', verifyToken, getCtroler.getUsers)
+
 module.exports = router

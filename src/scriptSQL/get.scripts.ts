@@ -1,5 +1,5 @@
 export const scriptDocumentsType = (base: string): string => {
-  return `SELECT idTipoDocumento, nombreTipoDocumento FROM ${base}.tipodocumento`
+  return `SELECT idTipoDocumento, nombreTipoDocumento FROM ${base}.tipoDocumento`
 }
 
 export const scriptRols = (base: string): string => {
@@ -7,5 +7,5 @@ export const scriptRols = (base: string): string => {
 }
 
 export const scriptUsers = (base: string): string => {
-  return `SELECT * FROM ${base}.usuarios INNER JOIN ${base}.personas ON personas.documentoPersona = usuarios.usuario`
+  return `SELECT *, fotoPerfil AS avatar FROM ${base}.usuarios INNER JOIN ${base}.personas ON personas.documentoPersona = usuarios.usuario`
 }

@@ -23,4 +23,20 @@ const validateUser = [
   }
 ]
 
-export { validateUser }
+const validateTypeCp = [
+  check('nombreTipoEmpresa').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateCompany = [
+  check('nit').exists().not().isEmpty(),
+  check('razonSocial').exists().not().isEmpty(),
+  check('fkIdTipoEmpresa').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+export { validateUser, validateTypeCp, validateCompany }

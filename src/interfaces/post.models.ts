@@ -8,3 +8,15 @@ export interface Persona {
   fechaNacimiento: string;
   fkIdTipoDocumento: number;
 }
+
+export interface TypeCompany {
+  idTipoEmpresa?: number;
+  nombreTipoEmpresa: string;
+}
+
+export interface Compnay {
+  nit: string;
+  newNit?: string;
+  razonSocial: string;
+  fkIdTipoEmpresa: number;
+}

@@ -20,3 +20,29 @@ export interface Compnay {
   razonSocial: string;
   fkIdTipoEmpresa: number;
 }
+
+export interface Contacto {
+  idContacto: number;
+  direccion: string;
+  barrio: string;
+  correo: string;
+  celular: string;
+  telefonoFijo: string;
+  fkIdCiudad: number;
+}
+
+export interface ContactCompany {
+  fkNit: number;
+  fkidContacto: number;
+}
+
+export interface ContactPerson {
+  fkIdContacto: number;
+  fkDocumentoPersona: number;
+}
+
+export interface DisabilityType {
+  idTipoIncapacidad: number;
+  nombreTipoIncapacidad: string;
+  codigoDianostico: string;
+}

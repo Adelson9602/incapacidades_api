@@ -3,7 +3,7 @@ import { verifyToken } from '../middlewares'
 import * as postCtroler from '../controllers/post.controllers'
 import * as uploadCtroler from '../controllers/upload.controller'
 import multer from '../libs/uploadFile'
-import { validateUser, validateTypeCp, validateCompany } from '../validators/post.validators'
+import { validateUser, validateTypeCp, validateCompany, validateDisabilityType } from '../validators/post.validators'
 
 const router = Router()
 
@@ -14,5 +14,7 @@ router.post('/user', validateUser, postCtroler.insertUser)
 router.post('/company_type', verifyToken, validateTypeCp, postCtroler.createTypeCompany)
 
 router.post('/company', verifyToken, validateCompany, postCtroler.createCompany)
+
+router.post('/disability_type', verifyToken, validateDisabilityType, postCtroler.createDisabilityType)
 
 module.exports = router

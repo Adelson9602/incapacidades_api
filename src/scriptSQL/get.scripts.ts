@@ -1,15 +1,19 @@
 export const scriptDocumentsType = (base: string): string => {
-  return `SELECT idTipoDocumento, nombreTipoDocumento FROM ${base}.tipoDocumento`
+  return `SELECT idTipoDocumento, nombreTipoDocumento FROM ${base}.tipoDocumento;`
 }
 
 export const scriptRols = (base: string): string => {
-  return `SELECT idRol, nombreRol FROM ${base}.roles`
+  return `SELECT idRol, nombreRol FROM ${base}.roles;`
 }
 
 export const scriptUsers = (base: string): string => {
-  return `SELECT *, fotoPerfil AS avatar FROM ${base}.usuarios INNER JOIN ${base}.personas ON personas.documentoPersona = usuarios.usuario`
+  return `SELECT *, fotoPerfil AS avatar FROM ${base}.usuarios INNER JOIN ${base}.personas ON personas.documentoPersona = usuarios.usuario;`
 }
 
 export const scriptValidateTpCompany = (nombre: string, base: string): string => {
-  return `SELECT * FROM ${base}.tipoEmpresa WHERE nombreTipoEmpresa = '${nombre}'`
+  return `SELECT * FROM ${base}.tipoEmpresa WHERE nombreTipoEmpresa = '${nombre}';`
+}
+
+export const scriptCompanies = (base: string, nit?: string) => {
+  return `SELECT * FROM ${base}.empresa INNER JOIN ${base}.tipoEmpresa ON empresa.fkIdTipoEmpresa = tipoEmpresa.idTipoEmpresa ${nit ? `WHERE nit = ${nit}` : ''};`
 }

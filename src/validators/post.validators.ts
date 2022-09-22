@@ -34,9 +34,24 @@ const validateCompany = [
   check('nit').exists().not().isEmpty(),
   check('razonSocial').exists().not().isEmpty(),
   check('fkIdTipoEmpresa').exists().not().isEmpty(),
+  // check('idContacto').exists().not().isEmpty(),
+  check('direccion').exists().not().isEmpty(),
+  check('barrio').exists().not().isEmpty(),
+  check('correo').exists().not().isEmpty(),
+  check('celular').exists().not().isEmpty(),
+  check('telefonoFijo').exists().not().isEmpty(),
+  check('fkIdCiudad').exists().not().isEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
   }
 ]
 
-export { validateUser, validateTypeCp, validateCompany }
+const validateDisabilityType = [
+  check('nombreTipoIncapacidad').exists().not().isEmpty(),
+  check('codigoDianostico').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+export { validateUser, validateTypeCp, validateCompany, validateDisabilityType }

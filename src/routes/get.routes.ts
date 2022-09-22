@@ -12,4 +12,8 @@ router.get('/documents_type', verifyToken, getCtroler.getDocumentsType)
 
 router.get('/users', verifyToken, getCtroler.getUsers)
 
+router.get('/company', verifyToken, getCtroler.getCompanies)
+
+router.get('/company/:nit', verifyToken, getCtroler.getCompany)
+
 module.exports = router

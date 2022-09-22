@@ -11,6 +11,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
     const paramToken:string = req.headers['x-access-token'] as string
     const base:string = req.headers.base as string
     if (!paramToken) return res.status(403).json({ message: 'No ha enviado un token válido', error: 'Para poder realizar operaciones con la API debe enviar un token de autenticación' })
+    if (!base) return res.status(403).json({ message: 'No ha enviado un nombre de base de datos', error: 'Para poder realizar operaciones con la API debe especificar la base con la que operará' })
 
     const decode = jwt.verify(paramToken, process.env.SECRET_KEY || config.SECRET_KEY) as Token
 

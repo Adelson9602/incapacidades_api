@@ -1,14 +1,27 @@
 import { Request, Response } from 'express'
 import httpError from '../helpers/handleError'
 import { executeQuery } from '../functions/global.functions'
-import { sccriptCreateUser, scriptContacCompany, scriptCreateCompany, scriptCreateContacto, scriptCreatePerson, scriptCreateTpCp, scriptDisabilityType } from '../scriptSQL/post.scripts'
-import { ResultSql } from '../interfaces/get.models'
-import { scriptValidateTpCompany } from '../scriptSQL/get.scripts'
-import { TypeCompany } from 'interfaces/post.models'
+import {
+  sccriptCreateUser,
+  scriptContacCompany,
+  scriptContacPerson,
+  scriptCreateCompany,
+  scriptCreateContacto,
+  scriptCreatePerson,
+  scriptCreatePosition,
+  scriptCreateTpCp,
+  scriptDisabilityType,
+  scriptEmploye
+} from '../scriptSQL/post.scripts'
+import {
+  scriptValidatePosition,
+  scriptValidateTpCompany
+} from '../scriptSQL/get.scripts'
+import { TypeCompany, ResultSql } from 'interfaces/general.models'
 
 export const insertUser = async (req: Request, res: Response) => {
   try {
-    const base:string = req.headers.base as string
+    const base: string = req.headers.base as string
     const script = scriptCreatePerson(req.body, base)
     const result = await executeQuery<ResultSql>(script).then(() => {
       const query = sccriptCreateUser(req.body, base)
@@ -28,7 +41,7 @@ export const insertUser = async (req: Request, res: Response) => {
 
 export const createTypeCompany = async (req: Request, res: Response) => {
   try {
-    const base:string = req.headers.base as string
+    const base: string = req.headers.base as string
     const { nombreTipoEmpresa } = req.body
     const resultValidate = await executeQuery<TypeCompany[]>(scriptValidateTpCompany(nombreTipoEmpresa, base))
     if (resultValidate.length > 0) {
@@ -54,10 +67,11 @@ export const createTypeCompany = async (req: Request, res: Response) => {
 
 export const createCompany = async (req: Request, res: Response) => {
   try {
-    const base:string = req.headers.base as string
+    const base: string = req.headers.base as string
     const script = scriptCreateCompany(req.body, base)
     const scriptContact = scriptCreateContacto(req.body, base)
     const company = await executeQuery<ResultSql[]>(`${script}${scriptContact}`).then(([, contact]) => {
+      // Registra el la tabla contactoEmpresa
       const scriptRelation = scriptContacCompany({
         fkNit: req.body.nit,
         fkidContacto: req.body.fkidContacto || contact.insertId
@@ -79,7 +93,7 @@ export const createCompany = async (req: Request, res: Response) => {
 
 export const createDisabilityType = async (req: Request, res: Response) => {
   try {
-    const base:string = req.headers.base as string
+    const base: string = req.headers.base as string
     const script = scriptDisabilityType(req.body, base)
     const response = await executeQuery<ResultSql>(script)
 
@@ -87,6 +101,72 @@ export const createDisabilityType = async (req: Request, res: Response) => {
       message: 'Datos guardados',
       data: response
     })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createPerson = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const { documentoPersona, fkIdCargo, fkIdContacto } = req.body
+
+    const script = scriptCreatePerson(req.body, base)
+    const scriptContact = scriptCreateContacto(req.body, base)
+    const result = await executeQuery<ResultSql[]>(`${script}${scriptContact}`)
+      .then(([, contact]) => {
+        // Registra el la tabla contactoPersona
+        const query = scriptContacPerson({
+          fkIdContacto: fkIdContacto || contact.insertId,
+          fkDocumentoPersona: documentoPersona
+        }, base)
+        return executeQuery<ResultSql>(query)
+      })
+      .then((responseContact) => {
+        // Se ejecuta si es empleado
+        if (req.body.isEmploye) {
+          return executeQuery<ResultSql>(scriptEmploye({
+            fkDocumentoPersona: documentoPersona,
+            fkIdCargo
+          }, base))
+        }
+        return responseContact
+      })
+    res.json({
+      message: 'Datos guardados',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createPosition = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const { nombreCargo } = req.body
+    const resultValidate = await executeQuery<TypeCompany[]>(
+      scriptValidatePosition(nombreCargo, base)
+    )
+    if (resultValidate.length > 0) {
+      res.json({
+        message: 'Este cargo ya está registrado',
+        data: resultValidate
+      })
+    } else {
+      const script = scriptCreatePosition(req.body, base)
+      const result = await executeQuery<ResultSql>(script)
+      res.json({
+        message: 'Datos guardado',
+        data: result
+      })
+    }
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: error.message,

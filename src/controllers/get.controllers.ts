@@ -1,142 +1,198 @@
 import { Request, Response } from 'express'
 import httpError from '../helpers/handleError'
-import db from '../database'
-import { scriptCompanies, scriptDocumentsType, scriptRols, scriptUsers } from '../scriptSQL/get.scripts'
+import {
+  scriptCompanies,
+  scriptDocumentsType,
+  scriptGetCities,
+  scriptGetDepartments,
+  scriptGetPerson,
+  scriptRols,
+  scriptUsers
+} from '../scriptSQL/get.scripts'
+import { executeQuery } from '../functions/global.functions'
+import { Rol, DocumentType, User, Compnay, Person, Department, City, DepartemtAndCity } from 'interfaces/general.models'
 
-export const getMenu = (req: Request, res: Response) => {
-  try {
-    const query = 'SELECT id, nombre FROM eps WHERE estado = 1'
-    db.query(query, (err, rows) => {
-      if (!err) {
-        if (rows.length > 0) {
-          res.status(200).json(rows)
-        } else {
-          res.json([])
-        }
-      } else {
-        httpError(res, req, JSON.stringify({
-          message: 'Error al consultar eps para el menu',
-          error: err.message,
-          completeError: err
-        }), 400)
-      }
-    })
-  } catch (error: any) {
-    httpError(res, req, error, 400)
-  }
-}
+// export const getMenu = async (req: Request, res: Response) => {
+//   try {
+//     const query = 'SELECT id, nombre FROM eps WHERE estado = 1'
+//     // const result = await executeQuery();
+//     db.query(query, (err, rows) => {
+//       if (!err) {
+//         if (rows.length > 0) {
+//           res.status(200).json(rows)
+//         } else {
+//           res.json([])
+//         }
+//       } else {
+//         httpError(res, req, JSON.stringify({
+//           message: 'Error al consultar eps para el menu',
+//           error: err.message,
+//           completeError: err
+//         }), 400)
+//       }
+//     })
+//   } catch (error: any) {
+//     httpError(res, req, error, 400)
+//   }
+// }
 
-export const getRols = (req: Request, res: Response) => {
+export const getRols = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const query = scriptRols(base)
-    db.query(query, (err, rows) => {
-      if (!err) {
-        if (rows.length > 0) {
-          res.status(200).json(rows)
-        } else {
-          res.json([])
-        }
-      } else {
-        httpError(res, req, JSON.stringify({
-          message: 'Error al consultar roles',
-          error: err.message,
-          completeError: err
-        }), 400)
-      }
-    })
+    const result = await executeQuery<Rol[]>(query)
+    res.status(200).json(result)
   } catch (error: any) {
-    httpError(res, req, error, 400)
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar roles',
+      error: error.message,
+      completeError: error
+    }), 400)
   }
 }
 
-export const getDocumentsType = (req: Request, res: Response) => {
+export const getDocumentsType = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const query = scriptDocumentsType(base)
-    db.query(query, (err, rows) => {
-      if (!err) {
-        if (rows.length > 0) {
-          res.status(200).json(rows)
-        } else {
-          res.json([])
-        }
-      } else {
-        httpError(res, req, JSON.stringify({
-          message: 'Error al consultar tipos de documentos',
-          error: err.message,
-          completeError: err
-        }), 400)
-      }
-    })
+    const result = await executeQuery<DocumentType[]>(query)
+    res.status(200).json(result)
   } catch (error: any) {
-    httpError(res, req, error, 400)
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar tipos de documentos',
+      error: error.message,
+      completeError: error
+    }), 400)
   }
 }
 
-export const getUsers = (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const query = scriptUsers(base)
-    db.query(query, (err, rows) => {
-      if (!err) {
-        res.status(200).json(rows)
-      } else {
-        httpError(res, req, JSON.stringify({
-          message: 'Error al consultar usuarios',
-          error: err.message,
-          completeError: err
-        }), 400)
-      }
-    })
+    const result = await executeQuery<User[]>(query)
+    res.status(200).json(result)
   } catch (error: any) {
-    httpError(res, req, error, 400)
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar usuarios',
+      error: error.message,
+      completeError: error
+    }), 400)
   }
 }
 
-export const getCompanies = (req: Request, res: Response) => {
-  try {
-    const base:string = req.headers.base as string
-    const query = scriptCompanies(base)
-    db.query(query, (err, rows) => {
-      if (!err) {
-        res.status(200).json(rows)
-      } else {
-        httpError(res, req, JSON.stringify({
-          message: 'Error al consultar empresas',
-          error: err.message,
-          completeError: err
-        }), 400)
-      }
-    })
-  } catch (error: any) {
-    httpError(res, req, error, 400)
-  }
-}
-
-export const getCompany = (req: Request, res: Response) => {
+export const getCompanies = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const { nit } = req.params
-    const query = scriptCompanies(base, nit)
-    db.query(query, (err, rows) => {
-      if (!err) {
-        if (rows.length > 0) {
-          res.status(200).json(rows[0])
-        } else {
-          res.status(400).json({
-            message: 'Empresa no econtrada'
-          })
-        }
-      } else {
-        httpError(res, req, JSON.stringify({
-          message: 'Error al consultar empresa',
-          error: err.message,
-          completeError: err
-        }), 400)
-      }
-    })
+
+    if (nit) {
+      const query = scriptCompanies(base, nit)
+      const [result] = await executeQuery<Compnay[]>(query)
+      res.status(200).json(result)
+    } else {
+      const query = scriptCompanies(base)
+      const result = await executeQuery<Compnay[]>(query)
+      res.status(200).json(result)
+    }
   } catch (error: any) {
-    httpError(res, req, error, 400)
+    httpError(res, req, JSON.stringify({
+      message: req.params.nit ? 'Error al consultar empresa' : 'Error al consultar empresas',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getPerson = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { documentoPersona } = req.params
+    const query = scriptGetPerson(base, +documentoPersona)
+    const result = await executeQuery<Person[]>(query)
+    if (documentoPersona) {
+      if (result.length > 0) {
+        res.status(200).json(result[0])
+      } else {
+        res.status(404).json({
+          message: `No hemos encontrado iformación relacionada al documento No. ${documentoPersona}`
+        })
+      }
+    } else {
+      if (result.length > 0) {
+        res.status(200).json(result)
+      } else {
+        res.status(404).json({
+          message: 'Sin resultados'
+        })
+      }
+    }
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al cosultar iformación',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getDeparments = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptGetDepartments(base)
+    const result = await executeQuery<Department[]>(query)
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al cosultar departamentos',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getCities = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptGetCities(base)
+    const result = await executeQuery<City[]>(query)
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al cosultar ciudades',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getDepartemtAndCity = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const queryDeparment = scriptGetDepartments(base)
+    const promise: Promise<DepartemtAndCity>[] = []
+    const resultDepartment = await executeQuery<DepartemtAndCity[]>(queryDeparment)
+
+    if (resultDepartment.length > 0) {
+      resultDepartment.forEach(department => {
+        const queryCity = scriptGetCities(base, department.idDepartamento)
+        promise.push(executeQuery<City[]>(queryCity).then(cities => {
+          department.cities = [...cities]
+          return department
+        }))
+      })
+
+      const resutl = await Promise.all(promise)
+
+      res.status(200).json(resutl)
+    } else {
+      res.status(200).json([])
+    }
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al cosultar ciudades',
+      error: error.message,
+      completeError: error
+    }), 400)
   }
 }

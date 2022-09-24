@@ -1,5 +1,15 @@
 import { UserData } from '../interfaces/auth.models'
-import { Compnay, ContactCompany, Contacto, DisabilityType, Persona, TypeCompany } from '../interfaces/post.models'
+import {
+  Compnay,
+  ContactCompany,
+  Contact,
+  ContactPerson,
+  DisabilityType,
+  Employe,
+  Persona,
+  Position,
+  TypeCompany
+} from '../interfaces/general.models'
 import { encryptedAES } from '../libs/encrypt'
 
 export const scriptCreatePerson = (data: Persona, base: string):string => {
@@ -23,14 +33,22 @@ export const scriptContacCompany = (data: ContactCompany, base: string) => {
   return `INSERT INTO ${base}.contactoEmpresa(fkNit, fkidContacto) VALUES (${data.fkNit}, ${data.fkidContacto});`
 }
 
-export const scriptContacPerson = (data: ContactCompany, base: string):string => {
-  return `INSERT INTO ${base}.contactoPersona(fkIdContacto, fkDocumentoPersona) VALUES (${data.fkNit}, ${data.fkidContacto});`
+export const scriptContacPerson = (data: ContactPerson, base: string):string => {
+  return `INSERT INTO ${base}.contactoPersona(fkIdContacto, fkDocumentoPersona) VALUES (${data.fkIdContacto}, ${data.fkDocumentoPersona}) ON DUPLICATE KEY UPDATE fkIdContacto = ${data.fkIdContacto}, fkDocumentoPersona = ${data.fkDocumentoPersona};`
 }
 
-export const scriptCreateContacto = (data: Contacto, base: string):string => {
+export const scriptCreateContacto = (data: Contact, base: string):string => {
   return `INSERT INTO ${base}.contacto(idContacto, direccion, barrio, correo, celular, telefonoFijo, fkIdCiudad) VALUES (${data.idContacto}, '${data.direccion}', '${data.barrio}', '${data.correo}', '${data.celular}', '${data.telefonoFijo}', ${data.fkIdCiudad}) ON DUPLICATE KEY UPDATE idContacto = ${data.idContacto}, direccion = '${data.direccion}', barrio = '${data.barrio}', correo = '${data.correo}', celular = '${data.celular}', telefonoFijo = '${data.telefonoFijo}', fkIdCiudad = ${data.fkIdCiudad};`
 }
 
 export const scriptDisabilityType = (data: DisabilityType, base: string):string => {
-  return `INSERT INTO ${base}.tipoIncapacidad(idTipoIncapacidad, nombreTipoIncapacidad, codigoDianostico) VALUES (${data.idTipoIncapacidad}, '${data.nombreTipoIncapacidad}', '${data.codigoDianostico}') ON DUPLICATE KEY UPDATE idTipoIncapacidad = ${data.idTipoIncapacidad}, nombreTipoIncapacidad = '${data.nombreTipoIncapacidad}, codigoDianostico = '${data.codigoDianostico}'`
+  return `INSERT INTO ${base}.tipoIncapacidad(idTipoIncapacidad, nombreTipoIncapacidad, codigoDianostico) VALUES (${data.idTipoIncapacidad}, '${data.nombreTipoIncapacidad}', '${data.codigoDianostico}') ON DUPLICATE KEY UPDATE idTipoIncapacidad = ${data.idTipoIncapacidad}, nombreTipoIncapacidad = '${data.nombreTipoIncapacidad}, codigoDianostico = '${data.codigoDianostico}';`
+}
+
+export const scriptCreatePosition = (data: Position, base: string):string => {
+  return `INSERT INTO ${base}.cargo(idCargo, nombreCargo) VALUES (${data.idCargo}, '${data.nombreCargo}') ON DUPLICATE KEY UPDATE nombreCargo = '${data.nombreCargo}';`
+}
+
+export const scriptEmploye = (data: Employe, base: string):string => {
+  return `INSERT INTO ${base}.empleados(fkDocumentoPersona, fkIdCargo) VALUES (${data.fkDocumentoPersona}, ${data.fkIdCargo}) ON DUPLICATE KEY UPDATE fkDocumentoPersona = ${data.fkDocumentoPersona}, fkIdCargo = ${data.fkIdCargo}`
 }

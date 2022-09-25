@@ -9,9 +9,12 @@ import {
   scriptCreateContacto,
   scriptCreatePerson,
   scriptCreatePosition,
+  scriptCreateStateInability,
   scriptCreateTpCp,
   scriptDisabilityType,
-  scriptEmploye
+  scriptEmploye,
+  scriptHistoryInability,
+  scriptCreateInability
 } from '../scriptSQL/post.scripts'
 import {
   scriptValidatePosition,
@@ -167,6 +170,68 @@ export const createPosition = async (req: Request, res: Response) => {
         data: result
       })
     }
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createStateInability = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const { nombreCargo } = req.body
+    const resultValidate = await executeQuery<TypeCompany[]>(
+      scriptValidatePosition(nombreCargo, base)
+    )
+    if (resultValidate.length > 0) {
+      res.json({
+        message: 'Este cargo ya está registrado',
+        data: resultValidate
+      })
+    } else {
+      const script = scriptCreateStateInability(req.body, base)
+      const result = await executeQuery<ResultSql>(script)
+      res.json({
+        message: 'Datos guardado',
+        data: result
+      })
+    }
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createInability = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const query = scriptCreateInability(req.body, base)
+    const result = await executeQuery<TypeCompany[]>(query)
+    res.status(200).json({
+      message: 'Incapacidad registrada',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createHistoryInability = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const query = scriptHistoryInability(req.body, base)
+    const result = await executeQuery<TypeCompany[]>(query)
+    res.status(200).json({
+      message: 'Historial de incapacidad registrada',
+      data: result
+    })
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: error.message,

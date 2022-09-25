@@ -8,7 +8,10 @@ import {
   Employe,
   Persona,
   Position,
-  TypeCompany
+  TypeCompany,
+  InabilityType,
+  Inability,
+  HistoryInability
 } from '../interfaces/general.models'
 import { encryptedAES } from '../libs/encrypt'
 
@@ -50,5 +53,18 @@ export const scriptCreatePosition = (data: Position, base: string):string => {
 }
 
 export const scriptEmploye = (data: Employe, base: string):string => {
-  return `INSERT INTO ${base}.empleados(fkDocumentoPersona, fkIdCargo) VALUES (${data.fkDocumentoPersona}, ${data.fkIdCargo}) ON DUPLICATE KEY UPDATE fkDocumentoPersona = ${data.fkDocumentoPersona}, fkIdCargo = ${data.fkIdCargo}`
+  return `INSERT INTO ${base}.empleados(fkDocumentoPersona, fkIdCargo) VALUES (${data.fkDocumentoPersona}, ${data.fkIdCargo}) ON DUPLICATE KEY UPDATE fkDocumentoPersona = ${data.fkDocumentoPersona}, fkIdCargo = ${data.fkIdCargo};`
+}
+
+export const scriptCreateStateInability = (data: InabilityType, base: string):string => {
+  return `INSERT INTO ${base}.estadoIncapacidad(idEstadoIncapacidad, nombreEstadoIncapacidad) VALUES (${data.idEstadoIncapacidad},'${data.nombreEstadoIncapacidad}') ON DUPLICATE KEY UPDATE idEstadoIncapacidad = ${data.idEstadoIncapacidad}, nombreEstadoIncapacidad = '${data.nombreEstadoIncapacidad}';`
+}
+
+// Incapaciades
+export const scriptCreateInability = (data: Inability, base: string):string => {
+  return `INSERT INTO ${base}.incapacidades(radicado, fkIdTipoIncapacidad, fkNitEmpresa, numeroIncapacidad, fechaInicio, fechaFin, totalDias, ibc, valor, fkIdEstadoIncapacidad, fkDocumentoPersona, fkIdArl, fkIdAfp, fkIdEps) VALUES ('${data.radicado}', ${data.fkIdTipoIncapacidad}, ${data.fkNitEmpresa}, ${data.numeroIncapacidad}, '${data.fechaInicio}', '${data.fechaFin}', ${data.totalDias}, '${data.ibc}', ${data.valor}, ${data.fkIdEstadoIncapacidad}, ${data.fkDocumentoPersona}, ${data.fkIdArl}, ${data.fkIdAfp}, ${data.fkIdEps}) ON DUPLICATE KEY UPDATE radicado ='${data.radicado}', fkIdTipoIncapacidad =${data.fkIdTipoIncapacidad}, fkNitEmpresa =${data.fkNitEmpresa}, numeroIncapacidad = ${data.numeroIncapacidad}, fechaInicio ='${data.fechaInicio}', fechaFin ='${data.fechaFin}', totalDias =${data.totalDias}, ibc ='${data.ibc}', valor =${data.valor}, fkIdEstadoIncapacidad =${data.fkIdEstadoIncapacidad}, fkDocumentoPersona =${data.fkDocumentoPersona}, fkIdArl =${data.fkIdArl}, fkIdAfp=${data.fkIdAfp}, fkIdEps =${data.fkIdEps};`
+}
+
+export const scriptHistoryInability = (data: HistoryInability, base: string):string => {
+  return `INSERT INTO ${base}.historialIncapacidad(idHistorialIncapacidad, fkRadicado, estadoIncapidad, fechaFin, fechaProrroga, observacion) VALUES (${data.idHistorialIncapacidad}, '${data.fkRadicado}', ${data.estadoIncapidad}, '${data.fechaFin}', '${data.fechaProrroga}', '${data.observacion}') ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', estadoIncapidad =${data.estadoIncapidad}, fechaFin ='${data.fechaFin}', fechaProrroga ='${data.fechaProrroga}', observacion ='${data.observacion}';`
 }

@@ -6,11 +6,14 @@ import {
   scriptGetCities,
   scriptGetDepartments,
   scriptGetPerson,
+  scriptDisability,
   scriptRols,
-  scriptUsers
+  scriptStateDisability,
+  scriptUsers,
+  scriptHistoryDisability
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
-import { Rol, DocumentType, User, Compnay, Person, Department, City, DepartemtAndCity } from 'interfaces/general.models'
+import { Rol, DocumentType, User, Compnay, Person, Department, City, DepartemtAndCity, HistoryInability } from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
 //   try {
@@ -160,6 +163,52 @@ export const getCities = async (req: Request, res: Response) => {
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al cosultar ciudades',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getStateDisability = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptStateDisability(base)
+    const result = await executeQuery<City[]>(query)
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar estados de incapacidad',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getDisabilities = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptDisability(base)
+    const result = await executeQuery<City[]>(query)
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar las incapacidad',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getHistoryDisabilities = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { idRadicado } = req.params
+    const query = scriptHistoryDisability(base, idRadicado)
+    const result = await executeQuery<HistoryInability[]>(query)
+    res.status(200).json(idRadicado ? result[0] : result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar historico de incapacidades',
       error: error.message,
       completeError: error
     }), 400)

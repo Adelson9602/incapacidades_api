@@ -54,9 +54,49 @@ const validateDisabilityType = [
   }
 ]
 
+const validateDisabilityState = [
+  check('nombreEstadoIncapacidad').exists().not().isEmpty(),
+  check('idEstadoIncapacidad').exists(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
 const validatePosition = [
   check('idCargo').exists(),
   check('nombreCargo').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateDisability = [
+  check('radicado').exists().not().isEmpty(),
+  check('fkIdTipoIncapacidad').exists().not().isEmpty(),
+  check('fkNitEmpresa').exists().not().isEmpty(),
+  check('numeroIncapacidad').exists().not().isEmpty(),
+  check('fechaInicio').exists().not().isEmpty(),
+  check('fechaFin').exists().not().isEmpty(),
+  check('totalDias').exists().not().isEmpty(),
+  check('ibc').exists().not().isEmpty(),
+  check('valor').exists().not().isEmpty(),
+  check('fkIdEstadoIncapacidad').exists().not().isEmpty(),
+  check('fkDocumentoPersona').exists().not().isEmpty(),
+  check('fkIdArl').exists().not().isEmpty(),
+  check('fkIdAfp').exists().not().isEmpty(),
+  check('fkIdEps').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateHistoryDisability = [
+  check('idHistorialIncapacidad').exists(),
+  check('fkRadicado').exists().not().isEmpty(),
+  check('estadoIncapidad').exists().not().isEmpty(),
+  check('fechaFin').exists().not().isEmpty(),
+  check('fechaProrroga').exists().not().isEmpty(),
+  check('observacion').exists().not().isEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
   }
@@ -100,6 +140,9 @@ export {
   validateTypeCp,
   validateCompany,
   validateDisabilityType,
+  validateDisabilityState,
   validatePerson,
-  validatePosition
+  validatePosition,
+  validateDisability,
+  validateHistoryDisability
 }

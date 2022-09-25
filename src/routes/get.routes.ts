@@ -24,4 +24,12 @@ router.get('/city', verifyToken, getCtroler.getCities)
 
 router.get('/department_and_city', verifyToken, getCtroler.getDepartemtAndCity)
 
+router.get('/state_disability', verifyToken, getCtroler.getStateDisability)
+
+router.get('/disability', verifyToken, getCtroler.getDisabilities)
+
+router.get('/history_disability', verifyToken, getCtroler.getHistoryDisabilities)
+
+router.get('/history_disability/:idRadicado', verifyToken, getCtroler.getHistoryDisabilities)
+
 module.exports = router

@@ -9,7 +9,10 @@ import {
   validateCompany,
   validateDisabilityType,
   validatePerson,
-  validatePosition
+  validatePosition,
+  validateDisabilityState,
+  validateDisability,
+  validateHistoryDisability
 } from '../validators/post.validators'
 
 const router = Router()
@@ -27,5 +30,11 @@ router.post('/person', verifyToken, validatePerson, postCtroler.createPerson)
 router.post('/position', verifyToken, validatePosition, postCtroler.createPosition)
 
 router.post('/disability_type', verifyToken, validateDisabilityType, postCtroler.createDisabilityType)
+
+router.post('/disability_state', verifyToken, validateDisabilityState, postCtroler.createStateInability)
+
+router.post('/disability', verifyToken, validateDisability, postCtroler.createInability)
+
+router.post('/history_disability', verifyToken, validateHistoryDisability, postCtroler.createHistoryInability)
 
 module.exports = router

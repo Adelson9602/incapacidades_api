@@ -115,3 +115,39 @@ export interface City {
 export interface DepartemtAndCity extends Department {
   cities: City[]
 }
+
+export interface InabilityType {
+  idEstadoIncapacidad: number;
+  nombreEstadoIncapacidad: string;
+}
+
+export interface StateInability {
+  nombreEstadoIncapacidad: string;
+  idEstadoIncapacidad: number;
+}
+
+export interface Inability {
+  radicado: string;
+  fkIdTipoIncapacidad: number;
+  fkNitEmpresa: number;
+  numeroIncapacidad: number;
+  fechaInicio: string;
+  fechaFin: string;
+  totalDias: number;
+  ibc: string;
+  valor: string;
+  fkIdEstadoIncapacidad: number;
+  fkDocumentoPersona: number;
+  fkIdArl: number;
+  fkIdAfp: number;
+  fkIdEps: number;
+}
+
+export interface HistoryInability {
+  idHistorialIncapacidad: number;
+  fkRadicado: string;
+  estadoIncapidad: number;
+  fechaFin: string;
+  fechaProrroga: string;
+  observacion: string;
+}

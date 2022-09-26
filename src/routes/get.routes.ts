@@ -24,7 +24,7 @@ router.get('/city', verifyToken, getCtroler.getCities)
 
 router.get('/department_and_city', verifyToken, getCtroler.getDepartemtAndCity)
 
-router.get('/state_disability', verifyToken, getCtroler.getStateDisability)
+router.get('/disability_state', verifyToken, getCtroler.getStateDisability)
 
 router.get('/disability', verifyToken, getCtroler.getDisabilities)
 

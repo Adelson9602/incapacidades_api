@@ -5,8 +5,8 @@ import validateResult from '../helpers/validateHelper'
 const validateUser = [
   check('documentoPersona').exists().not().isEmpty(),
   check('fkIdTipoDocumento').exists().not().isEmpty(),
-  check('primerNombre').exists().not().isEmpty(),
-  check('primerApellido').exists().not().isEmpty(),
+  check('primerNombre').exists().not().isEmpty().toUpperCase(),
+  check('primerApellido').exists().not().isEmpty().toUpperCase(),
   check('fechaNacimiento').exists().not().isEmpty(),
   check('genero').exists().not().isEmpty(),
   // check('usuario').exists().not().isEmpty(),
@@ -24,7 +24,8 @@ const validateUser = [
 ]
 
 const validateTypeCp = [
-  check('nombreTipoEmpresa').exists().not().isEmpty(),
+  check('idTipoEmpresa').exists(),
+  check('nombreTipoEmpresa').exists().not().isEmpty().toUpperCase(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
   }
@@ -32,12 +33,12 @@ const validateTypeCp = [
 
 const validateCompany = [
   check('nit').exists().not().isEmpty(),
-  check('razonSocial').exists().not().isEmpty(),
+  check('razonSocial').exists().not().isEmpty().toUpperCase(),
   check('fkIdTipoEmpresa').exists().not().isEmpty(),
   // check('idContacto').exists().not().isEmpty(),
-  check('direccion').exists().not().isEmpty(),
-  check('barrio').exists().not().isEmpty(),
-  check('correo').exists().not().isEmpty().isEmail(),
+  check('direccion').exists().not().isEmpty().toUpperCase(),
+  check('barrio').exists().not().isEmpty().toUpperCase(),
+  check('correo').exists().not().isEmpty().isEmail().toUpperCase(),
   check('celular').exists().not().isEmpty(),
   check('telefonoFijo').exists().not().isEmpty(),
   check('fkIdCiudad').exists().not().isEmpty(),
@@ -47,7 +48,7 @@ const validateCompany = [
 ]
 
 const validateDisabilityType = [
-  check('nombreTipoIncapacidad').exists().not().isEmpty(),
+  check('nombreTipoIncapacidad').exists().not().isEmpty().toUpperCase(),
   check('codigoDianostico').exists().not().isEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
@@ -55,7 +56,7 @@ const validateDisabilityType = [
 ]
 
 const validateDisabilityState = [
-  check('nombreEstadoIncapacidad').exists().not().isEmpty(),
+  check('nombreEstadoIncapacidad').exists().not().isEmpty().toUpperCase(),
   check('idEstadoIncapacidad').exists(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
@@ -64,7 +65,24 @@ const validateDisabilityState = [
 
 const validatePosition = [
   check('idCargo').exists(),
-  check('nombreCargo').exists().not().isEmpty(),
+  check('nombreCargo').exists().not().isEmpty().toUpperCase().toUpperCase(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateDeparment = [
+  check('idDepartamento').exists(),
+  check('nombreDepartamento').exists().not().isEmpty().toUpperCase(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateCity = [
+  check('idCiudad').exists(),
+  check('nombreCiudad').exists().not().isEmpty().toUpperCase(),
+  check('fkIdDepartamento').exists().not().isEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
   }
@@ -96,7 +114,23 @@ const validateHistoryDisability = [
   check('estadoIncapidad').exists().not().isEmpty(),
   check('fechaFin').exists().not().isEmpty(),
   check('fechaProrroga').exists().not().isEmpty(),
-  check('observacion').exists().not().isEmpty(),
+  check('observacion').exists().not().isEmpty().toUpperCase(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateRol = [
+  check('idRol').exists(),
+  check('nombreRol').exists().not().isEmpty().toUpperCase(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateTypeDocument = [
+  check('idTipoDocumento').exists(),
+  check('nombreTipoDocumento').exists().not().isEmpty().toUpperCase(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
   }
@@ -105,14 +139,14 @@ const validateHistoryDisability = [
 const validatePerson = [
   check('documentoPersona').exists().not().isEmpty(),
   check('fkIdTipoDocumento').exists().not().isEmpty(),
-  check('primerNombre').exists().not().isEmpty(),
-  check('primerApellido').exists().not().isEmpty(),
+  check('primerNombre').exists().not().isEmpty().toUpperCase(),
+  check('primerApellido').exists().not().isEmpty().toUpperCase(),
   check('fechaNacimiento').exists().not().isEmpty(),
-  check('genero').exists().not().isEmpty(),
+  check('genero').exists().not().isEmpty().toUpperCase(),
   check('idContacto').exists(),
-  check('direccion').exists().not().isEmpty(),
-  check('barrio').exists().not().isEmpty(),
-  check('correo').exists().not().isEmpty().isEmail(),
+  check('direccion').exists().not().isEmpty().toUpperCase(),
+  check('barrio').exists().not().isEmpty().toUpperCase(),
+  check('correo').exists().not().isEmpty().isEmail().toUpperCase(),
   check('celular').exists().not().isEmpty(),
   check('telefonoFijo').exists().not().isEmpty(),
   check('fkIdCiudad').exists().not().isEmpty(),
@@ -144,5 +178,9 @@ export {
   validatePerson,
   validatePosition,
   validateDisability,
-  validateHistoryDisability
+  validateHistoryDisability,
+  validateRol,
+  validateTypeDocument,
+  validateDeparment,
+  validateCity
 }

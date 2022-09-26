@@ -14,7 +14,11 @@ import {
   scriptDisabilityType,
   scriptEmploye,
   scriptHistoryInability,
-  scriptCreateInability
+  scriptCreateInability,
+  scriptCreateRol,
+  scriptCreateDocumentType,
+  scriptCreateDepartment,
+  scriptCreateCity
 } from '../scriptSQL/post.scripts'
 import {
   scriptValidatePosition,
@@ -48,7 +52,7 @@ export const createTypeCompany = async (req: Request, res: Response) => {
     const { nombreTipoEmpresa } = req.body
     const resultValidate = await executeQuery<TypeCompany[]>(scriptValidateTpCompany(nombreTipoEmpresa, base))
     if (resultValidate.length > 0) {
-      res.json({
+      res.status(400).json({
         message: 'Este tipo de empresa ya esta registrado',
         data: resultValidate
       })
@@ -112,6 +116,42 @@ export const createDisabilityType = async (req: Request, res: Response) => {
   }
 }
 
+export const createDepartament = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const script = scriptCreateDepartment(req.body, base)
+    const response = await executeQuery<ResultSql>(script)
+
+    res.json({
+      message: 'Datos guardados',
+      data: response
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createCity = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const script = scriptCreateCity(req.body, base)
+    const response = await executeQuery<ResultSql>(script)
+
+    res.json({
+      message: 'Datos guardados',
+      data: response
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
 export const createPerson = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
@@ -158,7 +198,7 @@ export const createPosition = async (req: Request, res: Response) => {
       scriptValidatePosition(nombreCargo, base)
     )
     if (resultValidate.length > 0) {
-      res.json({
+      res.status(400).json({
         message: 'Este cargo ya está registrado',
         data: resultValidate
       })
@@ -181,23 +221,12 @@ export const createPosition = async (req: Request, res: Response) => {
 export const createStateInability = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    const { nombreCargo } = req.body
-    const resultValidate = await executeQuery<TypeCompany[]>(
-      scriptValidatePosition(nombreCargo, base)
-    )
-    if (resultValidate.length > 0) {
-      res.json({
-        message: 'Este cargo ya está registrado',
-        data: resultValidate
-      })
-    } else {
-      const script = scriptCreateStateInability(req.body, base)
-      const result = await executeQuery<ResultSql>(script)
-      res.json({
-        message: 'Datos guardado',
-        data: result
-      })
-    }
+    const script = scriptCreateStateInability(req.body, base)
+    const result = await executeQuery<ResultSql>(script)
+    res.json({
+      message: 'Datos guardado',
+      data: result
+    })
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: error.message,
@@ -230,6 +259,40 @@ export const createHistoryInability = async (req: Request, res: Response) => {
     const result = await executeQuery<TypeCompany[]>(query)
     res.status(200).json({
       message: 'Historial de incapacidad registrada',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createRol = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const query = scriptCreateRol(req.body, base)
+    const result = await executeQuery<TypeCompany[]>(query)
+    res.status(200).json({
+      message: 'Datos guardados',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createDucumentType = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const query = scriptCreateDocumentType(req.body, base)
+    const result = await executeQuery<TypeCompany[]>(query)
+    res.status(200).json({
+      message: 'Datos guardados',
       data: result
     })
   } catch (error: any) {

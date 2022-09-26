@@ -12,7 +12,11 @@ import {
   validatePosition,
   validateDisabilityState,
   validateDisability,
-  validateHistoryDisability
+  validateHistoryDisability,
+  validateRol,
+  validateTypeDocument,
+  validateDeparment,
+  validateCity
 } from '../validators/post.validators'
 
 const router = Router()
@@ -36,5 +40,13 @@ router.post('/disability_state', verifyToken, validateDisabilityState, postCtrol
 router.post('/disability', verifyToken, validateDisability, postCtroler.createInability)
 
 router.post('/history_disability', verifyToken, validateHistoryDisability, postCtroler.createHistoryInability)
+
+router.post('/rol', verifyToken, validateRol, postCtroler.createRol)
+
+router.post('/document_type', verifyToken, validateTypeDocument, postCtroler.createDucumentType)
+
+router.post('/department', verifyToken, validateDeparment, postCtroler.createDepartament)
+
+router.post('/city', verifyToken, validateCity, postCtroler.createCity)
 
 module.exports = router

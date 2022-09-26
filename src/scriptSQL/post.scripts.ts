@@ -11,7 +11,11 @@ import {
   TypeCompany,
   InabilityType,
   Inability,
-  HistoryInability
+  HistoryInability,
+  Rol,
+  DocumentType,
+  Department,
+  City
 } from '../interfaces/general.models'
 import { encryptedAES } from '../libs/encrypt'
 
@@ -67,4 +71,20 @@ export const scriptCreateInability = (data: Inability, base: string):string => {
 
 export const scriptHistoryInability = (data: HistoryInability, base: string):string => {
   return `INSERT INTO ${base}.historialIncapacidad(idHistorialIncapacidad, fkRadicado, estadoIncapidad, fechaFin, fechaProrroga, observacion) VALUES (${data.idHistorialIncapacidad}, '${data.fkRadicado}', ${data.estadoIncapidad}, '${data.fechaFin}', '${data.fechaProrroga}', '${data.observacion}') ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', estadoIncapidad =${data.estadoIncapidad}, fechaFin ='${data.fechaFin}', fechaProrroga ='${data.fechaProrroga}', observacion ='${data.observacion}';`
+}
+
+export const scriptCreateRol = (data: Rol, base: string):string => {
+  return `INSERT INTO ${base}.roles(idRol, nombreRol) VALUES (${data.idRol}, '${data.nombreRol}') ON DUPLICATE KEY UPDATE nombreRol = '${data.nombreRol}';`
+}
+
+export const scriptCreateDocumentType = (data: DocumentType, base: string):string => {
+  return `INSERT INTO ${base}.tipoDocumento(idTipoDocumento, nombreTipoDocumento) VALUES (${data.idTipoDocumento}, '${data.nombreTipoDocumento}') ON DUPLICATE KEY UPDATE nombreTipoDocumento = '${data.nombreTipoDocumento}';`
+}
+
+export const scriptCreateDepartment = (data: Department, base: string):string => {
+  return `INSERT INTO ${base}.departamento(idDepartamento, nombreDepartamento) VALUES (${data.idDepartamento}, '${data.nombreDepartamento}') ON DUPLICATE KEY UPDATE nombreDepartamento = '${data.nombreDepartamento}';`
+}
+
+export const scriptCreateCity = (data: City, base: string):string => {
+  return `INSERT INTO ${base}.ciudad(idCiudad, nombreCiudad, fkIdDepartamento) VALUES (${data.idCiudad}, '${data.nombreCiudad}', ${data.fkIdDepartamento}) ON DUPLICATE KEY UPDATE nombreCiudad = '${data.nombreCiudad}', fkIdDepartamento = ${data.fkIdDepartamento};`
 }

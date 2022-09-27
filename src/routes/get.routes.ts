@@ -32,4 +32,8 @@ router.get('/history_disability', verifyToken, getCtroler.getHistoryDisabilities
 
 router.get('/history_disability/:idRadicado', verifyToken, getCtroler.getHistoryDisabilities)
 
+router.get('/position', verifyToken, getCtroler.getPosition)
+
+router.get('/company_type', verifyToken, getCtroler.getCompanyType)
+
 module.exports = router

@@ -76,14 +76,19 @@ export const createCompany = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
     const script = scriptCreateCompany(req.body, base)
-    const scriptContact = scriptCreateContacto(req.body, base)
-    const company = await executeQuery<ResultSql[]>(`${script}${scriptContact}`).then(([, contact]) => {
-      // Registra el la tabla contactoEmpresa
-      const scriptRelation = scriptContacCompany({
-        fkNit: req.body.nit,
-        fkidContacto: req.body.fkidContacto || contact.insertId
-      }, base)
-      return executeQuery<ResultSql>(scriptRelation)
+    const scriptContact = req.body.oldNit ? '' : scriptCreateContacto(req.body, base)
+    const company = await executeQuery<ResultSql[] | ResultSql>(`${script}${scriptContact}`).then((response) => {
+      if (!req.body.oldNit) {
+        const [, contact] = response as ResultSql[]
+        // Registra el la tabla contactoEmpresa
+        const scriptRelation = scriptContacCompany({
+          fkNit: req.body.nit,
+          fkidContacto: req.body.fkidContacto || contact.insertId
+        }, base)
+        return executeQuery<ResultSql>(scriptRelation)
+      } else {
+        return response
+      }
     })
 
     res.json({

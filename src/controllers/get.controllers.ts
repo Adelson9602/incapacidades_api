@@ -10,10 +10,12 @@ import {
   scriptRols,
   scriptStateDisability,
   scriptUsers,
-  scriptHistoryDisability
+  scriptHistoryDisability,
+  scriptPositions,
+  scriptCompanyType
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
-import { Rol, DocumentType, User, Compnay, Person, Department, City, DepartemtAndCity, HistoryInability } from 'interfaces/general.models'
+import { Rol, DocumentType, User, Person, Department, City, DepartemtAndCity, HistoryInability, InformationCompany } from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
 //   try {
@@ -91,11 +93,11 @@ export const getCompanies = async (req: Request, res: Response) => {
 
     if (nit) {
       const query = scriptCompanies(base, nit)
-      const [result] = await executeQuery<Compnay[]>(query)
+      const [result] = await executeQuery<InformationCompany[]>(query)
       res.status(200).json(result)
     } else {
       const query = scriptCompanies(base)
-      const result = await executeQuery<Compnay[]>(query)
+      const result = await executeQuery<InformationCompany[]>(query)
       res.status(200).json(result)
     }
   } catch (error: any) {
@@ -209,6 +211,38 @@ export const getHistoryDisabilities = async (req: Request, res: Response) => {
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al consultar historico de incapacidades',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getPosition = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { idRadicado } = req.params
+    const query = scriptPositions(base)
+    const result = await executeQuery<HistoryInability[]>(query)
+    res.status(200).json(idRadicado ? result[0] : result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar cargos',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getCompanyType = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { idRadicado } = req.params
+    const query = scriptCompanyType(base)
+    const result = await executeQuery<HistoryInability[]>(query)
+    res.status(200).json(idRadicado ? result[0] : result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar tipos de empresa',
       error: error.message,
       completeError: error
     }), 400)

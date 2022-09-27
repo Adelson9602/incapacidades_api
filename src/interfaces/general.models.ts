@@ -23,14 +23,11 @@ export interface TypeCompany {
   nombreTipoEmpresa: string;
 }
 
-export interface Compnay {
+export interface Company {
   nit: string;
-  newNit?: string;
+  oldNit?: string;
   razonSocial: string;
   fkIdTipoEmpresa: number;
-  // Datos que retorna cuando se haga el inner join con tabla tipoEmpresa
-  nombreTipoEmpresa?: string;
-  idTipoEmpresa?: number;
 }
 
 export interface Contact {
@@ -114,6 +111,25 @@ export interface City {
 
 export interface DepartemtAndCity extends Department {
   cities: City[]
+}
+
+export interface InformationCompany {
+  nit: string;
+  oldNit?: string;
+  razonSocial: string;
+  fkIdTipoEmpresa: number;
+  nombreTipoEmpresa: string;
+  fkNit: string;
+  fkidContacto: number;
+  direccion: string;
+  barrio: string;
+  correo: string;
+  celular: string;
+  telefonoFijo: string;
+  fkIdCiudad: number;
+  nombreCiudad: string;
+  fkIdDepartamento: number;
+  nombreDepartamento: string;
 }
 
 export interface InabilityType {

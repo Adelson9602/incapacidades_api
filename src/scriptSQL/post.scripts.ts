@@ -1,6 +1,6 @@
 import { UserData } from '../interfaces/auth.models'
 import {
-  Compnay,
+  Company,
   ContactCompany,
   Contact,
   ContactPerson,
@@ -32,8 +32,8 @@ export const scriptCreateTpCp = (data: TypeCompany, base: string):string => {
   return `INSERT INTO ${base}.tipoEmpresa(idTipoEmpresa, nombreTipoEmpresa) VALUES (${data.idTipoEmpresa || null},'${data.nombreTipoEmpresa}') ON DUPLICATE KEY UPDATE nombreTipoEmpresa = '${data.nombreTipoEmpresa}';`
 }
 
-export const scriptCreateCompany = (data: Compnay, base: string):string => {
-  return `INSERT INTO ${base}.empresa(nit, razonSocial, fkIdTipoEmpresa) VALUES ('${data.nit}','${data.razonSocial}', ${data.fkIdTipoEmpresa}) ON DUPLICATE KEY UPDATE nit = '${data.newNit ? data.newNit : data.nit}', razonSocial = '${data.razonSocial}', fkIdTipoEmpresa = ${data.fkIdTipoEmpresa};`
+export const scriptCreateCompany = (data: Company, base: string):string => {
+  return `INSERT INTO ${base}.empresa(nit, razonSocial, fkIdTipoEmpresa) VALUES ('${data.oldNit ? data.oldNit : data.nit}','${data.razonSocial}', ${data.fkIdTipoEmpresa}) ON DUPLICATE KEY UPDATE ${data.oldNit ? `nit = '${data.nit}',` : ''} razonSocial = '${data.razonSocial}', fkIdTipoEmpresa = ${data.fkIdTipoEmpresa};`
 }
 
 export const scriptContacCompany = (data: ContactCompany, base: string) => {

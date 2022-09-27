@@ -35,7 +35,7 @@ const validateCompany = [
   check('nit').exists().not().isEmpty(),
   check('razonSocial').exists().not().isEmpty().toUpperCase(),
   check('fkIdTipoEmpresa').exists().not().isEmpty(),
-  // check('idContacto').exists().not().isEmpty(),
+  check('idContacto').exists(),
   check('direccion').exists().not().isEmpty().toUpperCase(),
   check('barrio').exists().not().isEmpty().toUpperCase(),
   check('correo').exists().not().isEmpty().isEmail().toUpperCase(),

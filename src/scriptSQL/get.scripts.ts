@@ -6,6 +6,14 @@ export const scriptRols = (base: string):string => {
   return `SELECT * FROM ${base}.roles;`
 }
 
+export const scriptPositions = (base: string):string => {
+  return `SELECT * FROM ${base}.cargo;`
+}
+
+export const scriptCompanyType = (base: string):string => {
+  return `SELECT * FROM ${base}.tipoEmpresa;`
+}
+
 export const scriptUsers = (base: string):string => {
   return `SELECT *, fotoPerfil AS avatar FROM ${base}.usuarios INNER JOIN ${base}.personas ON personas.documentoPersona = usuarios.usuario;`
 }
@@ -19,7 +27,30 @@ export const scriptValidatePosition = (nombreCargo: string, base: string):string
 }
 
 export const scriptCompanies = (base: string, nit?: string):string => {
-  return `SELECT * FROM ${base}.empresa INNER JOIN ${base}.tipoEmpresa ON empresa.fkIdTipoEmpresa = tipoEmpresa.idTipoEmpresa ${nit ? `WHERE nit = ${nit}` : ''};`
+  return `SELECT
+    nit,
+    razonSocial,
+    fkIdTipoEmpresa,
+    nombreTipoEmpresa,
+    fkNit,
+    idContacto,
+    fkidContacto,
+    direccion,
+    barrio,
+    correo,
+    celular,
+    telefonoFijo,
+    fkIdCiudad,
+    nombreCiudad,
+    fkIdDepartamento,
+    nombreDepartamento
+  FROM ${base}.empresa e 
+    INNER JOIN ${base}.tipoEmpresa te ON e.fkIdTipoEmpresa = te.idTipoEmpresa
+    INNER JOIN ${base}.contactoEmpresa ce ON ce.fkNit = e.nit
+    INNER JOIN ${base}.contacto co ON co.idContacto = ce.fkidContacto
+    INNER JOIN ${base}.ciudad ci ON ci.idCiudad = co.fkIdCiudad
+    INNER JOIN ${base}.departamento de ON de.idDepartamento = ci.fkIdDepartamento
+  ${nit ? `WHERE nit = ${nit}` : ''};`
 }
 
 // Obtiene los datos de una persona o todas las personas

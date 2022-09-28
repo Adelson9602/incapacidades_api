@@ -164,14 +164,19 @@ export const createPerson = async (req: Request, res: Response) => {
 
     const script = scriptCreatePerson(req.body, base)
     const scriptContact = scriptCreateContacto(req.body, base)
-    const result = await executeQuery<ResultSql[]>(`${script}${scriptContact}`)
-      .then(([, contact]) => {
-        // Registra el la tabla contactoPersona
-        const query = scriptContacPerson({
-          fkIdContacto: fkIdContacto || contact.insertId,
-          fkDocumentoPersona: documentoPersona
-        }, base)
-        return executeQuery<ResultSql>(query)
+    const result = await executeQuery<ResultSql[] | ResultSql>(`${script}${scriptContact}`)
+      .then((response) => {
+        if (!req.body.oldDocumentoPersona) {
+          const [, contact] = response as ResultSql[]
+          // Registra el la tabla contactoEmpresa
+          const scriptRelation = scriptContacPerson({
+            fkDocumentoPersona: documentoPersona,
+            fkIdContacto: fkIdContacto || contact.insertId
+          }, base)
+          return executeQuery<ResultSql>(scriptRelation)
+        } else {
+          return response
+        }
       })
       .then((responseContact) => {
         // Se ejecuta si es empleado

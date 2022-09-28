@@ -53,9 +53,41 @@ export const scriptCompanies = (base: string, nit?: string):string => {
   ${nit ? `WHERE nit = ${nit}` : ''};`
 }
 
-// Obtiene los datos de una persona o todas las personas
+// Obtiene los datos de un empleado o todos los empleados
 export const scriptGetPerson = (base: string, documentoPersona?: number):string => {
-  return `SELECT * FROM ${base}.personas AS p INNER JOIN ${base}.contactoPersona c ON p.documentoPersona = c.fkDocumentoPersona INNER JOIN ${base}.contacto co ON c.fkIdContacto = co.idContacto ${documentoPersona ? `WHERE p.documentoPersona = ${documentoPersona}` : ''};`
+  return `SELECT 
+    p.documentoPersona,
+    p.primerNombre,
+    p.segundoNombre,
+    p.primerApellido,
+    p.segundoApellido,
+    p.genero,
+    p.fechaNacimiento,
+    p.fkIdTipoDocumento,
+    c.fkIdContacto,
+    c.fkDocumentoPersona,
+    co.idContacto,
+    co.direccion,
+    co.barrio,
+    co.correo,
+    co.celular,
+    co.telefonoFijo,
+    co.fkIdCiudad,
+    ci.nombreCiudad,
+    ci.fkIdDepartamento,
+    de.nombreDepartamento,
+    em.fkIdCargo,
+    ca.nombreCargo,
+    td.nombreTipoDocumento
+  FROM ${base}.personas AS p
+    INNER JOIN ${base}.contactoPersona c ON p.documentoPersona = c.fkDocumentoPersona
+    INNER JOIN ${base}.contacto co ON c.fkIdContacto = co.idContacto
+    INNER JOIN ${base}.ciudad ci ON ci.idCiudad = co.fkIdCiudad
+    INNER JOIN ${base}.departamento de ON de.idDepartamento = ci.fkIdDepartamento
+    INNER JOIN ${base}.empleados em ON em.fkDocumentoPersona = p.documentoPersona
+    INNER JOIN ${base}.cargo ca ON ca.idCargo = em.fkIdCargo
+    INNER JOIN ${base}.tipoDocumento td ON td.idTipoDocumento = p.fkIdTipoDocumento
+  ${documentoPersona ? `WHERE p.documentoPersona = ${documentoPersona}` : ''};`
 }
 
 // Aplica para obtener todas los departamentos y un departamento por id

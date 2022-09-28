@@ -15,7 +15,7 @@ import {
   scriptCompanyType
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
-import { Rol, DocumentType, User, Person, Department, City, DepartemtAndCity, HistoryInability, InformationCompany } from 'interfaces/general.models'
+import { Rol, DocumentType, User, InformationEmploye, Department, City, DepartemtAndCity, HistoryInability, InformationCompany } from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
 //   try {
@@ -114,7 +114,7 @@ export const getPerson = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { documentoPersona } = req.params
     const query = scriptGetPerson(base, +documentoPersona)
-    const result = await executeQuery<Person[]>(query)
+    const result = await executeQuery<InformationEmploye[]>(query)
     if (documentoPersona) {
       if (result.length > 0) {
         res.status(200).json(result[0])

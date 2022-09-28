@@ -4,6 +4,7 @@ export interface Persona {
   primerApellido: string;
   segundoApellido: string;
   documentoPersona: number;
+  oldDocumentoPersona?: number;
   genero: number;
   fechaNacimiento: string;
   fkIdTipoDocumento: number;
@@ -48,10 +49,6 @@ export interface ContactCompany {
 export interface ContactPerson {
   fkIdContacto: number;
   fkDocumentoPersona: number;
-}
-
-export interface Person extends Persona, Contact, ContactPerson {
-// Se crea esta interfaz solo para unir propiedades de otras interfaces
 }
 
 export interface DisabilityType {
@@ -130,6 +127,32 @@ export interface InformationCompany {
   nombreCiudad: string;
   fkIdDepartamento: number;
   nombreDepartamento: string;
+}
+
+export interface InformationEmploye {
+  documentoPersona: number;
+  primerNombre: string;
+  segundoNombre: string;
+  primerApellido: string;
+  segundoApellido: string;
+  genero: string;
+  fechaNacimiento: string;
+  fkIdTipoDocumento: number;
+  fkIdContacto: number;
+  fkDocumentoPersona: number;
+  idContacto: number;
+  direccion: string;
+  barrio: string;
+  correo: string;
+  celular: string;
+  telefonoFijo: string;
+  fkIdCiudad: number,
+  nombreCiudad: string;
+  fkIdDepartamento: number,
+  nombreDepartamento: string;
+  fkIdCargo: number,
+  nombreTipoDocumento: string;
+  nombreCargo: string;
 }
 
 export interface InabilityType {

@@ -16,7 +16,7 @@ router.get('/company', verifyToken, getCtroler.getCompanies)
 
 router.get('/company/:nit', verifyToken, getCtroler.getCompanies)
 
-router.get('/person', verifyToken, getCtroler.getPerson)
+router.get('/employe', verifyToken, getCtroler.getPerson)
 
 router.get('/department', verifyToken, getCtroler.getDeparments)
 

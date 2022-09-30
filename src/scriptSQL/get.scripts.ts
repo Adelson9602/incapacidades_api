@@ -109,7 +109,50 @@ export const scriptStateDisability = (base: string):string => {
 }
 
 export const scriptDisability = (base: string):string => {
-  return `SELECT * FROM ${base}.incapacidades;`
+  return `SELECT
+    i.radicado,
+    i.fkIdTipoIncapacidad,
+    i.fkNitEmpresa,
+    i.numeroIncapacidad,
+    i.fechaInicio,
+    i.fechaFin,
+    i.totalDias,
+    i.ibc,
+    i.valor,
+    i.fkIdEstadoIncapacidad,
+    i.fkDocumentoPersona,
+    i.fkIdArl,
+    i.fkIdAfp,
+    i.fkIdEps,
+    p.primerNombre,
+    p.segundoNombre,
+    p.primerApellido,
+    p.segundoApellido,
+    p.genero,
+    p.fechaNacimiento,
+    p.fkIdTipoDocumento,
+    t.nombreTipoIncapacidad,
+    t.codigoDianostico,
+    e.nit,
+    e.razonSocial,
+    e.fkIdTipoEmpresa,
+    e2.nit AS nitArl,
+    e2.razonSocial AS razonSocialArl,
+    e3.nit AS nitAfp,
+    e3.razonSocial AS razonSocialAfp,
+    e4.nit AS nitEps,
+    e4.razonSocial AS razonSocialEps,
+    td.nombreTipoDocumento,
+    ei.nombreEstadoIncapacidad
+  FROM ${base}.incapacidades i
+    INNER JOIN ${base}.personas p ON p.documentoPersona = i.fkDocumentoPersona
+    INNER JOIN ${base}.tipoDocumento td ON p.fkIdTipoDocumento = td.idTipoDocumento
+    INNER JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad
+    INNER JOIN ${base}.estadoIncapacidad ei ON ei.idEstadoIncapacidad = i.fkIdEstadoIncapacidad
+    LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
+    LEFT JOIN ${base}.empresa e2 ON i.fkIdArl = e2.nit
+    LEFT JOIN ${base}.empresa e3 ON e3.nit = i.fkIdAfp
+    LEFT JOIN ${base}.empresa e4 ON e4.nit = i.fkIdEps;`
 }
 
 export const scriptHistoryDisability = (base: string, fkRadicado?: string):string => {

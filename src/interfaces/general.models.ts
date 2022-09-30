@@ -160,12 +160,12 @@ export interface InabilityType {
   nombreEstadoIncapacidad: string;
 }
 
-export interface StateInability {
+export interface StateDinability {
   nombreEstadoIncapacidad: string;
   idEstadoIncapacidad: number;
 }
 
-export interface Inability {
+export interface Dinability {
   radicado: string;
   fkIdTipoIncapacidad: number;
   fkNitEmpresa: number;
@@ -182,7 +182,44 @@ export interface Inability {
   fkIdEps: number;
 }
 
-export interface HistoryInability {
+export interface InformationDisability {
+  radicado: string;
+  fkIdTipoIncapacidad: number;
+  fkNitEmpresa: string;
+  numeroIncapacidad: number;
+  fechaInicio: string;
+  fechaFin: string;
+  totalDias: number;
+  ibc: string;
+  valor: number;
+  fkIdEstadoIncapacidad: number;
+  fkDocumentoPersona: number;
+  fkIdArl: string;
+  fkIdAfp: string;
+  fkIdEps: string;
+  primerNombre: string;
+  segundoNombre: string;
+  primerApellido: string;
+  segundoApellido: string;
+  genero: string;
+  fechaNacimiento: string;
+  fkIdTipoDocumento: number;
+  nombreTipoDocumento: string;
+  nombreTipoIncapacidad: string;
+  codigoDianostico: string;
+  nit: string;
+  razonSocial: string;
+  fkIdTipoEmpresa: number;
+  nitArl: string;
+  razonSocialArl: string;
+  nitAfp: string;
+  razonSocialAfp: string;
+  nitEps: string;
+  razonSocialEps: string;
+  nombreEstadoIncapacidad: string;
+}
+
+export interface HistoryDinability {
   idHistorialIncapacidad: number;
   fkRadicado: string;
   estadoIncapidad: number;

@@ -15,7 +15,7 @@ import {
   scriptCompanyType
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
-import { Rol, DocumentType, User, InformationEmploye, Department, City, DepartemtAndCity, HistoryInability, InformationCompany } from 'interfaces/general.models'
+import { Rol, DocumentType, User, InformationEmploye, Department, City, DepartemtAndCity, HistoryDinability, InformationCompany } from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
 //   try {
@@ -206,7 +206,7 @@ export const getHistoryDisabilities = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptHistoryDisability(base, idRadicado)
-    const result = await executeQuery<HistoryInability[]>(query)
+    const result = await executeQuery<HistoryDinability[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
@@ -222,7 +222,7 @@ export const getPosition = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptPositions(base)
-    const result = await executeQuery<HistoryInability[]>(query)
+    const result = await executeQuery<HistoryDinability[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
@@ -238,7 +238,7 @@ export const getCompanyType = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptCompanyType(base)
-    const result = await executeQuery<HistoryInability[]>(query)
+    const result = await executeQuery<HistoryDinability[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({

@@ -20,11 +20,16 @@ export const postLogin = async (req: Request, res: Response) => {
 
           rows.forEach((empresa) => {
             const scriptUser = scriptGetUser(empresa.nombreBase, usuario, encryptedAES(password))
+            console.log(scriptUser)
             promises.push(new Promise((resolve, reject) => {
               db.query(scriptUser, (error: MysqlError, [dataUser]: UserData[]) => {
                 if (!error) {
-                  empresa.dataUser = dataUser
-                  resolve(empresa)
+                  if (dataUser) {
+                    empresa.dataUser = dataUser
+                    resolve(empresa)
+                  } else {
+                    resolve(null)
+                  }
                 } else {
                   reject(JSON.stringify({
                     message: 'Error al consultar datos del usuario',
@@ -37,15 +42,22 @@ export const postLogin = async (req: Request, res: Response) => {
           })
 
           Promise.all(promises).then(resUser => {
-            const token = jwt.sign(
-              { id: usuario },
-              process.env.SECRET_KEY || config.SECRET_KEY,
-              { expiresIn: 86400 }
-            )
-            // Exponemos el token en los headers de la petición
-            res.header('Auth-Token', token)
-            res.header('Access-Control-Expose-Headers', 'Auth-Token')
-            res.json(resUser)
+            const result = resUser.filter(data => data)
+            if (result.length > 0) {
+              const token = jwt.sign(
+                { id: usuario },
+                process.env.SECRET_KEY || config.SECRET_KEY,
+                { expiresIn: 86400 }
+              )
+              // Exponemos el token en los headers de la petición
+              res.header('Auth-Token', token)
+              res.header('Access-Control-Expose-Headers', 'Auth-Token')
+              res.json(result)
+            } else {
+              res.status(401).json({
+                message: 'Usuario o contraseña erronea, intente nuevamente'
+              })
+            }
           }).catch(error => {
             httpError(res, req, error, 400)
           })

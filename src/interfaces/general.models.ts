@@ -155,7 +155,7 @@ export interface InformationEmploye {
   nombreCargo: string;
 }
 
-export interface InabilityType {
+export interface DisabilityState {
   idEstadoIncapacidad: number;
   nombreEstadoIncapacidad: string;
 }
@@ -165,7 +165,7 @@ export interface StateDinability {
   idEstadoIncapacidad: number;
 }
 
-export interface Dinability {
+export interface Disability {
   radicado: string;
   fkIdTipoIncapacidad: number;
   fkNitEmpresa: number;
@@ -219,7 +219,7 @@ export interface InformationDisability {
   nombreEstadoIncapacidad: string;
 }
 
-export interface HistoryDinability {
+export interface HistoryDisability {
   idHistorialIncapacidad: number;
   fkRadicado: string;
   estadoIncapidad: number;

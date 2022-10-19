@@ -36,4 +36,10 @@ router.get('/position', verifyToken, getCtroler.getPosition)
 
 router.get('/company_type', verifyToken, getCtroler.getCompanyType)
 
+router.get('/company_by_type/:idTipo', verifyToken, getCtroler.getCompanyByType)
+
+router.get('/employe_select', verifyToken, getCtroler.getEmployesSelect)
+
+router.get('/disability_type', verifyToken, getCtroler.getDisabilityType)
+
 module.exports = router

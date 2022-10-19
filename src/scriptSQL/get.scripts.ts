@@ -90,6 +90,11 @@ export const scriptGetPerson = (base: string, documentoPersona?: number):string 
   ${documentoPersona ? `WHERE p.documentoPersona = ${documentoPersona}` : ''};`
 }
 
+// Obtiene los empleados que se cargaran en el select al crear una incapacidad
+export const scriptEmployeSelect = (base: string):string => {
+  return `SELECT p.documentoPersona, p.primerNombre, p.segundoNombre, p.primerApellido, p.segundoApellido FROM ${base}.personas p INNER JOIN ${base}.empleados e ON e.fkDocumentoPersona = p.documentoPersona ORDER BY p.primerApellido ASC;`
+}
+
 // Aplica para obtener todas los departamentos y un departamento por id
 export const scriptGetDepartments = (base: string, idDepartamento?: number):string => {
   return `SELECT * FROM ${base}.departamento ${idDepartamento ? `WHERE idDepartamento = ${idDepartamento}` : ''};`
@@ -157,4 +162,12 @@ export const scriptDisability = (base: string):string => {
 
 export const scriptHistoryDisability = (base: string, fkRadicado?: string):string => {
   return `SELECT * FROM ${base}.historialIncapacidad ${fkRadicado ? `WHERE fkRadicado = ${fkRadicado}` : ''};`
+}
+
+export const scriptCompanyByType = (base: string, idTipo: string):string => {
+  return `SELECT * FROM ${base}.empresa WHERE fkIdTipoEmpresa = ${idTipo};`
+}
+
+export const scriptDisabilityType = (base: string):string => {
+  return `SELECT * FROM ${base}.tipoIncapacidad;`
 }

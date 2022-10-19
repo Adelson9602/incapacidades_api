@@ -12,10 +12,13 @@ import {
   scriptUsers,
   scriptHistoryDisability,
   scriptPositions,
-  scriptCompanyType
+  scriptCompanyType,
+  scriptCompanyByType,
+  scriptEmployeSelect,
+  scriptDisabilityType
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
-import { Rol, DocumentType, User, InformationEmploye, Department, City, DepartemtAndCity, HistoryDinability, InformationCompany } from 'interfaces/general.models'
+import { Rol, DocumentType, User, InformationEmploye, Department, City, DepartemtAndCity, HistoryDisability, InformationCompany, Company, Persona, DisabilityType } from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
 //   try {
@@ -141,6 +144,48 @@ export const getPerson = async (req: Request, res: Response) => {
   }
 }
 
+export const getEmployesSelect = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptEmployeSelect(base)
+    const result = await executeQuery<Persona[]>(query)
+    if (result.length > 0) {
+      res.status(200).json(result)
+    } else {
+      res.status(404).json({
+        message: 'Sin resultados'
+      })
+    }
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al cosultar empleados',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getDisabilityType = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptDisabilityType(base)
+    const result = await executeQuery<DisabilityType[]>(query)
+    if (result.length > 0) {
+      res.status(200).json(result)
+    } else {
+      res.status(404).json({
+        message: 'Sin resultados'
+      })
+    }
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al cosultar empleados',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
 export const getDeparments = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
@@ -206,7 +251,7 @@ export const getHistoryDisabilities = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptHistoryDisability(base, idRadicado)
-    const result = await executeQuery<HistoryDinability[]>(query)
+    const result = await executeQuery<HistoryDisability[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
@@ -222,7 +267,7 @@ export const getPosition = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptPositions(base)
-    const result = await executeQuery<HistoryDinability[]>(query)
+    const result = await executeQuery<HistoryDisability[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
@@ -238,11 +283,27 @@ export const getCompanyType = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptCompanyType(base)
-    const result = await executeQuery<HistoryDinability[]>(query)
+    const result = await executeQuery<HistoryDisability[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al consultar tipos de empresa',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getCompanyByType = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { idTipo } = req.params
+    const query = scriptCompanyByType(base, idTipo)
+    const result = await executeQuery<Company[]>(query)
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar empresas',
       error: error.message,
       completeError: error
     }), 400)

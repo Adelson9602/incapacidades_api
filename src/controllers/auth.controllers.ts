@@ -20,7 +20,6 @@ export const postLogin = async (req: Request, res: Response) => {
 
           rows.forEach((empresa) => {
             const scriptUser = scriptGetUser(empresa.nombreBase, usuario, encryptedAES(password))
-            console.log(scriptUser)
             promises.push(new Promise((resolve, reject) => {
               db.query(scriptUser, (error: MysqlError, [dataUser]: UserData[]) => {
                 if (!error) {

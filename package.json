@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "concurrently \"tsc -w\" \"nodemon ./dist/src/index.js\" --exec babel-node",
-    "start": "node dist/src/index.js"
+    "start": "node src/index.js"
   },
   "engines": {
     "node": "16.16.0"

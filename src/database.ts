@@ -2,7 +2,7 @@ import mysql from 'mysql'
 // The method createConnection receive one object how parameter with the settings for connect to the db
 
 const db = mysql.createConnection({
-  host: '68.183.138.221',
+  host: '66.228.56.242',
   user: 'developer',
   password: 'Developer2022*',
   database: 'clientes',

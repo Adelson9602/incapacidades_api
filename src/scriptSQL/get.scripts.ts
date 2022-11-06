@@ -179,3 +179,7 @@ export const scriptTotalDisabilities = (base: string):string => {
 export const scriptTotalDisabilitiesByEps = (base: string):string => {
   return `SELECT e.razonSocial, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.empresa e ON e.nit = i.fkIdEps GROUP BY i.fkIdEps;`
 }
+
+export const scriptTotalDisabilitiesByStatus = (base: string):string => {
+  return `SELECT e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY i.fkIdEstadoIncapacidad;;`
+}

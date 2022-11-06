@@ -17,7 +17,8 @@ import {
   scriptEmployeSelect,
   scriptDisabilityType,
   scriptTotalDisabilities,
-  scriptTotalDisabilitiesByEps
+  scriptTotalDisabilitiesByEps,
+  scriptTotalDisabilitiesByStatus
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -362,7 +363,7 @@ export const getDataDashboard = async (req: Request, res: Response) => {
       totalIncapacidades: number;
     }
     const base:string = req.headers.base as string
-    const query = `${scriptTotalDisabilities(base)} ${scriptTotalDisabilitiesByEps(base)}`
+    const query = `${scriptTotalDisabilities(base)} ${scriptTotalDisabilitiesByEps(base)} ${scriptTotalDisabilitiesByStatus(base)}`
     const result = await executeQuery<TotalDisabilities[]>(query)
     res.status(200).json(result)
   } catch (error: any) {

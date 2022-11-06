@@ -15,10 +15,25 @@ import {
   scriptCompanyType,
   scriptCompanyByType,
   scriptEmployeSelect,
-  scriptDisabilityType
+  scriptDisabilityType,
+  scriptTotalDisabilities,
+  scriptTotalDisabilitiesByEps
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
-import { Rol, DocumentType, User, InformationEmploye, Department, City, DepartemtAndCity, HistoryDisability, InformationCompany, Company, Persona, DisabilityType } from 'interfaces/general.models'
+import {
+  Rol,
+  DocumentType,
+  User,
+  InformationEmploye,
+  Department,
+  City,
+  DepartemtAndCity,
+  HistoryDisability,
+  InformationCompany,
+  Company,
+  Persona,
+  DisabilityType
+} from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
 //   try {
@@ -338,5 +353,19 @@ export const getDepartemtAndCity = async (req: Request, res: Response) => {
       error: error.message,
       completeError: error
     }), 400)
+  }
+}
+
+export const getDataDashboard = async (req: Request, res: Response) => {
+  try {
+    interface TotalDisabilities {
+      totalIncapacidades: number;
+    }
+    const base:string = req.headers.base as string
+    const query = `${scriptTotalDisabilities(base)} ${scriptTotalDisabilitiesByEps(base)}`
+    const result = await executeQuery<TotalDisabilities[]>(query)
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
   }
 }

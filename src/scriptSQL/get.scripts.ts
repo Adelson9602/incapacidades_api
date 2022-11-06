@@ -171,3 +171,11 @@ export const scriptCompanyByType = (base: string, idTipo: string):string => {
 export const scriptDisabilityType = (base: string):string => {
   return `SELECT * FROM ${base}.tipoIncapacidad;`
 }
+
+export const scriptTotalDisabilities = (base: string):string => {
+  return `SELECT COUNT(radicado) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades;`
+}
+
+export const scriptTotalDisabilitiesByEps = (base: string):string => {
+  return `SELECT e.razonSocial, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.empresa e ON e.nit = i.fkIdEps GROUP BY i.fkIdEps;`
+}

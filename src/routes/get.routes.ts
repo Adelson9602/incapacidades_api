@@ -42,4 +42,6 @@ router.get('/employe_select', verifyToken, getCtroler.getEmployesSelect)
 
 router.get('/disability_type', verifyToken, getCtroler.getDisabilityType)
 
+router.get('/total_disabilities', verifyToken, getCtroler.getDataDashboard)
+
 module.exports = router

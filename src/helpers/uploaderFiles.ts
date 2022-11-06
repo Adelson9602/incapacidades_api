@@ -3,7 +3,7 @@ import { Storage } from '@google-cloud/storage'
 import { v4 as uuidv4 } from 'uuid'
 import path from 'path'
 import fs from 'fs'
-import { Adjunto } from '../interfaces/get.models'
+import { Adjunto } from '../interfaces/general.models'
 
 const projectId = 'api-asesores-file'
 const keyFilename = './src/resources/key_google.json'

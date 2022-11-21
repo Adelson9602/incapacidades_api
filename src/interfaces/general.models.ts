@@ -227,3 +227,10 @@ export interface HistoryDisability {
   fechaProrroga: string;
   observacion: string;
 }
+
+export interface ResponseDashboard {
+  numeroIncapacidades: number;
+  totalIncapacidades: number;
+  razonSocial?: string;
+  nombreEstadoIncapacidad?: string;
+}

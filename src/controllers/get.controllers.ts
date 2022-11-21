@@ -33,7 +33,8 @@ import {
   InformationCompany,
   Company,
   Persona,
-  DisabilityType
+  DisabilityType,
+  ResponseDashboard
 } from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
@@ -359,13 +360,14 @@ export const getDepartemtAndCity = async (req: Request, res: Response) => {
 
 export const getDataDashboard = async (req: Request, res: Response) => {
   try {
-    interface TotalDisabilities {
-      totalIncapacidades: number;
-    }
     const base:string = req.headers.base as string
     const query = `${scriptTotalDisabilities(base)} ${scriptTotalDisabilitiesByEps(base)} ${scriptTotalDisabilitiesByStatus(base)}`
-    const result = await executeQuery<TotalDisabilities[]>(query)
-    res.status(200).json(result)
+    const [totalDisabilities, totalDisabilitiesByEps, totalDisabilitiesByStatus] = await executeQuery<[ResponseDashboard[], ResponseDashboard[], ResponseDashboard[]]>(query)
+    res.status(200).json({
+      totalDisabilities: totalDisabilities[0],
+      totalDisabilitiesByEps,
+      totalDisabilitiesByStatus
+    })
   } catch (error: any) {
     httpError(res, req, error, 400)
   }

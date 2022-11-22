@@ -18,7 +18,8 @@ import {
   scriptDisabilityType,
   scriptTotalDisabilities,
   scriptTotalDisabilitiesByEps,
-  scriptTotalDisabilitiesByStatus
+  scriptTotalDisabilitiesByStatus,
+  scriptLatestDisabilities
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -34,7 +35,8 @@ import {
   Company,
   Persona,
   DisabilityType,
-  ResponseDashboard
+  ResponseDashboard,
+  LatestDisabilities
 } from 'interfaces/general.models'
 
 // export const getMenu = async (req: Request, res: Response) => {
@@ -368,6 +370,17 @@ export const getDataDashboard = async (req: Request, res: Response) => {
       totalDisabilitiesByEps,
       totalDisabilitiesByStatus
     })
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+export const getLatestDisabilities = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptLatestDisabilities(base)
+    const response = await executeQuery<LatestDisabilities[]>(query)
+    res.status(200).json(response)
   } catch (error: any) {
     httpError(res, req, error, 400)
   }

@@ -234,3 +234,22 @@ export interface ResponseDashboard {
   razonSocial?: string;
   nombreEstadoIncapacidad?: string;
 }
+
+export interface LatestDisabilities {
+  id: number;
+  radicado: string;
+  fkIdTipoIncapacidad: number;
+  fkNitEmpresa: string;
+  numeroIncapacidad: number;
+  fechaInicio: string;
+  fechaFin: string;
+  totalDias: number;
+  ibc: string;
+  valor: number;
+  fkIdEstadoIncapacidad: number;
+  fkDocumentoPersona: number;
+  fkIdArl: string;
+  fkIdAfp: string;
+  fkIdEps: string;
+  fechaRegistro: string;
+}

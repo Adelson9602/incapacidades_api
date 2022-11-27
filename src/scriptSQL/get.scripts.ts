@@ -126,9 +126,6 @@ export const scriptDisability = (base: string):string => {
     i.valor,
     i.fkIdEstadoIncapacidad,
     i.fkDocumentoPersona,
-    i.fkIdArl,
-    i.fkIdAfp,
-    i.fkIdEps,
     p.primerNombre,
     p.segundoNombre,
     p.primerApellido,
@@ -141,12 +138,8 @@ export const scriptDisability = (base: string):string => {
     e.nit,
     e.razonSocial,
     e.fkIdTipoEmpresa,
-    e2.nit AS nitArl,
-    e2.razonSocial AS razonSocialArl,
-    e3.nit AS nitAfp,
-    e3.razonSocial AS razonSocialAfp,
-    e4.nit AS nitEps,
-    e4.razonSocial AS razonSocialEps,
+    e2.nit AS nitEntidad,
+    e2.razonSocial AS razonSocialEntidad,
     td.nombreTipoDocumento,
     ei.nombreEstadoIncapacidad
   FROM ${base}.incapacidades i
@@ -155,9 +148,7 @@ export const scriptDisability = (base: string):string => {
     INNER JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad
     INNER JOIN ${base}.estadoIncapacidad ei ON ei.idEstadoIncapacidad = i.fkIdEstadoIncapacidad
     LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
-    LEFT JOIN ${base}.empresa e2 ON i.fkIdArl = e2.nit
-    LEFT JOIN ${base}.empresa e3 ON e3.nit = i.fkIdAfp
-    LEFT JOIN ${base}.empresa e4 ON e4.nit = i.fkIdEps;`
+    LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit`
 }
 
 export const scriptHistoryDisability = (base: string, fkRadicado?: string):string => {
@@ -177,7 +168,10 @@ export const scriptTotalDisabilities = (base: string):string => {
 }
 
 export const scriptTotalDisabilitiesByEps = (base: string):string => {
-  return `SELECT e.razonSocial, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.empresa e ON e.nit = i.fkIdEps GROUP BY i.fkIdEps;`
+  return `SELECT e.razonSocial, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) FROM ${base}.incapacidades i 
+    INNER JOIN ${base}.empresa e ON e.nit = i.fkEntidad 
+    INNER JOIN ${base}.tipoEmpresa te ON te.idTipoEmpresa = e.fkIdTipoEmpresa 
+    WHERE te.idTipoEmpresa = 1 GROUP BY e.razonSocial;`
 }
 
 export const scriptTotalDisabilitiesByStatus = (base: string):string => {

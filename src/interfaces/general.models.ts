@@ -177,9 +177,7 @@ export interface Disability {
   valor: string;
   fkIdEstadoIncapacidad: number;
   fkDocumentoPersona: number;
-  fkIdArl: number;
-  fkIdAfp: number;
-  fkIdEps: number;
+  fkEntidad: number;
 }
 
 export interface InformationDisability {

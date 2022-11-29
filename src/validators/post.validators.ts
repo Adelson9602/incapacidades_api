@@ -100,9 +100,7 @@ const validateDisability = [
   check('valor').exists().not().isEmpty(),
   check('fkIdEstadoIncapacidad').exists().not().isEmpty(),
   check('fkDocumentoPersona').exists().not().isEmpty(),
-  check('fkIdArl').exists().not().isEmpty(),
-  check('fkIdAfp').exists().not().isEmpty(),
-  check('fkIdEps').exists().not().isEmpty(),
+  check('fkEntidad').exists().not().isEmpty(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
   }

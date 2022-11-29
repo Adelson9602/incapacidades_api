@@ -148,7 +148,8 @@ export const scriptDisability = (base: string):string => {
     INNER JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad
     INNER JOIN ${base}.estadoIncapacidad ei ON ei.idEstadoIncapacidad = i.fkIdEstadoIncapacidad
     LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
-    LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit`
+    LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit
+  ORDER BY id DESC`
 }
 
 export const scriptHistoryDisability = (base: string, fkRadicado?: string):string => {

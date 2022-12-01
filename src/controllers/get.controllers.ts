@@ -19,7 +19,8 @@ import {
   scriptTotalDisabilities,
   scriptTotalDisabilitiesByEps,
   scriptTotalDisabilitiesByStatus,
-  scriptLatestDisabilities
+  scriptLatestDisabilities,
+  scriptGetSalary
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -259,6 +260,22 @@ export const getDisabilities = async (req: Request, res: Response) => {
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al consultar las incapacidad',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getSalary = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptGetSalary(base)
+    console.log(query)
+    const result = await executeQuery<City[]>(query)
+    res.status(200).json(result[0])
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar salario',
       error: error.message,
       completeError: error
     }), 400)

@@ -49,7 +49,7 @@ export const scriptCreateContacto = (data: Contact, base: string):string => {
 }
 
 export const scriptDisabilityType = (data: DisabilityType, base: string):string => {
-  return `INSERT INTO ${base}.tipoIncapacidad(idTipoIncapacidad, nombreTipoIncapacidad, codigoDianostico) VALUES (${data.idTipoIncapacidad}, '${data.nombreTipoIncapacidad}', '${data.codigoDianostico}') ON DUPLICATE KEY UPDATE idTipoIncapacidad = ${data.idTipoIncapacidad}, nombreTipoIncapacidad = '${data.nombreTipoIncapacidad}, codigoDianostico = '${data.codigoDianostico}';`
+  return `INSERT INTO ${base}.tipoIncapacidad(idTipoIncapacidad, nombreTipoIncapacidad, codigoDianostico) VALUES (${data.idTipoIncapacidad}, '${data.nombreTipoIncapacidad}', '${data.codigoDianostico}') ON DUPLICATE KEY UPDATE idTipoIncapacidad = ${data.idTipoIncapacidad}, nombreTipoIncapacidad = '${data.nombreTipoIncapacidad}', codigoDianostico = '${data.codigoDianostico}';`
 }
 
 export const scriptCreatePosition = (data: Position, base: string):string => {

@@ -183,4 +183,8 @@ export const scriptLatestDisabilities = (base: string):string => {
   return `SELECT * FROM ${base}.incapacidades ORDER BY id DESC LIMIT 10;`
 }
 
+export const scriptGetSalary = (base: string):string => {
+  return `SELECT salarioMinimo FROM ${base}.settings`
+}
+
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

@@ -46,4 +46,6 @@ router.get('/dashboard', verifyToken, getCtroler.getDataDashboard)
 
 router.get('/last_disabilities', verifyToken, getCtroler.getLatestDisabilities)
 
+router.get('/salary', verifyToken, getCtroler.getSalary)
+
 module.exports = router

@@ -1,3 +1,8 @@
+export interface ResponseFile{
+  saved: boolean;
+  typeFile: number;
+  url: string;
+}
 export interface Persona {
   primerNombre: string;
   segundoNombre: string;

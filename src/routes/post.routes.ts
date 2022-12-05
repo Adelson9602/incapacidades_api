@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { verifyToken } from '../middlewares'
 import * as postCtroler from '../controllers/post.controllers'
 import * as uploadCtroler from '../controllers/upload.controller'
-import multer from '../libs/uploadFile'
+import multer from '../helpers/uploaderFiles'
 import {
   validateUser,
   validateTypeCp,
@@ -21,7 +21,7 @@ import {
 
 const router = Router()
 
-router.post('/upload_file/', multer.single('file'), uploadCtroler.uploadFile)
+router.post('/upload_file/:company/:folder', multer, uploadCtroler.uploadFile)
 
 router.post('/user', validateUser, postCtroler.insertUser)
 

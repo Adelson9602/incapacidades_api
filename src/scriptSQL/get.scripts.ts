@@ -134,7 +134,6 @@ export const scriptDisability = (base: string):string => {
     p.fechaNacimiento,
     p.fkIdTipoDocumento,
     t.nombreTipoIncapacidad,
-    t.codigoDianostico,
     e.nit,
     e.razonSocial,
     e.fkIdTipoEmpresa,

@@ -3,8 +3,7 @@ import { ResponseFile } from 'interfaces/general.models'
 
 export const uploadFile = (req: Request, res: Response) => {
   const { company, folder } = req.params
-  const { typeFile, fkRadicado } = req.body
-  console.log(typeFile)
+  const { typeFile } = req.body
 
   const files = req.files as Express.Multer.File[]
   if (!files) return res.json({ message: 'No hay archivos por subir' })

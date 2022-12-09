@@ -83,13 +83,6 @@ export interface ResultSql {
   changedRows: number
 }
 
-export interface Adjunto {
-  id: number | null;
-  idPersona: null | string;
-  url: null | string;
-  tipoArchivo?: number | null;
-}
-
 export interface Rol {
   idRol: number;
   nombreRol: string;
@@ -255,4 +248,11 @@ export interface LatestDisabilities {
   fkIdAfp: string;
   fkIdEps: string;
   fechaRegistro: string;
+}
+
+export interface Adjunto {
+  idFiles?: number;
+  fkRadicado: string;
+  url: string;
+  fkIdTipoFile: number
 }

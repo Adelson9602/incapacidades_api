@@ -15,7 +15,8 @@ import {
   Rol,
   DocumentType,
   Department,
-  City
+  City,
+  Adjunto
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -67,6 +68,10 @@ export const scriptCreateStateInability = (data: DisabilityState, base: string):
 // Incapaciades
 export const scriptCreateInability = (data: Disability, base: string):string => {
   return `INSERT INTO ${base}.incapacidades(radicado, fkIdTipoIncapacidad, fkNitEmpresa, numeroIncapacidad, fechaInicio, fechaFin, totalDias, ibc, valor, fkIdEstadoIncapacidad, fkDocumentoPersona, fkEntidad) VALUES ('${data.radicado}', ${data.fkIdTipoIncapacidad}, ${data.fkNitEmpresa}, ${data.numeroIncapacidad}, '${data.fechaInicio}', '${data.fechaFin}', ${data.totalDias}, '${data.ibc}', ${data.valor}, ${data.fkIdEstadoIncapacidad}, ${data.fkDocumentoPersona}, ${data.fkEntidad}) ON DUPLICATE KEY UPDATE radicado ='${data.radicado}', fkIdTipoIncapacidad =${data.fkIdTipoIncapacidad}, fkNitEmpresa =${data.fkNitEmpresa}, numeroIncapacidad = ${data.numeroIncapacidad}, fechaInicio ='${data.fechaInicio}', fechaFin ='${data.fechaFin}', totalDias =${data.totalDias}, ibc ='${data.ibc}', valor =${data.valor}, fkIdEstadoIncapacidad =${data.fkIdEstadoIncapacidad}, fkDocumentoPersona =${data.fkDocumentoPersona}, fkEntidad =${data.fkEntidad};`
+}
+
+export const scriptSaveFile = (data: Adjunto, base: string):string => {
+  return `INSERT INTO ${base}.files(idFiles, fkRadicado, url, fkIdTipoFile) VALUES (${data.idFiles}, '${data.fkRadicado}', '${data.url}', ${data.fkIdTipoFile}) ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', url ='${data.url}', fkIdTipoFile =${data.fkIdTipoFile};`
 }
 
 export const scriptHistoryInability = (data: HistoryDisability, base: string):string => {

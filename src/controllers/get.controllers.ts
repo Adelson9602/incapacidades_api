@@ -135,8 +135,8 @@ export const getCompanies = async (req: Request, res: Response) => {
 export const getPerson = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
-    const { documentoPersona } = req.params
-    const query = scriptGetPerson(base, +documentoPersona)
+    const { documentoPersona } = req.query
+    const query = documentoPersona ? scriptGetPerson(base, +documentoPersona) : scriptGetPerson(base)
     const result = await executeQuery<InformationEmploye[]>(query)
     if (documentoPersona) {
       if (result.length > 0) {

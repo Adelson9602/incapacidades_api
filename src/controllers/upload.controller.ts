@@ -21,9 +21,7 @@ export const uploadFile = (req: Request, res: Response) => {
       res.json(reqFiles)
     } else {
       res.json({
-        saved: true,
-        typeFile: +typeFile,
-        url: reqFiles[0]
+        ...reqFiles[0]
       })
     }
   }

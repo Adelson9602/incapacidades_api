@@ -18,7 +18,8 @@ import {
   scriptCreateRol,
   scriptCreateDocumentType,
   scriptCreateDepartment,
-  scriptCreateCity
+  scriptCreateCity,
+  scriptSaveFile
 } from '../scriptSQL/post.scripts'
 import {
   scriptValidatePosition,
@@ -248,11 +249,16 @@ export const createStateInability = async (req: Request, res: Response) => {
 export const createInability = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    const query = scriptCreateInability(req.body, base)
-    const result = await executeQuery<TypeCompany[]>(query)
+    // const query = scriptCreateInability(req.body, base)
+    // Guarda la incapacidad
+    // const result = await executeQuery<TypeCompany[]>(query)
+    // Guarda los archivos de la incapacidad
+    const queryFile = scriptSaveFile(req.body.files, base)
+    const resultFiles = await executeQuery(queryFile)
+    console.log(resultFiles)
     res.status(200).json({
-      message: 'Incapacidad registrada',
-      data: result
+      message: 'Incapacidad registrada'
+      // data: result
     })
   } catch (error: any) {
     httpError(res, req, JSON.stringify({

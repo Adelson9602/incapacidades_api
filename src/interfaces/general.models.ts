@@ -252,7 +252,7 @@ export interface LatestDisabilities {
 
 export interface Adjunto {
   idFiles?: number;
-  fkRadicado: string;
+  fkRadicado: number;
   url: string;
   fkIdTipoFile: number
 }

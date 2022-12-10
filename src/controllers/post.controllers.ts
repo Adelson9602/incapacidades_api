@@ -25,7 +25,7 @@ import {
   scriptValidatePosition,
   scriptValidateTpCompany
 } from '../scriptSQL/get.scripts'
-import { TypeCompany, ResultSql } from 'interfaces/general.models'
+import { TypeCompany, ResultSql, ResponseFile, Adjunto } from 'interfaces/general.models'
 
 export const insertUser = async (req: Request, res: Response) => {
   try {
@@ -249,16 +249,30 @@ export const createStateInability = async (req: Request, res: Response) => {
 export const createInability = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    // const query = scriptCreateInability(req.body, base)
+    const query = scriptCreateInability(req.body, base)
     // Guarda la incapacidad
-    // const result = await executeQuery<TypeCompany[]>(query)
+    const result = await executeQuery<ResultSql>(query)
+
+    let response: any = null
     // Guarda los archivos de la incapacidad
-    const queryFile = scriptSaveFile(req.body.files, base)
-    const resultFiles = await executeQuery(queryFile)
-    console.log(resultFiles)
+    if (req.body.files.length > 0) {
+      let queryFile = ''
+      req.body.files.forEach((element: Adjunto) => {
+        queryFile = queryFile + scriptSaveFile(element, base)
+      })
+      const resultFiles = await executeQuery<ResponseFile>(queryFile)
+      response = {
+        ...result,
+        ...resultFiles
+      }
+    } else {
+      response = {
+        ...result
+      }
+    }
     res.status(200).json({
-      message: 'Incapacidad registrada'
-      // data: result
+      message: 'Incapacidad registrada',
+      data: response
     })
   } catch (error: any) {
     httpError(res, req, JSON.stringify({

@@ -17,12 +17,6 @@ export const uploadFile = (req: Request, res: Response) => {
         url: `${req.headers.host}/files/${tempCompany}/${folder}/${files[i].filename}`
       })
     }
-    if (reqFiles.length > 1) {
-      res.json(reqFiles)
-    } else {
-      res.json({
-        ...reqFiles[0]
-      })
-    }
+    res.json(reqFiles)
   }
 }

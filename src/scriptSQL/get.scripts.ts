@@ -126,6 +126,7 @@ export const scriptDisability = (base: string):string => {
     i.valor,
     i.fkIdEstadoIncapacidad,
     i.fkDocumentoPersona,
+    i.cie,
     p.primerNombre,
     p.segundoNombre,
     p.primerApellido,
@@ -161,6 +162,14 @@ export const scriptCompanyByType = (base: string, idTipo: string):string => {
 
 export const scriptDisabilityType = (base: string):string => {
   return `SELECT * FROM ${base}.tipoIncapacidad;`
+}
+
+export const scriptCieGroup = (base: string):string => {
+  return `SELECT * FROM ${base}.grupoCie;`
+}
+
+export const scriptCieCode = (base: string, idGrupo: number):string => {
+  return `SELECT * FROM ${base}.codigoCie WHERE codigoCie.idGrupo = ${idGrupo};`
 }
 
 export const scriptTotalDisabilities = (base: string):string => {

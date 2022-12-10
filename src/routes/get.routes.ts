@@ -48,4 +48,6 @@ router.get('/last_disabilities', verifyToken, getCtroler.getLatestDisabilities)
 
 router.get('/salary', verifyToken, getCtroler.getSalary)
 
+router.get('/cie', verifyToken, getCtroler.getCie)
+
 module.exports = router

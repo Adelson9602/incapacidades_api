@@ -20,7 +20,9 @@ import {
   scriptTotalDisabilitiesByEps,
   scriptTotalDisabilitiesByStatus,
   scriptLatestDisabilities,
-  scriptGetSalary
+  scriptGetSalary,
+  scriptCieGroup,
+  scriptCieCode
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -398,6 +400,28 @@ export const getLatestDisabilities = async (req: Request, res: Response) => {
     const query = scriptLatestDisabilities(base)
     const response = await executeQuery<LatestDisabilities[]>(query)
     res.status(200).json(response)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+export const getCie = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptCieGroup(base)
+    const response = await executeQuery<any[]>(query)
+    const promises:any = []
+
+    response.forEach(e => {
+      const query = scriptCieCode(base, e.idGrupoCie)
+      promises.push(executeQuery<any[]>(query).then(data => {
+        e.cieCodes = data
+        return e
+      }).catch(e => e))
+    })
+
+    const resAll = await Promise.all(promises)
+    res.status(200).json(resAll)
   } catch (error: any) {
     httpError(res, req, error, 400)
   }

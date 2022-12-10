@@ -173,6 +173,7 @@ export interface Disability {
   totalDias: number;
   ibc: string;
   valor: string;
+  cie: string;
   fkIdEstadoIncapacidad: number;
   fkDocumentoPersona: number;
   fkEntidad: number;

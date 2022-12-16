@@ -89,7 +89,7 @@ const validateCity = [
 ]
 
 const validateDisability = [
-  check('radicado').exists().not().isEmpty(),
+  check('radicado').exists(),
   check('fkIdTipoIncapacidad').exists().not().isEmpty(),
   check('fkNitEmpresa').exists().not().isEmpty(),
   check('numeroIncapacidad').exists().not().isEmpty(),

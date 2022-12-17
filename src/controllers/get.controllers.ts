@@ -22,7 +22,8 @@ import {
   scriptLatestDisabilities,
   scriptGetSalary,
   scriptCieGroup,
-  scriptCieCode
+  scriptCieCode,
+  scriptGetfilesByDisability
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -39,32 +40,12 @@ import {
   Persona,
   DisabilityType,
   ResponseDashboard,
-  LatestDisabilities
+  LatestDisabilities,
+  InformationDisability,
+  DisabilityState,
+  Salary,
+  Adjunto
 } from 'interfaces/general.models'
-
-// export const getMenu = async (req: Request, res: Response) => {
-//   try {
-//     const query = 'SELECT id, nombre FROM eps WHERE estado = 1'
-//     // const result = await executeQuery();
-//     db.query(query, (err, rows) => {
-//       if (!err) {
-//         if (rows.length > 0) {
-//           res.status(200).json(rows)
-//         } else {
-//           res.json([])
-//         }
-//       } else {
-//         httpError(res, req, JSON.stringify({
-//           message: 'Error al consultar eps para el menu',
-//           error: err.message,
-//           completeError: err
-//         }), 400)
-//       }
-//     })
-//   } catch (error: any) {
-//     httpError(res, req, error, 400)
-//   }
-// }
 
 export const getRols = async (req: Request, res: Response) => {
   try {
@@ -242,7 +223,7 @@ export const getStateDisability = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const query = scriptStateDisability(base)
-    const result = await executeQuery<City[]>(query)
+    const result = await executeQuery<DisabilityState[]>(query)
     res.status(200).json(result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
@@ -257,8 +238,16 @@ export const getDisabilities = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const query = scriptDisability(base)
-    const result = await executeQuery<City[]>(query)
-    res.status(200).json(result)
+    const result = await executeQuery<InformationDisability[]>(query)
+    const promisesFile: Promise<InformationDisability>[] = []
+    result.forEach(e => {
+      promisesFile.push(executeQuery<Adjunto[]>(scriptGetfilesByDisability(base, +e.radicado)).then(f => {
+        e.files = f
+        return e
+      }))
+    })
+    const resultFinal = await Promise.all(promisesFile)
+    res.status(200).json(resultFinal)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al consultar las incapacidad',
@@ -273,7 +262,7 @@ export const getSalary = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const query = scriptGetSalary(base)
     console.log(query)
-    const result = await executeQuery<City[]>(query)
+    const result = await executeQuery<Salary[]>(query)
     res.status(200).json(result[0])
   } catch (error: any) {
     httpError(res, req, JSON.stringify({

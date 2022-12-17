@@ -2,6 +2,7 @@ export interface ResponseFile{
   saved: boolean;
   typeFile: number;
   url: string;
+  nameFile: string;
 }
 export interface Persona {
   primerNombre: string;
@@ -158,9 +159,8 @@ export interface DisabilityState {
   nombreEstadoIncapacidad: string;
 }
 
-export interface StateDinability {
-  nombreEstadoIncapacidad: string;
-  idEstadoIncapacidad: number;
+export interface Salary {
+  salarioMinimo: number;
 }
 
 export interface Disability {
@@ -177,6 +177,14 @@ export interface Disability {
   fkIdEstadoIncapacidad: number;
   fkDocumentoPersona: number;
   fkEntidad: number;
+}
+
+export interface Adjunto {
+  idFiles?: number;
+  fkRadicado: number;
+  url: string;
+  nombreArchivo: string;
+  fkIdTipoFile: number
 }
 
 export interface InformationDisability {
@@ -214,6 +222,7 @@ export interface InformationDisability {
   nitEps: string;
   razonSocialEps: string;
   nombreEstadoIncapacidad: string;
+  files: Adjunto[]
 }
 
 export interface HistoryDisability {
@@ -249,11 +258,4 @@ export interface LatestDisabilities {
   fkIdAfp: string;
   fkIdEps: string;
   fechaRegistro: string;
-}
-
-export interface Adjunto {
-  idFiles?: number;
-  fkRadicado: number;
-  url: string;
-  fkIdTipoFile: number
 }

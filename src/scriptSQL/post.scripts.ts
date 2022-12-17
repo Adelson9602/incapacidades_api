@@ -71,7 +71,7 @@ export const scriptCreateInability = (data: Disability, base: string):string => 
 }
 
 export const scriptSaveFile = (data: Adjunto, base: string):string => {
-  return `INSERT INTO ${base}.files(idFiles, fkRadicado, url, fkIdTipoFile) VALUES (${data.idFiles}, '${data.fkRadicado}', '${data.url}', ${data.fkIdTipoFile}) ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', url ='${data.url}', fkIdTipoFile =${data.fkIdTipoFile};`
+  return `INSERT INTO ${base}.files(idFiles, fkRadicado, url, nombreArchivo, fkIdTipoFile) VALUES (${data.idFiles}, '${data.fkRadicado}', '${data.url}', '${data.nombreArchivo}', ${data.fkIdTipoFile}) ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', url ='${data.url}', nombreArchivo ='${data.nombreArchivo}', fkIdTipoFile =${data.fkIdTipoFile};`
 }
 
 export const scriptHistoryInability = (data: HistoryDisability, base: string):string => {

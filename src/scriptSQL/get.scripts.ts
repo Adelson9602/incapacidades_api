@@ -127,6 +127,7 @@ export const scriptDisability = (base: string):string => {
     i.fkIdEstadoIncapacidad,
     i.fkDocumentoPersona,
     i.cie,
+    gc.idGrupoCie,
     p.primerNombre,
     p.segundoNombre,
     p.primerApellido,
@@ -147,6 +148,8 @@ export const scriptDisability = (base: string):string => {
     INNER JOIN ${base}.tipoDocumento td ON p.fkIdTipoDocumento = td.idTipoDocumento
     INNER JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad
     INNER JOIN ${base}.estadoIncapacidad ei ON ei.idEstadoIncapacidad = i.fkIdEstadoIncapacidad
+    INNER JOIN ${base}.codigoCie ci ON ci.codigo = i.cie
+    INNER JOIN ${base}.grupoCie gc ON gc.idGrupoCie = ci.idGrupo
     LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
     LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit
   ORDER BY radicado DESC`
@@ -188,11 +191,15 @@ export const scriptTotalDisabilitiesByStatus = (base: string):string => {
 }
 
 export const scriptLatestDisabilities = (base: string):string => {
-  return `SELECT * FROM ${base}.incapacidades ORDER BY id DESC LIMIT 10;`
+  return `SELECT * FROM ${base}.incapacidades ORDER BY radicado DESC LIMIT 10;`
 }
 
 export const scriptGetSalary = (base: string):string => {
   return `SELECT salarioMinimo FROM ${base}.settings`
+}
+
+export const scriptGetfilesByDisability = (base: string, idIncapacidad: number):string => {
+  return `SELECT * FROM ${base}.files WHERE fkRadicado = ${idIncapacidad}`
 }
 
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

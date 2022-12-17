@@ -25,7 +25,7 @@ import {
   scriptValidatePosition,
   scriptValidateTpCompany
 } from '../scriptSQL/get.scripts'
-import { TypeCompany, ResultSql, ResponseFile, Adjunto } from 'interfaces/general.models'
+import { TypeCompany, ResultSql, Adjunto } from 'interfaces/general.models'
 
 export const insertUser = async (req: Request, res: Response) => {
   try {
@@ -261,7 +261,7 @@ export const createInability = async (req: Request, res: Response) => {
         element.fkRadicado = req.body.radicado ? req.body.radicado : result.insertId
         queryFile = queryFile + scriptSaveFile(element, base)
       })
-      const resultFiles = await executeQuery<ResponseFile>(queryFile)
+      const resultFiles = await executeQuery<ResultSql[]>(queryFile)
       response = {
         ...result,
         ...resultFiles

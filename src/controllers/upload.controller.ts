@@ -3,7 +3,7 @@ import { ResponseFile } from 'interfaces/general.models'
 
 export const uploadFile = (req: Request, res: Response) => {
   const { company, folder } = req.params
-  const { typeFile, nameFile } = req.body
+  const { typeFile } = req.body
 
   const files = req.files as Express.Multer.File[]
   if (!files) return res.json({ message: 'No hay archivos por subir' })
@@ -11,9 +11,10 @@ export const uploadFile = (req: Request, res: Response) => {
   if (files) {
     const tempCompany = company.replace(/ /g, '_')
     for (let i = 0; i < files.length; i++) {
+      console.log(files[i])
       reqFiles.push({
         saved: true,
-        nameFile,
+        nameFile: files[i].originalname,
         typeFile: +typeFile,
         url: `${req.headers.host}/files/${tempCompany}/${folder}/${files[i].filename}`
       })

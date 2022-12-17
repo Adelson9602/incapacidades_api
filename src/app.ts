@@ -18,7 +18,7 @@ app.use(morgan('dev'))
 app.use(cors())
 app.use(express.json({ limit: '50mb' }))
 
-app.use('/adjuntos', express.static('adjuntos'))
+app.use('/files', express.static('files'))
 
 // Ruta index
 app.get('/', (_, res) => {

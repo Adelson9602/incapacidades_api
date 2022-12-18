@@ -23,7 +23,9 @@ import {
   scriptGetSalary,
   scriptCieGroup,
   scriptCieCode,
-  scriptGetfilesByDisability
+  scriptGetfilesByDisability,
+  scriptGetDisabilityById,
+  scriptCieDsibality
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -44,7 +46,9 @@ import {
   InformationDisability,
   DisabilityState,
   Salary,
-  Adjunto
+  Adjunto,
+  InfoCie,
+  DisabilityWithCie
 } from 'interfaces/general.models'
 
 export const getRols = async (req: Request, res: Response) => {
@@ -251,6 +255,31 @@ export const getDisabilities = async (req: Request, res: Response) => {
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al consultar las incapacidad',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const getDisabilityById = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { radicado } = req.params
+    const query = scriptGetDisabilityById(base, +radicado)
+    const [disability] = await executeQuery<DisabilityWithCie[]>(query)
+
+    const queryCie = scriptCieDsibality(base, disability.cie)
+    const [disabilityCie] = await executeQuery<InfoCie[]>(queryCie)
+
+    const queryPerson = scriptGetPerson(base, disability.fkDocumentoPersona)
+    const [employe] = await executeQuery<InformationEmploye[]>(queryPerson)
+
+    const files = await executeQuery<Adjunto[]>(scriptGetfilesByDisability(base, +radicado))
+
+    res.status(200).json({ disability: { ...disability, ...disabilityCie }, employe, files })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar incapacidad',
       error: error.message,
       completeError: error
     }), 400)

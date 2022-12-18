@@ -28,6 +28,8 @@ router.get('/disability_state', verifyToken, getCtroler.getStateDisability)
 
 router.get('/disability', verifyToken, getCtroler.getDisabilities)
 
+router.get('/disability_by_id/:radicado', verifyToken, getCtroler.getDisabilityById)
+
 router.get('/history_disability', verifyToken, getCtroler.getHistoryDisabilities)
 
 router.get('/history_disability/:idRadicado', verifyToken, getCtroler.getHistoryDisabilities)

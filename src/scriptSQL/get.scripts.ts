@@ -109,6 +109,10 @@ export const validateStateDisability = (base: string, nombreEstadoIncapacidad: s
   return `SELECT * FROM ${base}.estadoIncapacidad WHERE nombreEstadoIncapacidad = '${nombreEstadoIncapacidad}';`
 }
 
+export const scriptStateDisabilityById = (base: string, idEstado: number):string => {
+  return `SELECT * FROM ${base}.estadoIncapacidad WHERE idEstadoIncapacidad = '${idEstado}';`
+}
+
 export const scriptStateDisability = (base: string):string => {
   return `SELECT * FROM ${base}.estadoIncapacidad;`
 }
@@ -171,8 +175,14 @@ export const scriptCieGroup = (base: string):string => {
   return `SELECT * FROM ${base}.grupoCie;`
 }
 
+export const scriptCieDsibality = (base: string, cie: string):string => {
+  return `SELECT * FROM ${base}.codigoCie ci
+    INNER JOIN ${base}.grupoCie gc ON gc.idGrupoCie = ci.idGrupo
+    WHERE codigo = "${cie}";`
+}
+
 export const scriptCieCode = (base: string, idGrupo: number):string => {
-  return `SELECT * FROM ${base}.codigoCie WHERE codigoCie.idGrupo = ${idGrupo};`
+  return `SELECT * FROM ${base}.codigoCie WHERE idGrupo = ${idGrupo};`
 }
 
 export const scriptTotalDisabilities = (base: string):string => {
@@ -195,11 +205,29 @@ export const scriptLatestDisabilities = (base: string):string => {
 }
 
 export const scriptGetSalary = (base: string):string => {
-  return `SELECT salarioMinimo FROM ${base}.settings`
+  return `SELECT salarioMinimo FROM ${base}.settings;`
+}
+
+export const scriptGetDisabilityById = (base: string, radicado: number):string => {
+  return `SELECT 
+    i.*,
+    e.nombreEstadoIncapacidad,
+    t.nombreTipoIncapacidad,
+    em.nit AS nitEntidad,
+    em.razonSocial AS razonSocialEntidad,
+    emp.razonSocial AS empresaEmpleado,
+    te.nombreTipoEmpresa AS tipoEntidad
+  FROM ${base}.incapacidades i
+    INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad
+    INNER JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad
+    INNER JOIN ${base}.empresa em ON em.nit = i.fkEntidad
+    INNER JOIN ${base}.empresa emp ON emp.nit = i.fkNitEmpresa
+    INNER JOIN ${base}.tipoEmpresa te ON te.idTipoEmpresa = em.fkIdTipoEmpresa
+  WHERE radicado = ${radicado};`
 }
 
 export const scriptGetfilesByDisability = (base: string, idIncapacidad: number):string => {
-  return `SELECT * FROM ${base}.files WHERE fkRadicado = ${idIncapacidad}`
+  return `SELECT * FROM ${base}.files WHERE fkRadicado = ${idIncapacidad};`
 }
 
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

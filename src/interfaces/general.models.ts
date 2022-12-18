@@ -241,6 +241,15 @@ export interface ResponseDashboard {
   nombreEstadoIncapacidad?: string;
 }
 
+export interface InfoCie {
+  idCodigoCie: number,
+  codigo: string,
+  descripcion: string,
+  idGrupo: number,
+  idGrupoCie: number,
+  grupoSubgrupo: string
+}
+
 export interface LatestDisabilities {
   id: number;
   radicado: string;
@@ -258,4 +267,39 @@ export interface LatestDisabilities {
   fkIdAfp: string;
   fkIdEps: string;
   fechaRegistro: string;
+}
+
+export interface DisabilityWithCie {
+  radicado: number;
+  fkIdTipoIncapacidad: number;
+  cie: string;
+  fkNitEmpresa: string;
+  numeroIncapacidad: number;
+  fechaInicio: string;
+  fechaFin: string;
+  totalDias: number;
+  ibc: string;
+  valor: number;
+  fkIdEstadoIncapacidad: number;
+  fkDocumentoPersona: number;
+  fkEntidad: string;
+  fechaRegistro: string;
+  nombreEstadoIncapacidad: string;
+  nombreTipoIncapacidad: string;
+  nitEntidad: string;
+  razonSocialEntidad: string;
+  empresaEmpleado: string;
+  tipoEntidad: string;
+  idCodigoCie: number;
+  codigo: string;
+  descripcion: string;
+  idGrupo: number;
+  idGrupoCie: number;
+  grupoSubgrupo: string;
+}
+
+export interface DetailDisability {
+  disability: DisabilityWithCie,
+  employe: InformationEmploye,
+  files: Adjunto[]
 }

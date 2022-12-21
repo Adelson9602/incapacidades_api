@@ -75,7 +75,7 @@ export const scriptSaveFile = (data: Adjunto, base: string):string => {
 }
 
 export const scriptHistoryInability = (data: HistoryDisability, base: string):string => {
-  return `INSERT INTO ${base}.historialIncapacidad(idHistorialIncapacidad, fkRadicado, fechaProrroga, usuario, observacion) VALUES (${data.idHistorialIncapacidad}, '${data.fkRadicado}',  '${data.fechaProrroga}', ${data.usuario}, '${data.observacion}') ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', fechaProrroga ='${data.fechaProrroga}', usuario = ${data.usuario}, observacion ='${data.observacion}';`
+  return `INSERT INTO ${base}.historialIncapacidad(idHistorialIncapacidad, fkRadicado, fechaProrroga, diasProrroga, valor, usuario, observacion) VALUES (${data.idHistorialIncapacidad}, '${data.fkRadicado}',  '${data.fechaProrroga}', ${data.diasProrroga}, ${data.valor}, ${data.usuario}, '${data.observacion}') ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', fechaProrroga ='${data.fechaProrroga}', diasProrroga =${data.diasProrroga}, valor =${data.valor}, usuario =${data.usuario}, observacion ='${data.observacion}';`
 }
 
 export const scriptCreateRol = (data: Rol, base: string):string => {

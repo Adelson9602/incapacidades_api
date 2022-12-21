@@ -229,6 +229,8 @@ export interface HistoryDisability {
   idHistorialIncapacidad: number | null;
   fkRadicado: number;
   fechaProrroga: string;
+  diasProrroga: number;
+  valor: number;
   usuario: number;
   observacion: string;
 }

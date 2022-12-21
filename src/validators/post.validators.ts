@@ -111,6 +111,8 @@ const validateHistoryDisability = [
   check('idHistorialIncapacidad').exists(),
   check('fkRadicado').exists().not().isEmpty(),
   check('fechaProrroga').exists().not().isEmpty(),
+  check('diasProrroga').exists().not().isEmpty(),
+  check('valor').exists().not().isEmpty(),
   check('usuario').exists().not().isEmpty(),
   check('observacion').exists().not().isEmpty().toUpperCase(),
   (req: Request, res: Response, next: NextFunction) => {

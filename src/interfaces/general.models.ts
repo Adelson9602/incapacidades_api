@@ -226,11 +226,10 @@ export interface InformationDisability {
 }
 
 export interface HistoryDisability {
-  idHistorialIncapacidad: number;
-  fkRadicado: string;
-  estadoIncapidad: number;
-  fechaFin: string;
+  idHistorialIncapacidad: number | null;
+  fkRadicado: number;
   fechaProrroga: string;
+  usuario: number;
   observacion: string;
 }
 

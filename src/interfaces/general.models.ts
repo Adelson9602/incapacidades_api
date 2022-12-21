@@ -303,4 +303,5 @@ export interface DetailDisability {
   disability: DisabilityWithCie,
   employe: InformationEmploye,
   files: Adjunto[]
+  history?: HistoryDisability[]
 }

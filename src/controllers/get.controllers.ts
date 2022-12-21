@@ -276,7 +276,9 @@ export const getDisabilityById = async (req: Request, res: Response) => {
 
     const files = await executeQuery<Adjunto[]>(scriptGetfilesByDisability(base, +radicado))
 
-    res.status(200).json({ disability: { ...disability, ...disabilityCie }, employe, files })
+    const history = await executeQuery<HistoryDisability[]>(scriptHistoryDisability(base, radicado))
+
+    res.status(200).json({ disability: { ...disability, ...disabilityCie }, employe, files, history })
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al consultar incapacidad',

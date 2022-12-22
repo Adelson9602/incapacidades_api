@@ -52,4 +52,6 @@ router.get('/salary', verifyToken, getCtroler.getSalary)
 
 router.get('/cie', verifyToken, getCtroler.getCie)
 
+router.get('/permissions/:usuario', verifyToken, getCtroler.getPermissions)
+
 module.exports = router

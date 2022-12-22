@@ -230,4 +230,8 @@ export const scriptGetfilesByDisability = (base: string, idIncapacidad: number):
   return `SELECT * FROM ${base}.files WHERE fkRadicado = ${idIncapacidad};`
 }
 
+export const scriptGetPermissionsUser = (base: string, usuario: number):string => {
+  return `SELECT * FROM ${base}.permisosUsuario WHERE usuario = ${usuario};`
+}
+
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

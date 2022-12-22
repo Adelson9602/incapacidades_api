@@ -230,6 +230,7 @@ export interface HistoryDisability {
   fkRadicado: number;
   fechaProrroga: string;
   diasProrroga: number;
+  ibc: number;
   valor: number;
   usuario: number;
   observacion: string;

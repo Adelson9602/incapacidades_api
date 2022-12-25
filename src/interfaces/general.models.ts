@@ -71,6 +71,7 @@ export interface Position {
 export interface Employe {
   fkDocumentoPersona: number;
   fkIdCargo: number;
+  fkIdEmpresa: number;
 }
 
 export interface ResultSql {

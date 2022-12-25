@@ -58,7 +58,7 @@ export const scriptCreatePosition = (data: Position, base: string):string => {
 }
 
 export const scriptEmploye = (data: Employe, base: string):string => {
-  return `INSERT INTO ${base}.empleados(fkDocumentoPersona, fkIdCargo) VALUES (${data.fkDocumentoPersona}, ${data.fkIdCargo}) ON DUPLICATE KEY UPDATE fkDocumentoPersona = ${data.fkDocumentoPersona}, fkIdCargo = ${data.fkIdCargo};`
+  return `INSERT INTO ${base}.empleados(fkDocumentoPersona, fkIdCargo, fkIdEmpresa) VALUES (${data.fkDocumentoPersona}, ${data.fkIdCargo}, ${data.fkIdEmpresa}) ON DUPLICATE KEY UPDATE fkDocumentoPersona = ${data.fkDocumentoPersona}, fkIdCargo = ${data.fkIdCargo}, fkIdEmpresa =${data.fkIdEmpresa};`
 }
 
 export const scriptCreateStateInability = (data: DisabilityState, base: string):string => {

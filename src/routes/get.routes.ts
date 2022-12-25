@@ -54,4 +54,6 @@ router.get('/cie', verifyToken, getCtroler.getCie)
 
 router.get('/permissions/:usuario', verifyToken, getCtroler.getPermissions)
 
+router.get('/permissions_rol/:rol', verifyToken, getCtroler.getPermissionsByRol)
+
 module.exports = router

@@ -307,17 +307,6 @@ export interface DetailDisability {
   history?: HistoryDisability[]
 }
 
-export interface Item {
-  icon: string;
-  text: string;
-  route: string;
-}
-
-export interface Modulo {
-  modulo: string;
-  items: Item[];
-}
-
 export interface Actions {
   leer: boolean;
   borrar: boolean;
@@ -325,9 +314,20 @@ export interface Actions {
   insert: boolean;
 }
 
+export interface Item {
+  icon: string;
+  text: string;
+  route: string;
+  actions?: Actions;
+}
+
+export interface Modulo {
+  modulo: string;
+  items: Item[];
+}
+
 export interface Permisos {
   idPermisosUsuario: number;
-  permisos: Modulo[];
+  permisos: Item[];
   usuario: number;
-  actions?: Actions;
 }

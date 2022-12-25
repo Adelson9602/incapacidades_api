@@ -26,7 +26,8 @@ import {
   scriptGetfilesByDisability,
   scriptGetDisabilityById,
   scriptCieDsibality,
-  scriptGetPermissionsUser
+  scriptGetPermissionsUser,
+  scriptGetPermissionsRol
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -51,7 +52,7 @@ import {
   InfoCie,
   DisabilityWithCie,
   Permisos,
-  Modulo
+  Item
 } from 'interfaces/general.models'
 
 export const getRols = async (req: Request, res: Response) => {
@@ -458,13 +459,32 @@ export const getPermissions = async (req: Request, res: Response) => {
     const [result] = await executeQuery<Permisos[]>(query)
 
     if (result) {
-      const tempPerrmissions: Modulo[] = JSON.parse(`${result.permisos}`)
+      const tempPerrmissions: Item[] = JSON.parse(`${result.permisos}`)
       result.permisos = tempPerrmissions
 
       res.status(200).json(result)
     } else {
       res.status(404).json({
         message: 'No hemos encontrado permisos asociados a este usuario'
+      })
+    }
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+export const getPermissionsByRol = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { rol } = req.params
+    const query = scriptGetPermissionsRol(base, +rol)
+    const [result] = await executeQuery<Permisos[]>(query)
+
+    if (result) {
+      res.status(200).json(JSON.parse(`${result.permisos}`))
+    } else {
+      res.status(404).json({
+        message: 'No hemos encontrado permisos asociados a este rol'
       })
     }
   } catch (error: any) {

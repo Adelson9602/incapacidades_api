@@ -75,7 +75,7 @@ export const scriptSaveFile = (data: Adjunto, base: string):string => {
 }
 
 export const scriptHistoryInability = (data: HistoryDisability, base: string):string => {
-  return `INSERT INTO ${base}.historialIncapacidad(idHistorialIncapacidad, fkRadicado, fechaProrroga, diasProrroga, ibc, valor, usuario, observacion) VALUES (${data.idHistorialIncapacidad}, '${data.fkRadicado}',  '${data.fechaProrroga}', ${data.diasProrroga}, ${data.ibc}, ${data.valor}, ${data.usuario}, '${data.observacion}') ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', fechaProrroga ='${data.fechaProrroga}', diasProrroga =${data.diasProrroga}, ibc =${data.ibc}, valor =${data.valor}, usuario =${data.usuario}, observacion ='${data.observacion}';`
+  return `INSERT INTO ${base}.historialIncapacidad(idHistorialIncapacidad, fkIdIncapacidad, fechaIniciaProrroga, fechaFinProrroga, diasProrroga, ibc, valor, usuario, observacion) VALUES (${data.idHistorialIncapacidad}, '${data.fkIdIncapacidad}',  '${data.fechaIniciaProrroga}', '${data.fechaFinProrroga}', ${data.diasProrroga}, ${data.ibc}, ${data.valor}, ${data.usuario}, '${data.observacion}') ON DUPLICATE KEY UPDATE fkIdIncapacidad ='${data.fkIdIncapacidad}', fechaIniciaProrroga ='${data.fechaIniciaProrroga}', fechaFinProrroga ='${data.fechaFinProrroga}', diasProrroga =${data.diasProrroga}, ibc =${data.ibc}, valor =${data.valor}, usuario =${data.usuario}, observacion ='${data.observacion}';`
 }
 
 export const scriptCreateRol = (data: Rol, base: string):string => {

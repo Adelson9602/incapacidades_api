@@ -162,8 +162,8 @@ export const scriptDisability = (base: string):string => {
   ORDER BY radicado DESC`
 }
 
-export const scriptHistoryDisability = (base: string, fkRadicado?: string):string => {
-  return `SELECT * FROM ${base}.historialIncapacidad ${fkRadicado ? `WHERE fkRadicado = ${fkRadicado}` : ''};`
+export const scriptHistoryDisability = (base: string, fkIdIncapacidad?: string):string => {
+  return `SELECT * FROM ${base}.historialIncapacidad ${fkIdIncapacidad ? `WHERE fkIdIncapacidad = ${fkIdIncapacidad}` : ''};`
 }
 
 export const scriptCompanyByType = (base: string, idTipo: string):string => {
@@ -230,7 +230,7 @@ export const scriptGetDisabilityById = (base: string, radicado: number):string =
 }
 
 export const scriptGetfilesByDisability = (base: string, idIncapacidad: number):string => {
-  return `SELECT * FROM ${base}.files WHERE fkRadicado = ${idIncapacidad};`
+  return `SELECT * FROM ${base}.files WHERE fkIdIncapacidad = ${idIncapacidad};`
 }
 
 export const scriptGetPermissionsUser = (base: string, usuario: number):string => {

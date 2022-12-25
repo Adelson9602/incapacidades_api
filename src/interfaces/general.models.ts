@@ -230,8 +230,9 @@ export interface InformationDisability {
 
 export interface HistoryDisability {
   idHistorialIncapacidad: number | null;
-  fkRadicado: number;
-  fechaProrroga: string;
+  fkIdIncapacidad: number;
+  fechaIniciaProrroga: string;
+  fechaFinProrroga: string;
   diasProrroga: number;
   ibc: number;
   valor: number;

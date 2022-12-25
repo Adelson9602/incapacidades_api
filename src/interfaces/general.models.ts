@@ -148,6 +148,8 @@ export interface InformationEmploye {
   telefonoFijo: string;
   fkIdCiudad: number,
   nombreCiudad: string;
+  razonSocial: string;
+  fkIdEmpresa: number;
   fkIdDepartamento: number,
   nombreDepartamento: string;
   fkIdCargo: number,

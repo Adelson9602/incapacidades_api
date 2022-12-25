@@ -77,6 +77,8 @@ export const scriptGetPerson = (base: string, documentoPersona?: number):string 
     ci.fkIdDepartamento,
     de.nombreDepartamento,
     em.fkIdCargo,
+    em.fkIdEmpresa,
+    emp.razonSocial,
     ca.nombreCargo,
     td.nombreTipoDocumento
   FROM ${base}.personas AS p
@@ -87,6 +89,7 @@ export const scriptGetPerson = (base: string, documentoPersona?: number):string 
     INNER JOIN ${base}.empleados em ON em.fkDocumentoPersona = p.documentoPersona
     INNER JOIN ${base}.cargo ca ON ca.idCargo = em.fkIdCargo
     INNER JOIN ${base}.tipoDocumento td ON td.idTipoDocumento = p.fkIdTipoDocumento
+    INNER JOIN ${base}.empresa emp ON emp.nit = em.fkIdEmpresa
   ${documentoPersona ? `WHERE p.documentoPersona = ${documentoPersona}` : ''};`
 }
 

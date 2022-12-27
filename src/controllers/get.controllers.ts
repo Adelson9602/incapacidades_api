@@ -54,6 +54,7 @@ import {
   Permisos,
   Item
 } from 'interfaces/general.models'
+import { generateExcel } from '../helpers/excel'
 
 export const getRols = async (req: Request, res: Response) => {
   try {
@@ -490,4 +491,10 @@ export const getPermissionsByRol = async (req: Request, res: Response) => {
   } catch (error: any) {
     httpError(res, req, error, 400)
   }
+}
+
+export const getExcelReport = (req: Request, res: Response) => {
+  const base:string = req.headers.base as string
+  generateExcel(base)
+  res.json({ message: 'Archivo generado' })
 }

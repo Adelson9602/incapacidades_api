@@ -93,6 +93,52 @@ export const scriptGetPerson = (base: string, documentoPersona?: number):string 
   ${documentoPersona ? `WHERE p.documentoPersona = ${documentoPersona}` : ''};`
 }
 
+// Obtiene las incapacidades para el excel
+export const scriptReportExcel = (base: string) => {
+  return `SELECT
+    i.idIncapacidad,
+    i.radicado,
+    i.fkIdTipoIncapacidad,
+    i.fkNitEmpresa,
+    i.numeroIncapacidad,
+    i.fechaInicio,
+    i.fechaFin,
+    i.totalDias,
+    i.ibc,
+    i.valor,
+    i.fkIdEstadoIncapacidad,
+    i.fkDocumentoPersona,
+    i.cie,
+    i.fechaRegistro,
+    IF(i.totalDias >= 180, 'SI', 'NO') AS caso180,
+    ci.descripcion AS nombreCodigoCie,
+    p.genero,
+    p.fechaNacimiento,
+    p.fkIdTipoDocumento,
+    CONCAT(p.primerNombre, ' ',p.segundoNombre, ' ',p.primerApellido,' ',p.segundoApellido) AS nombresApellidos,
+    t.nombreTipoIncapacidad,
+    e.nit,
+    e.razonSocial,
+    e.fkIdTipoEmpresa,
+    e2.nit AS nitEntidad,
+    e2.razonSocial AS razonSocialEntidad,
+    td.nombreTipoDocumento,
+    ei.nombreEstadoIncapacidad,
+    ca.nombreCargo
+  FROM ${base}.incapacidades i
+    INNER JOIN ${base}.personas p ON p.documentoPersona = i.fkDocumentoPersona
+    INNER JOIN ${base}.tipoDocumento td ON p.fkIdTipoDocumento = td.idTipoDocumento
+    INNER JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad
+    INNER JOIN ${base}.estadoIncapacidad ei ON ei.idEstadoIncapacidad = i.fkIdEstadoIncapacidad
+    INNER JOIN ${base}.codigoCie ci ON ci.codigo = i.cie
+    INNER JOIN ${base}.grupoCie gc ON gc.idGrupoCie = ci.idGrupo
+    INNER JOIN ${base}.empleados em ON em.fkDocumentoPersona = i.fkDocumentoPersona
+    INNER JOIN ${base}.cargo ca ON ca.idCargo = em.fkIdCargo
+    LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
+    LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit
+  ORDER BY radicado DESC`
+}
+
 // Obtiene los empleados que se cargaran en el select al crear una incapacidad
 export const scriptEmployeSelect = (base: string):string => {
   return `SELECT p.documentoPersona, p.primerNombre, p.segundoNombre, p.primerApellido, p.segundoApellido FROM ${base}.personas p INNER JOIN ${base}.empleados e ON e.fkDocumentoPersona = p.documentoPersona ORDER BY p.primerApellido ASC;`

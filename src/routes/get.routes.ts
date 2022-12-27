@@ -56,4 +56,6 @@ router.get('/permissions/:usuario', verifyToken, getCtroler.getPermissions)
 
 router.get('/permissions_rol/:rol', verifyToken, getCtroler.getPermissionsByRol)
 
+router.get('/excel_report', getCtroler.getExcelReport)
+
 module.exports = router

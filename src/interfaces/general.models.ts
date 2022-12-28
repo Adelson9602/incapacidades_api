@@ -335,3 +335,8 @@ export interface Permisos {
   permisos: Item[];
   usuario: number;
 }
+
+export interface ColumnsExcel {
+  header: string;
+  key: string;
+}

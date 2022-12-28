@@ -94,7 +94,7 @@ export const scriptGetPerson = (base: string, documentoPersona?: number):string 
 }
 
 // Obtiene las incapacidades para el excel
-export const scriptReportExcel = (base: string) => {
+export const scriptReportExcel = (base: string, condition?: string) => {
   return `SELECT
     i.idIncapacidad,
     i.radicado,
@@ -136,6 +136,7 @@ export const scriptReportExcel = (base: string) => {
     INNER JOIN ${base}.cargo ca ON ca.idCargo = em.fkIdCargo
     LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
     LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit
+    ${condition}
   ORDER BY radicado DESC`
 }
 

@@ -58,4 +58,6 @@ router.get('/permissions_rol/:rol', verifyToken, getCtroler.getPermissionsByRol)
 
 router.get('/excel_report', getCtroler.getExcelReport)
 
+router.get('/documents_attach_by_disability_type/:disabilityType', verifyToken, getCtroler.getDocumentsAttachByDisabilityType)
+
 module.exports = router

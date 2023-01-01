@@ -288,4 +288,8 @@ export const scriptGetPermissionsRol = (base: string, rol: number):string => {
   return `SELECT permisos FROM ${base}.permisosRol WHERE rol = ${rol};`
 }
 
+export const scriptDocumentsAttachByDisabilityType = (base: string, idTipoIncapacidad: number):string => {
+  return `SELECT documento FROM ${base}.documentosAdjuntar ta INNER JOIN ${base}.tiposDocumentosAdjuntar tda ON tda.idDocumentoAdjuntar = ta.idTipoDocumentoAdjuntar WHERE ta.idTipoIncapacidad = ${idTipoIncapacidad};`
+}
+
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

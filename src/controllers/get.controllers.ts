@@ -28,7 +28,8 @@ import {
   scriptCieDsibality,
   scriptGetPermissionsUser,
   scriptGetPermissionsRol,
-  scriptReportExcel
+  scriptReportExcel,
+  scriptDocumentsAttachByDisabilityType
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -54,7 +55,8 @@ import {
   DisabilityWithCie,
   Permisos,
   Item,
-  ColumnsExcel
+  ColumnsExcel,
+  DocumentsAttach
 } from 'interfaces/general.models'
 import { generateExcel } from '../helpers/excel'
 
@@ -563,4 +565,17 @@ export const getExcelReport = (req: Request, res: Response) => {
 
   generateExcel(script, columns, 'cliente')
   res.json({ message: 'Archivo generado' })
+}
+
+export const getDocumentsAttachByDisabilityType = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { disabilityType } = req.params
+    const query = scriptDocumentsAttachByDisabilityType(base, +disabilityType)
+    const result = await executeQuery<DocumentsAttach[]>(query)
+
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
 }

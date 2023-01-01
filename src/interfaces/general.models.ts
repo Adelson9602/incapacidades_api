@@ -340,3 +340,7 @@ export interface ColumnsExcel {
   header: string;
   key: string;
 }
+
+export interface DocumentsAttach {
+  documento: string;
+}

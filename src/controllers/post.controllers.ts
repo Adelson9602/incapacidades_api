@@ -19,7 +19,8 @@ import {
   scriptCreateDocumentType,
   scriptCreateDepartment,
   scriptCreateCity,
-  scriptSaveFile
+  scriptSaveFile,
+  scriptCreatePermissionsUser
 } from '../scriptSQL/post.scripts'
 import {
   scriptValidatePosition,
@@ -33,6 +34,9 @@ export const insertUser = async (req: Request, res: Response) => {
     const script = scriptCreatePerson(req.body, base)
     const result = await executeQuery<ResultSql>(script).then(() => {
       const query = sccriptCreateUser(req.body, base)
+      return executeQuery<ResultSql>(query)
+    }).then((result) => {
+      const query = scriptCreatePermissionsUser(req.body.permisos, base)
       return executeQuery<ResultSql>(query)
     })
     res.json({

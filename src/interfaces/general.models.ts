@@ -331,7 +331,7 @@ export interface Modulo {
 }
 
 export interface Permisos {
-  idPermisosUsuario: number;
+  idPermisosUsuario?: number;
   permisos: Item[];
   usuario: number;
 }

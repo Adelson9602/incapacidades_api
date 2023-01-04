@@ -16,7 +16,8 @@ import {
   DocumentType,
   Department,
   City,
-  Adjunto
+  Adjunto,
+  Permisos
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -26,6 +27,11 @@ export const scriptCreatePerson = (data: Persona, base: string):string => {
 
 export const sccriptCreateUser = (data: UserData, base: string):string => {
   return `INSERT INTO ${base}.usuarios(usuario, password, fkIdRol, estadoUsuario, fotoPerfil) VALUES (${data.usuario},'${encryptedAES(data.password)}',${data.fkIdRol},${data.estadoUsuario},'${data.fotoPerfil}') ON DUPLICATE KEY UPDATE usuario = ${data.usuario}, password = '${encryptedAES(data.password)}', fkIdRol = ${data.fkIdRol}, estadoUsuario = ${data.estadoUsuario}, fotoPerfil = '${data.fotoPerfil}';`
+}
+
+export const scriptCreatePermissionsUser = (data: Permisos, base: string): string => {
+  return `INSERT INTO ${base}.permisosUsuario (permisos, usuario) VALUES ('${data.permisos}', ${data.usuario}) ON DUPLICATE KEY UPDATE permisos ='${data.permisos}';
+  `
 }
 
 // Script para crear tipos de empresa

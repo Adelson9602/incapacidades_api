@@ -503,7 +503,6 @@ export const getExcelReport = (req: Request, res: Response) => {
   const { nit, cc, nitEntidad } = req.query
 
   const columnsGeneral = [
-
     { header: 'NUMERO DE CONSECUTIVO', key: 'idIncapacidad' },
     { header: 'FECHA RAICADO', key: 'fechaRegistro' },
     // { header: 'EMPRESA', key: '' },
@@ -540,83 +539,64 @@ export const getExcelReport = (req: Request, res: Response) => {
     // { header: 'SENTENCIA', key: '' }
 
   ]
-  let columns: ColumnsExcel[] = []
+  const columns: ColumnsExcel[] = []
   let condition = ''
   if (reportType === 'empleador') {
-    columns = [
-      { header: 'NUMERO DE CONSECUTIVO', key: 'idIncapacidad' },
-      { header: 'FECHA RADICADO', key: 'fechaRegistro' },
-      // { header: 'Empresa', key: 'phone' },
-      // { header: 'Centro de costos', key: 'genre' },
-      // { header: 'Nombre centro de costos', key: 'function' },
-      { header: 'EMPRESA CLIENTE', key: 'razonSocial' },
-      { header: 'CARGO', key: 'nombreCargo' },
-      { header: 'TIPO DOCUMENTO', key: 'nombreTipoDocumento' },
-      { header: 'DOCUMENTO', key: 'fkDocumentoPersona' },
-      { header: 'NOMBRE Y APELLIDO', key: 'nombresApellidos' },
-      { header: 'CIUDAD', key: 'ciudad' },
-      { header: 'IBC', key: 'ibc' },
-      { header: 'ENTIDAD (EPS /ARL)', key: 'razonSocialEntidad' },
-      { header: 'NÚMERO INCAPACIDAD', key: 'numeroIncapacidad' },
-      { header: 'TIPO INCAPACIDAD', key: 'nombreTipoIncapacidad' },
-      { header: 'DIAGNÓSTICO', key: 'cie' },
-      { header: 'NOMBRE DE DIAGNÓSTICO', key: 'nombreCodigoCie' },
-      { header: 'FECHA INICIAL', key: 'fechaInicio' },
-      { header: 'FECHA FINAL', key: 'fechaFin' },
-      { header: 'DÍAS INCAPACIDAD', key: 'totalDias' },
-      { header: 'CASO 180', key: 'caso180' },
-      // { header: 'Días a recobrar', key: 'diasARecobrar' },
-      // { header: 'Días pagados', key: 'diasARecobrar' },
-      { header: 'PRORROGA', key: 'prorroga' },
-      { header: 'VALOR INCAPACIDAD', key: 'valor' },
-      { header: 'ESTADO', key: 'nombreEstadoIncapacidad' }
-      // { header: 'Valor reconocido', key: 'valorReconocido' },
-      // { header: 'Fecha pago', key: 'fechaPago' },
-      // { header: 'Causal rechazo', key: 'Causal rechazo' },
-      // { header: 'Descripción rechazo', key: 'descripcionRechazo' },
-      // { header: 'Observaciones', key: 'observaciones' },
-      // { header: 'Fecha proceso derecho de peticion', key: 'fechaDerechoPeticion' },
-      // { header: 'Fecha proceso derecho de tutela', key: 'fechaDerechoTutela' },
-      // { header: 'Sentencia', key: 'sentencia' }
-    ]
+    // columns = [
+    //   { header: 'NUMERO DE CONSECUTIVO', key: 'idIncapacidad' },
+    //   { header: 'FECHA RADICADO', key: 'fechaRegistro' },
+    //   // { header: 'Empresa', key: 'phone' },
+    //   // { header: 'Centro de costos', key: 'genre' },
+    //   // { header: 'Nombre centro de costos', key: 'function' },
+    //   { header: 'EMPRESA CLIENTE', key: 'razonSocial' },
+    //   { header: 'CARGO', key: 'nombreCargo' },
+    //   { header: 'TIPO DOCUMENTO', key: 'nombreTipoDocumento' },
+    //   { header: 'DOCUMENTO', key: 'fkDocumentoPersona' },
+    //   { header: 'NOMBRE Y APELLIDO', key: 'nombresApellidos' },
+    //   { header: 'CIUDAD', key: 'ciudad' },
+    //   { header: 'IBC', key: 'ibc' },
+    //   { header: 'ENTIDAD (EPS /ARL)', key: 'razonSocialEntidad' },
+    //   { header: 'NÚMERO INCAPACIDAD', key: 'numeroIncapacidad' },
+    //   { header: 'TIPO INCAPACIDAD', key: 'nombreTipoIncapacidad' },
+    //   { header: 'DIAGNÓSTICO', key: 'cie' },
+    //   { header: 'NOMBRE DE DIAGNÓSTICO', key: 'nombreCodigoCie' },
+    //   { header: 'FECHA INICIAL', key: 'fechaInicio' },
+    //   { header: 'FECHA FINAL', key: 'fechaFin' },
+    //   { header: 'DÍAS INCAPACIDAD', key: 'totalDias' },
+    //   { header: 'CASO 180', key: 'caso180' },
+    //   // { header: 'Días a recobrar', key: 'diasARecobrar' },
+    //   // { header: 'Días pagados', key: 'diasARecobrar' },
+    //   { header: 'PRORROGA', key: 'prorroga' },
+    //   { header: 'VALOR INCAPACIDAD', key: 'valor' },
+    //   { header: 'ESTADO', key: 'nombreEstadoIncapacidad' }
+    //   // { header: 'Valor reconocido', key: 'valorReconocido' },
+    //   // { header: 'Fecha pago', key: 'fechaPago' },
+    //   // { header: 'Causal rechazo', key: 'Causal rechazo' },
+    //   // { header: 'Descripción rechazo', key: 'descripcionRechazo' },
+    //   // { header: 'Observaciones', key: 'observaciones' },
+    //   // { header: 'Fecha proceso derecho de peticion', key: 'fechaDerechoPeticion' },
+    //   // { header: 'Fecha proceso derecho de tutela', key: 'fechaDerechoTutela' },
+    //   // { header: 'Sentencia', key: 'sentencia' }
+    // ]
   } else if (reportType === 'cliente') {
-    columns = [
-      { header: 'NUMERO DE CONSECUTIVO', key: 'idIncapacidad' },
-      { header: 'AÑO', key: 'fechaRegistro' },
-      { header: 'EMPRESA CLIENTE', key: 'razonSocial' },
-      { header: 'CARGO', key: 'nombreCargo' },
-      { header: 'TIPO DOCUMENTO', key: 'nombreTipoDocumento' },
-      { header: 'DOCUMENTO', key: 'fkDocumentoPersona' },
-      { header: 'NOMBRE Y APELLIDO', key: 'nombresApellidos' },
-      { header: 'CIUDAD', key: 'ciudad' },
-      { header: 'IBC', key: 'ibc' },
-      { header: 'ENTIDAD (EPS /ARL)', key: 'razonSocialEntidad' },
-      { header: 'TIPO INCAPACIDAD', key: 'nombreTipoIncapacidad' },
-      { header: 'DIAGNÓSTICO', key: 'cie' },
-      { header: 'NOMBRE DE DIAGNÓSTICO', key: 'nombreCodigoCie' },
-      { header: 'FECHA INICIAL', key: 'fechaInicio' },
-      { header: 'FECHA FINAL', key: 'fechaFin' },
-      { header: 'DÍAS INCAPACIDAD', key: 'totalDias' },
-      { header: 'PRORROGA', key: 'prorroga' },
-      { header: 'VALOR INCAPACIDAD', key: 'valor' }
-    ]
+    // columns = [columnsGeneral]
     if (!nit) return res.status(400).json({ message: 'Debe enviar el nit de la empresa' })
 
     condition = `WHERE i.fkNitEmpresa = ${nit}`
   } else if (reportType === 'empleado') {
     if (!cc) return res.status(400).json({ message: 'Debe enviar el documento del empleado' })
     condition = `WHERE i.fkDocumentoPersona = ${cc}`
-    columns = [...columnsGeneral]
+    // columns = [...columnsGeneral]
   } else {
     // Entitdad
     if (!nitEntidad) return res.status(400).json({ message: 'Debe enviar el nit de la entidad' })
     condition = `WHERE i.fkEntidad = ${nitEntidad}`
-    columns = [...columnsGeneral]
+    // columns = [...columnsGeneral]
   }
 
   const script = scriptReportExcel(base, condition)
 
-  generateExcel(script, columns, reportType, base)
+  generateExcel(script, columnsGeneral, reportType, base)
   res.json({ message: 'Archivo generado' })
 }
 

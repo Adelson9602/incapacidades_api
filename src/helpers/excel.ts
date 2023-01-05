@@ -163,4 +163,6 @@ export const generateExcel = async (script: string, columns: ColumnsExcel[], typ
   if (!fs.existsSync(dirFile)) fs.mkdirSync(dirFile, { recursive: true })
 
   await sheet.workbook.xlsx.writeFile(`${dirFile}/${typeFile}.xlsx`)
+
+  return `${typeFile}.xlsx`
 }

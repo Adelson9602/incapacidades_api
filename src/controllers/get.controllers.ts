@@ -497,7 +497,7 @@ export const getPermissionsByRol = async (req: Request, res: Response) => {
   }
 }
 
-export const getExcelReport = (req: Request, res: Response) => {
+export const getExcelReport = async (req: Request, res: Response) => {
   const base:string = req.headers.base as string
   const { reportType } = req.params
   const { nit, cc, nitEntidad } = req.query
@@ -559,8 +559,10 @@ export const getExcelReport = (req: Request, res: Response) => {
 
   const script = scriptReportExcel(base, condition)
 
-  generateExcel(script, columnsGeneral, reportType, base)
-  res.json({ message: 'Archivo generado' })
+  const file = await generateExcel(script, columnsGeneral, reportType, base)
+  // const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl
+  const urlFile = `${req.protocol}://${req.get('host')}/files/reports_excel/${file}`
+  res.json({ message: 'Archivo generado', urlFile })
 }
 
 export const getDocumentsAttachByDisabilityType = async (req: Request, res: Response) => {

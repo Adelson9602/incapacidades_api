@@ -550,7 +550,7 @@ export const getExcelReport = async (req: Request, res: Response) => {
     if (!cc) return res.status(400).json({ message: 'Debe enviar el documento del empleado' })
     condition = `WHERE i.fkDocumentoPersona = ${cc}`
     // columns = [...columnsGeneral]
-  } else {
+  } else if (reportType === 'entidad') {
     // Entitdad
     if (!nitEntidad) return res.status(400).json({ message: 'Debe enviar el nit de la entidad' })
     condition = `WHERE i.fkEntidad = ${nitEntidad}`

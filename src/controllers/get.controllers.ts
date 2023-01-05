@@ -55,7 +55,7 @@ import {
   DisabilityWithCie,
   Permisos,
   Item,
-  ColumnsExcel,
+  // ColumnsExcel,
   DocumentsAttach
 } from 'interfaces/general.models'
 import { generateExcel } from '../helpers/excel'
@@ -539,46 +539,9 @@ export const getExcelReport = (req: Request, res: Response) => {
     // { header: 'SENTENCIA', key: '' }
 
   ]
-  const columns: ColumnsExcel[] = []
+  // const columns: ColumnsExcel[] = []
   let condition = ''
-  if (reportType === 'empleador') {
-    // columns = [
-    //   { header: 'NUMERO DE CONSECUTIVO', key: 'idIncapacidad' },
-    //   { header: 'FECHA RADICADO', key: 'fechaRegistro' },
-    //   // { header: 'Empresa', key: 'phone' },
-    //   // { header: 'Centro de costos', key: 'genre' },
-    //   // { header: 'Nombre centro de costos', key: 'function' },
-    //   { header: 'EMPRESA CLIENTE', key: 'razonSocial' },
-    //   { header: 'CARGO', key: 'nombreCargo' },
-    //   { header: 'TIPO DOCUMENTO', key: 'nombreTipoDocumento' },
-    //   { header: 'DOCUMENTO', key: 'fkDocumentoPersona' },
-    //   { header: 'NOMBRE Y APELLIDO', key: 'nombresApellidos' },
-    //   { header: 'CIUDAD', key: 'ciudad' },
-    //   { header: 'IBC', key: 'ibc' },
-    //   { header: 'ENTIDAD (EPS /ARL)', key: 'razonSocialEntidad' },
-    //   { header: 'NÚMERO INCAPACIDAD', key: 'numeroIncapacidad' },
-    //   { header: 'TIPO INCAPACIDAD', key: 'nombreTipoIncapacidad' },
-    //   { header: 'DIAGNÓSTICO', key: 'cie' },
-    //   { header: 'NOMBRE DE DIAGNÓSTICO', key: 'nombreCodigoCie' },
-    //   { header: 'FECHA INICIAL', key: 'fechaInicio' },
-    //   { header: 'FECHA FINAL', key: 'fechaFin' },
-    //   { header: 'DÍAS INCAPACIDAD', key: 'totalDias' },
-    //   { header: 'CASO 180', key: 'caso180' },
-    //   // { header: 'Días a recobrar', key: 'diasARecobrar' },
-    //   // { header: 'Días pagados', key: 'diasARecobrar' },
-    //   { header: 'PRORROGA', key: 'prorroga' },
-    //   { header: 'VALOR INCAPACIDAD', key: 'valor' },
-    //   { header: 'ESTADO', key: 'nombreEstadoIncapacidad' }
-    //   // { header: 'Valor reconocido', key: 'valorReconocido' },
-    //   // { header: 'Fecha pago', key: 'fechaPago' },
-    //   // { header: 'Causal rechazo', key: 'Causal rechazo' },
-    //   // { header: 'Descripción rechazo', key: 'descripcionRechazo' },
-    //   // { header: 'Observaciones', key: 'observaciones' },
-    //   // { header: 'Fecha proceso derecho de peticion', key: 'fechaDerechoPeticion' },
-    //   // { header: 'Fecha proceso derecho de tutela', key: 'fechaDerechoTutela' },
-    //   // { header: 'Sentencia', key: 'sentencia' }
-    // ]
-  } else if (reportType === 'cliente') {
+  if (reportType === 'cliente') {
     // columns = [columnsGeneral]
     if (!nit) return res.status(400).json({ message: 'Debe enviar el nit de la empresa' })
 

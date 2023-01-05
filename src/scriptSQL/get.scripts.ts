@@ -292,4 +292,8 @@ export const scriptDocumentsAttachByDisabilityType = (base: string, idTipoIncapa
   return `SELECT documento FROM ${base}.documentosAdjuntar ta INNER JOIN ${base}.tiposDocumentosAdjuntar tda ON tda.idDocumentoAdjuntar = ta.idTipoDocumentoAdjuntar WHERE ta.idTipoIncapacidad = ${idTipoIncapacidad};`
 }
 
+export const scriptConsolidaEstadoIncapacidades = (base: string):string => {
+  return `SELECT t.nombreEstadoIncapacidad, t.cantidad, ((t.cantidad * t.valor) + t.tempVal) AS valorEstimado  FROM (SELECT ei.nombreEstadoIncapacidad, COUNT(*) AS cantidad, AVG(i.valor) AS valor, IFNULL((SELECT SUM(hi.valor) FROM ${base}.historialIncapacidad hi INNER JOIN ${base}.incapacidades ic ON ic.idIncapacidad = hi.fkIdIncapacidad WHERE ic.fkIdEstadoIncapacidad = i.fkIdEstadoIncapacidad), 0) AS tempVal FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad ei ON ei.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY ei.idEstadoIncapacidad) AS t;`
+}
+
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

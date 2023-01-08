@@ -167,7 +167,7 @@ export const scriptStateDisability = (base: string):string => {
   return `SELECT * FROM ${base}.estadoIncapacidad;`
 }
 
-export const scriptDisability = (base: string):string => {
+export const scriptDisability = (base: string, condition?: string):string => {
   return `SELECT
     i.radicado,
     i.fkIdTipoIncapacidad,
@@ -206,6 +206,7 @@ export const scriptDisability = (base: string):string => {
     INNER JOIN ${base}.grupoCie gc ON gc.idGrupoCie = ci.idGrupo
     LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
     LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit
+  ${condition}
   ORDER BY radicado DESC`
 }
 

@@ -10,7 +10,7 @@ import {
   scriptRols,
   scriptStateDisability,
   scriptUsers,
-  scriptHistoryDisability,
+  scriptDisabilityExtension,
   scriptPositions,
   scriptCompanyType,
   scriptCompanyByType,
@@ -40,7 +40,7 @@ import {
   Department,
   City,
   DepartemtAndCity,
-  HistoryDisability,
+  DisabilityExtension,
   InformationCompany,
   Company,
   Persona,
@@ -300,7 +300,7 @@ export const getDisabilityById = async (req: Request, res: Response) => {
 
     const files = await executeQuery<Adjunto[]>(scriptGetfilesByDisability(base, +radicado))
 
-    const history = await executeQuery<HistoryDisability[]>(scriptHistoryDisability(base, radicado))
+    const history = await executeQuery<DisabilityExtension[]>(scriptDisabilityExtension(base, radicado))
 
     res.status(200).json({ disability: { ...disability, ...disabilityCie }, employe, files, history })
   } catch (error: any) {
@@ -332,8 +332,8 @@ export const getHistoryDisabilities = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
-    const query = scriptHistoryDisability(base, idRadicado)
-    const result = await executeQuery<HistoryDisability[]>(query)
+    const query = scriptDisabilityExtension(base, idRadicado)
+    const result = await executeQuery<DisabilityExtension[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
@@ -349,7 +349,7 @@ export const getPosition = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptPositions(base)
-    const result = await executeQuery<HistoryDisability[]>(query)
+    const result = await executeQuery<DisabilityExtension[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
@@ -365,7 +365,7 @@ export const getCompanyType = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { idRadicado } = req.params
     const query = scriptCompanyType(base)
-    const result = await executeQuery<HistoryDisability[]>(query)
+    const result = await executeQuery<DisabilityExtension[]>(query)
     res.status(200).json(idRadicado ? result[0] : result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({

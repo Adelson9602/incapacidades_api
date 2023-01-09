@@ -107,8 +107,8 @@ const validateDisability = [
   }
 ]
 
-const validateHistoryDisability = [
-  check('idHistorialIncapacidad').exists(),
+const validateDisabilityExtension = [
+  check('idProrrogaIncapacidad').exists(),
   check('fkIdIncapacidad').exists().not().isEmpty(),
   check('fechaIniciaProrroga').exists().not().isEmpty(),
   check('fechaFinProrroga').exists().not().isEmpty(),
@@ -116,6 +116,15 @@ const validateHistoryDisability = [
   check('valor').exists().not().isEmpty(),
   check('usuario').exists().not().isEmpty(),
   check('observacion').exists().not().isEmpty().toUpperCase(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
+const validateHistoricalDisability = [
+  check('idHistorico').exists(),
+  check('usuario').exists().not().isEmpty(),
+  check('observaciones').exists().not().isEmpty().toUpperCase(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)
   }
@@ -179,8 +188,9 @@ export {
   validatePerson,
   validatePosition,
   validateDisability,
-  validateHistoryDisability,
+  validateDisabilityExtension,
   validateRol,
+  validateHistoricalDisability,
   validateTypeDocument,
   validateDeparment,
   validateCity

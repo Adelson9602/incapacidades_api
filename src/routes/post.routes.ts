@@ -12,11 +12,12 @@ import {
   validatePosition,
   validateDisabilityState,
   validateDisability,
-  validateHistoryDisability,
+  validateDisabilityExtension,
   validateRol,
   validateTypeDocument,
   validateDeparment,
-  validateCity
+  validateCity,
+  validateHistoricalDisability
 } from '../validators/post.validators'
 
 const router = Router()
@@ -39,7 +40,9 @@ router.post('/disability_state', verifyToken, validateDisabilityState, postCtrol
 
 router.post('/disability', verifyToken, validateDisability, postCtroler.createInability)
 
-router.post('/history_disability', verifyToken, validateHistoryDisability, postCtroler.createHistoryInability)
+router.post('/disability_extension', verifyToken, validateDisabilityExtension, postCtroler.createDisabilityExtension)
+
+router.post('/history_disability', verifyToken, validateHistoricalDisability, postCtroler.createHistoryInability)
 
 router.post('/rol', verifyToken, validateRol, postCtroler.createRol)
 

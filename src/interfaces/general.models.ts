@@ -228,8 +228,8 @@ export interface InformationDisability {
   files: Adjunto[]
 }
 
-export interface HistoryDisability {
-  idHistorialIncapacidad: number | null;
+export interface DisabilityExtension {
+  idProrrogaIncapacidad: number | null;
   fkIdIncapacidad: number;
   fechaIniciaProrroga: string;
   fechaFinProrroga: string;
@@ -238,6 +238,12 @@ export interface HistoryDisability {
   valor: number;
   usuario: number;
   observacion: string;
+}
+
+export interface HistoricalDisability {
+  idHistorico?: number | null,
+  usuario: number,
+  observaciones: string
 }
 
 export interface ResponseDashboard {
@@ -308,7 +314,7 @@ export interface DetailDisability {
   disability: DisabilityWithCie,
   employe: InformationEmploye,
   files: Adjunto[]
-  history?: HistoryDisability[]
+  history?: DisabilityExtension[]
 }
 
 export interface Actions {

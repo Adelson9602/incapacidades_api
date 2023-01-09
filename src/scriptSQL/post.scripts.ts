@@ -11,13 +11,14 @@ import {
   TypeCompany,
   Disability,
   DisabilityState,
-  HistoryDisability,
+  DisabilityExtension,
   Rol,
   DocumentType,
   Department,
   City,
   Adjunto,
-  Permisos
+  Permisos,
+  HistoricalDisability
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -80,8 +81,8 @@ export const scriptSaveFile = (data: Adjunto, base: string):string => {
   return `INSERT INTO ${base}.files(idFiles, fkRadicado, url, nombreArchivo, fkIdTipoFile) VALUES (${data.idFiles}, '${data.fkRadicado}', '${data.url}', '${data.nombreArchivo}', ${data.fkIdTipoFile}) ON DUPLICATE KEY UPDATE fkRadicado ='${data.fkRadicado}', url ='${data.url}', nombreArchivo ='${data.nombreArchivo}', fkIdTipoFile =${data.fkIdTipoFile};`
 }
 
-export const scriptHistoryInability = (data: HistoryDisability, base: string):string => {
-  return `INSERT INTO ${base}.historialIncapacidad(idHistorialIncapacidad, fkIdIncapacidad, fechaIniciaProrroga, fechaFinProrroga, diasProrroga, ibc, valor, usuario, observacion) VALUES (${data.idHistorialIncapacidad}, '${data.fkIdIncapacidad}',  '${data.fechaIniciaProrroga}', '${data.fechaFinProrroga}', ${data.diasProrroga}, ${data.ibc}, ${data.valor}, ${data.usuario}, '${data.observacion}') ON DUPLICATE KEY UPDATE fkIdIncapacidad ='${data.fkIdIncapacidad}', fechaIniciaProrroga ='${data.fechaIniciaProrroga}', fechaFinProrroga ='${data.fechaFinProrroga}', diasProrroga =${data.diasProrroga}, ibc =${data.ibc}, valor =${data.valor}, usuario =${data.usuario}, observacion ='${data.observacion}';`
+export const scriptDisabilityExtension = (data: DisabilityExtension, base: string):string => {
+  return `INSERT INTO ${base}.prorrogasIncapacidad(idProrrogaIncapacidad, fkIdIncapacidad, fechaIniciaProrroga, fechaFinProrroga, diasProrroga, ibc, valor, usuario, observacion) VALUES (${data.idProrrogaIncapacidad}, '${data.fkIdIncapacidad}',  '${data.fechaIniciaProrroga}', '${data.fechaFinProrroga}', ${data.diasProrroga}, ${data.ibc}, ${data.valor}, ${data.usuario}, '${data.observacion}') ON DUPLICATE KEY UPDATE fkIdIncapacidad ='${data.fkIdIncapacidad}', fechaIniciaProrroga ='${data.fechaIniciaProrroga}', fechaFinProrroga ='${data.fechaFinProrroga}', diasProrroga =${data.diasProrroga}, ibc =${data.ibc}, valor =${data.valor}, usuario =${data.usuario}, observacion ='${data.observacion}';`
 }
 
 export const scriptCreateRol = (data: Rol, base: string):string => {
@@ -98,4 +99,9 @@ export const scriptCreateDepartment = (data: Department, base: string):string =>
 
 export const scriptCreateCity = (data: City, base: string):string => {
   return `INSERT INTO ${base}.ciudad(idCiudad, nombreCiudad, fkIdDepartamento) VALUES (${data.idCiudad}, '${data.nombreCiudad}', ${data.fkIdDepartamento}) ON DUPLICATE KEY UPDATE nombreCiudad = '${data.nombreCiudad}', fkIdDepartamento = ${data.fkIdDepartamento};`
+}
+
+export const scriptHistoricalDisability = (base: string, data: HistoricalDisability):string => {
+  return `INSERT INTO ${base}.historicoIncapacidad (idHistorico, usuario, observaciones) VALUES (${data.idHistorico}, ${data.usuario}, '${data.observaciones}');
+  `
 }

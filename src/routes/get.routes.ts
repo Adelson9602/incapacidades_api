@@ -32,9 +32,9 @@ router.get('/disability_delete', verifyToken, getCtroler.getDisabilitiesDelete)
 
 router.get('/disability_by_id/:radicado', verifyToken, getCtroler.getDisabilityById)
 
-router.get('/history_disability', verifyToken, getCtroler.getHistoryDisabilities)
+router.get('/disability_extension', verifyToken, getCtroler.getHistoryDisabilities)
 
-router.get('/history_disability/:idRadicado', verifyToken, getCtroler.getHistoryDisabilities)
+router.get('/disability_extension/:idRadicado', verifyToken, getCtroler.getHistoryDisabilities)
 
 router.get('/position', verifyToken, getCtroler.getPosition)
 

@@ -13,14 +13,15 @@ import {
   scriptCreateTpCp,
   scriptDisabilityType,
   scriptEmploye,
-  scriptHistoryInability,
+  scriptDisabilityExtension,
   scriptCreateInability,
   scriptCreateRol,
   scriptCreateDocumentType,
   scriptCreateDepartment,
   scriptCreateCity,
   scriptSaveFile,
-  scriptCreatePermissionsUser
+  scriptCreatePermissionsUser,
+  scriptHistoricalDisability
 } from '../scriptSQL/post.scripts'
 import {
   scriptValidatePosition,
@@ -288,11 +289,28 @@ export const createInability = async (req: Request, res: Response) => {
   }
 }
 
+export const createDisabilityExtension = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const query = scriptDisabilityExtension(req.body, base)
+    const result = await executeQuery<ResultSql>(query)
+    res.status(200).json({
+      message: 'Prorroga de incapacidad registrada',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
 export const createHistoryInability = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    const query = scriptHistoryInability(req.body, base)
-    const result = await executeQuery<TypeCompany[]>(query)
+    const query = scriptHistoricalDisability(base, req.body)
+    const result = await executeQuery<ResultSql>(query)
     res.status(200).json({
       message: 'Historial de incapacidad registrada',
       data: result

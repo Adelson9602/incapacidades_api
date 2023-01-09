@@ -250,7 +250,7 @@ export const getStateDisability = async (req: Request, res: Response) => {
 export const getDisabilities = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
-    const query = scriptDisability(base, 'WHERE i.fkIdEstadoIncapacidad != 9')
+    const query = scriptDisability(base, 'WHERE i.fkIdEstadoIncapacidad != 7')
     const result = await executeQuery<InformationDisability[]>(query)
     const promisesFile: Promise<InformationDisability>[] = []
     result.forEach(e => {
@@ -273,7 +273,7 @@ export const getDisabilities = async (req: Request, res: Response) => {
 export const getDisabilitiesDelete = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
-    const query = scriptDisability(base, 'WHERE i.fkIdEstadoIncapacidad = 9')
+    const query = scriptDisability(base, 'WHERE i.fkIdEstadoIncapacidad = 7')
     const result = await executeQuery<InformationDisability[]>(query)
     res.status(200).json(result)
   } catch (error: any) {

@@ -140,33 +140,6 @@ export const scriptReportExcel = (base: string, condition?: string) => {
   ORDER BY radicado DESC`
 }
 
-// Obtiene los empleados que se cargaran en el select al crear una incapacidad
-export const scriptEmployeSelect = (base: string):string => {
-  return `SELECT p.documentoPersona, p.primerNombre, p.segundoNombre, p.primerApellido, p.segundoApellido FROM ${base}.personas p INNER JOIN ${base}.empleados e ON e.fkDocumentoPersona = p.documentoPersona ORDER BY p.primerApellido ASC;`
-}
-
-// Aplica para obtener todas los departamentos y un departamento por id
-export const scriptGetDepartments = (base: string, idDepartamento?: number):string => {
-  return `SELECT * FROM ${base}.departamento ${idDepartamento ? `WHERE idDepartamento = ${idDepartamento}` : ''};`
-}
-
-// Aplica para obtener todas las ciudades y las ciudades por departamento
-export const scriptGetCities = (base: string, fkIdDepartamento?: number):string => {
-  return `SELECT * FROM ${base}.ciudad ${fkIdDepartamento ? `WHERE fkIdDepartamento = ${fkIdDepartamento}` : ''};`
-}
-
-export const validateStateDisability = (base: string, nombreEstadoIncapacidad: string):string => {
-  return `SELECT * FROM ${base}.estadoIncapacidad WHERE nombreEstadoIncapacidad = '${nombreEstadoIncapacidad}';`
-}
-
-export const scriptStateDisabilityById = (base: string, idEstado: number):string => {
-  return `SELECT * FROM ${base}.estadoIncapacidad WHERE idEstadoIncapacidad = '${idEstado}';`
-}
-
-export const scriptStateDisability = (base: string):string => {
-  return `SELECT * FROM ${base}.estadoIncapacidad;`
-}
-
 export const scriptDisability = (base: string, condition?: string):string => {
   return `SELECT
     i.radicado,
@@ -208,6 +181,33 @@ export const scriptDisability = (base: string, condition?: string):string => {
     LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit
   ${condition}
   ORDER BY radicado DESC`
+}
+
+// Obtiene los empleados que se cargaran en el select al crear una incapacidad
+export const scriptEmployeSelect = (base: string):string => {
+  return `SELECT p.documentoPersona, p.primerNombre, p.segundoNombre, p.primerApellido, p.segundoApellido FROM ${base}.personas p INNER JOIN ${base}.empleados e ON e.fkDocumentoPersona = p.documentoPersona ORDER BY p.primerApellido ASC;`
+}
+
+// Aplica para obtener todas los departamentos y un departamento por id
+export const scriptGetDepartments = (base: string, idDepartamento?: number):string => {
+  return `SELECT * FROM ${base}.departamento ${idDepartamento ? `WHERE idDepartamento = ${idDepartamento}` : ''};`
+}
+
+// Aplica para obtener todas las ciudades y las ciudades por departamento
+export const scriptGetCities = (base: string, fkIdDepartamento?: number):string => {
+  return `SELECT * FROM ${base}.ciudad ${fkIdDepartamento ? `WHERE fkIdDepartamento = ${fkIdDepartamento}` : ''};`
+}
+
+export const validateStateDisability = (base: string, nombreEstadoIncapacidad: string):string => {
+  return `SELECT * FROM ${base}.estadoIncapacidad WHERE nombreEstadoIncapacidad = '${nombreEstadoIncapacidad}';`
+}
+
+export const scriptStateDisabilityById = (base: string, idEstado: number):string => {
+  return `SELECT * FROM ${base}.estadoIncapacidad WHERE idEstadoIncapacidad = '${idEstado}';`
+}
+
+export const scriptStateDisability = (base: string):string => {
+  return `SELECT * FROM ${base}.estadoIncapacidad;`
 }
 
 export const scriptHistoryDisability = (base: string, fkIdIncapacidad?: string):string => {

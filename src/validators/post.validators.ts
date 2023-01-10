@@ -124,6 +124,7 @@ const validateDisabilityExtension = [
 const validateHistoricalDisability = [
   check('idHistorico').exists(),
   check('usuario').exists().not().isEmpty(),
+  check('idIncapacidad').exists().not().isEmpty(),
   check('observaciones').exists().not().isEmpty().toUpperCase(),
   (req: Request, res: Response, next: NextFunction) => {
     validateResult(req, res, next)

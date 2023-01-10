@@ -191,6 +191,7 @@ export interface Adjunto {
 }
 
 export interface InformationDisability {
+  idIncapacidad?: number;
   radicado: string;
   fkIdTipoIncapacidad: number;
   fkNitEmpresa: string;
@@ -242,6 +243,7 @@ export interface DisabilityExtension {
 
 export interface HistoricalDisability {
   idHistorico?: number | null,
+  idIncapacidad: number;
   usuario: number,
   observaciones: string
 }

@@ -142,6 +142,7 @@ export const scriptReportExcel = (base: string, condition?: string) => {
 
 export const scriptDisability = (base: string, condition?: string):string => {
   return `SELECT
+    i.idIncapacidad,
     i.radicado,
     i.fkIdTipoIncapacidad,
     i.fkNitEmpresa,

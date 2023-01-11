@@ -29,7 +29,8 @@ import {
   scriptGetPermissionsUser,
   scriptGetPermissionsRol,
   scriptReportExcel,
-  scriptDocumentsAttachByDisabilityType
+  scriptDocumentsAttachByDisabilityType,
+  scriptHistoricalDisability
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -56,7 +57,8 @@ import {
   Permisos,
   Item,
   // ColumnsExcel,
-  DocumentsAttach
+  DocumentsAttach,
+  HistoricalDisability
 } from 'interfaces/general.models'
 import { generateExcel } from '../helpers/excel'
 
@@ -288,8 +290,8 @@ export const getDisabilitiesDelete = async (req: Request, res: Response) => {
 export const getDisabilityById = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
-    const { radicado } = req.params
-    const query = scriptGetDisabilityById(base, +radicado)
+    const { idIncapacidad } = req.params
+    const query = scriptGetDisabilityById(base, +idIncapacidad)
     const [disability] = await executeQuery<DisabilityWithCie[]>(query)
 
     const queryCie = scriptCieDsibality(base, disability.cie)
@@ -298,11 +300,13 @@ export const getDisabilityById = async (req: Request, res: Response) => {
     const queryPerson = scriptGetPerson(base, disability.fkDocumentoPersona)
     const [employe] = await executeQuery<InformationEmploye[]>(queryPerson)
 
-    const files = await executeQuery<Adjunto[]>(scriptGetfilesByDisability(base, +radicado))
+    const files = await executeQuery<Adjunto[]>(scriptGetfilesByDisability(base, +idIncapacidad))
 
-    const history = await executeQuery<DisabilityExtension[]>(scriptDisabilityExtension(base, radicado))
+    const prorroga = await executeQuery<DisabilityExtension[]>(scriptDisabilityExtension(base, idIncapacidad))
 
-    res.status(200).json({ disability: { ...disability, ...disabilityCie }, employe, files, history })
+    const history = await executeQuery<HistoricalDisability[]>(scriptHistoricalDisability(base, +idIncapacidad))
+
+    res.status(200).json({ disability: { ...disability, ...disabilityCie }, employe, files, prorroga, history })
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: 'Error al consultar incapacidad',
@@ -586,6 +590,19 @@ export const getDocumentsAttachByDisabilityType = async (req: Request, res: Resp
     const { disabilityType } = req.params
     const query = scriptDocumentsAttachByDisabilityType(base, +disabilityType)
     const result = await executeQuery<DocumentsAttach[]>(query)
+
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+export const getHistoricalDisability = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { idIncapacidad } = req.params
+    const query = scriptHistoricalDisability(base, +idIncapacidad)
+    const result = await executeQuery<HistoricalDisability[]>(query)
 
     res.status(200).json(result)
   } catch (error: any) {

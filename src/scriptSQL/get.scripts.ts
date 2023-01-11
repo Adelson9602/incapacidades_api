@@ -260,7 +260,7 @@ export const scriptGetSalary = (base: string):string => {
   return `SELECT salarioMinimo FROM ${base}.settings;`
 }
 
-export const scriptGetDisabilityById = (base: string, radicado: number):string => {
+export const scriptGetDisabilityById = (base: string, idIncapacidad: number):string => {
   return `SELECT 
     i.*,
     e.nombreEstadoIncapacidad,
@@ -275,7 +275,7 @@ export const scriptGetDisabilityById = (base: string, radicado: number):string =
     INNER JOIN ${base}.empresa em ON em.nit = i.fkEntidad
     INNER JOIN ${base}.empresa emp ON emp.nit = i.fkNitEmpresa
     INNER JOIN ${base}.tipoEmpresa te ON te.idTipoEmpresa = em.fkIdTipoEmpresa
-  WHERE radicado = ${radicado};`
+  WHERE idIncapacidad = ${idIncapacidad};`
 }
 
 export const scriptGetfilesByDisability = (base: string, idIncapacidad: number):string => {
@@ -300,6 +300,10 @@ export const scriptConsolidaEstadoIncapacidades = (base: string):string => {
 
 export const scriptConsolidadoPorDiagnostico = (base: string) :string => {
   return `SELECT t.descripcion, t.cantidad, t.dias , ((t.cantidad * t.valor) + t.tempVal) AS valorEstimado  FROM (SELECT c.descripcion, c.codigo, COUNT(*) AS cantidad, AVG(i.valor) AS valor, (SELECT (SELECT SUM(hi.diasProrroga) FROM ${base}.prorrogasIncapacidad hi INNER JOIN ${base}.incapacidades ic ON ic.idIncapacidad = hi.fkIdIncapacidad WHERE ic.cie = i.cie) + (SELECT SUM(ic.totalDias) FROM ${base}.incapacidades ic WHERE ic.cie = i.cie)) AS dias, IFNULL((SELECT SUM(hi.valor) FROM ${base}.prorrogasIncapacidad hi INNER JOIN ${base}.incapacidades ic ON ic.idIncapacidad = hi.fkIdIncapacidad WHERE ic.cie = i.cie), 0) AS tempVal FROM ${base}.incapacidades i INNER JOIN ${base}.codigoCie c ON c.codigo = i.cie GROUP BY c.codigo) AS t`
+}
+
+export const scriptHistoricalDisability = (base: string, idIncapacidad: number) :string => {
+  return `SELECT h.*, CONCAT(p.primerNombre, ' ', p.primerApellido) AS nombres FROM ${base}.historicoIncapacidad h JOIN ${base}.personas p ON p.documentoPersona = h.usuario WHERE h.idIncapacidad = ${idIncapacidad}`
 }
 
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

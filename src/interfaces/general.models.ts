@@ -245,6 +245,7 @@ export interface HistoricalDisability {
   idHistorico?: number | null,
   idIncapacidad: number;
   usuario: number,
+  nombres: string;
   observaciones: string
 }
 

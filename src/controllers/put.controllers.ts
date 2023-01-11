@@ -7,8 +7,8 @@ import { scriptUpdateStatusDisability } from '../scriptSQL/put.scripts'
 export const putChangeStateDisability = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    const { estado, numeroIncapacidad } = req.body
-    const query = scriptUpdateStatusDisability(base, numeroIncapacidad, estado)
+    const { estado, idIncapacidad } = req.body
+    const query = scriptUpdateStatusDisability(base, idIncapacidad, estado)
     const result = await executeQuery<ResultSql>(query)
     res.status(200).json({
       message: 'Estado actualizdo',

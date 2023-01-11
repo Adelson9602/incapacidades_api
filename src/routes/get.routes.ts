@@ -30,7 +30,7 @@ router.get('/disability', verifyToken, getCtroler.getDisabilities)
 
 router.get('/disability_delete', verifyToken, getCtroler.getDisabilitiesDelete)
 
-router.get('/disability_by_id/:radicado', verifyToken, getCtroler.getDisabilityById)
+router.get('/disability_by_id/:idIncapacidad', verifyToken, getCtroler.getDisabilityById)
 
 router.get('/disability_extension', verifyToken, getCtroler.getHistoryDisabilities)
 

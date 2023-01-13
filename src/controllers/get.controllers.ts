@@ -54,9 +54,6 @@ import {
   Adjunto,
   InfoCie,
   DisabilityWithCie,
-  Permisos,
-  Item,
-  // ColumnsExcel,
   DocumentsAttach,
   HistoricalDisability
 } from 'interfaces/general.models'
@@ -480,13 +477,10 @@ export const getPermissions = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { usuario } = req.params
     const query = scriptGetPermissionsUser(base, +usuario)
-    const [result] = await executeQuery<Permisos[]>(query)
+    const [result] = await executeQuery<any>(query)
 
     if (result) {
-      const tempPerrmissions: Item[] = JSON.parse(`${result.permisos}`)
-      result.permisos = tempPerrmissions
-
-      res.status(200).json(result)
+      res.status(200).json(JSON.parse(result.permisos))
     } else {
       res.status(404).json({
         message: 'No hemos encontrado permisos asociados a este usuario'
@@ -502,10 +496,10 @@ export const getPermissionsByRol = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { rol } = req.params
     const query = scriptGetPermissionsRol(base, +rol)
-    const [result] = await executeQuery<Permisos[]>(query)
+    const [result] = await executeQuery<any>(query)
 
     if (result) {
-      res.status(200).json(JSON.parse(`${result.permisos}`))
+      res.status(200).json(JSON.parse(result.permisos))
     } else {
       res.status(404).json({
         message: 'No hemos encontrado permisos asociados a este rol'

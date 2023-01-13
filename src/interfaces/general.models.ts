@@ -16,15 +16,6 @@ export interface Persona {
   fkIdTipoDocumento: number;
 }
 
-export interface User extends Persona {
-  usuario: number;
-  password: string;
-  fkIdRol: number;
-  estadoUsuario: number;
-  fotoPerfil: string;
-  avatar: string;
-}
-
 export interface TypeCompany {
   idTipoEmpresa?: number;
   nombreTipoEmpresa: string;
@@ -340,9 +331,19 @@ export interface Modulo {
 }
 
 export interface Permisos {
-  idPermisosUsuario?: number;
-  permisos: Item[];
+  modulo: string;
+  selected?: boolean;
+  items: Item[];
+}
+
+export interface User extends Persona {
   usuario: number;
+  password: string;
+  fkIdRol: number;
+  estadoUsuario: number;
+  fotoPerfil: string;
+  avatar: string;
+  permisos: Permisos
 }
 
 export interface ColumnsExcel {

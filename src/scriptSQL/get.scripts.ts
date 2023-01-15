@@ -306,4 +306,8 @@ export const scriptHistoricalDisability = (base: string, idIncapacidad: number) 
   return `SELECT h.*, CONCAT(p.primerNombre, ' ', p.primerApellido) AS nombres FROM ${base}.historicoIncapacidad h JOIN ${base}.personas p ON p.documentoPersona = h.usuario WHERE h.idIncapacidad = ${idIncapacidad}`
 }
 
+export const scriptCountDaysDisability = (base: string) :string => {
+  return `SELECT idIncapacidad, IFNULL(totalDias + (SELECT SUM(diasProrroga) FROM ${base}.prorrogasIncapacidad WHERE fkIdIncapacidad = i.idIncapacidad), i.totalDias) AS totalDias FROM ${base}.incapacidades i;`
+}
+
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

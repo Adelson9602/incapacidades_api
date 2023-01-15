@@ -62,4 +62,6 @@ router.get('/excel_report/:reportType', getCtroler.getExcelReport)
 
 router.get('/documents_attach_by_disability_type/:disabilityType', verifyToken, getCtroler.getDocumentsAttachByDisabilityType)
 
+router.get('/notificatios', verifyToken, getCtroler.getNotifications)
+
 module.exports = router

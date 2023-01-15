@@ -30,7 +30,8 @@ import {
   scriptGetPermissionsRol,
   scriptReportExcel,
   scriptDocumentsAttachByDisabilityType,
-  scriptHistoricalDisability
+  scriptHistoricalDisability,
+  scriptCountDaysDisability
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -597,6 +598,22 @@ export const getHistoricalDisability = async (req: Request, res: Response) => {
     const { idIncapacidad } = req.params
     const query = scriptHistoricalDisability(base, +idIncapacidad)
     const result = await executeQuery<HistoricalDisability[]>(query)
+
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+export const getNotifications = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptCountDaysDisability(base)
+    const result = await executeQuery<any[]>(query)
+
+    result.forEach(disability => {
+      console.log(disability)
+    })
 
     res.status(200).json(result)
   } catch (error: any) {

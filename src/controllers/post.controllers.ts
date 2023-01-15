@@ -21,24 +21,39 @@ import {
   scriptCreateCity,
   scriptSaveFile,
   scriptCreatePermissionsUser,
-  scriptHistoricalDisability
+  scriptHistoricalDisability,
+  scriptSubscribeNotification
 } from '../scriptSQL/post.scripts'
 import {
   scriptValidatePosition,
   scriptValidateTpCompany
 } from '../scriptSQL/get.scripts'
-import { TypeCompany, ResultSql, Adjunto } from 'interfaces/general.models'
+import { TypeCompany, ResultSql, Adjunto, UserToNotification } from 'interfaces/general.models'
 
 export const insertUser = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    const script = scriptCreatePerson(req.body, base)
+    const body: any = req.body
+    const { permisos } = req.body
+    const script = scriptCreatePerson(body, base)
     const result = await executeQuery<ResultSql>(script).then(() => {
-      const query = sccriptCreateUser(req.body, base)
+      const query = sccriptCreateUser(body, base)
       return executeQuery<ResultSql>(query)
     }).then((result) => {
-      const query = scriptCreatePermissionsUser(req.body.permisos, base)
+      const query = scriptCreatePermissionsUser(permisos, base)
       return executeQuery<ResultSql>(query)
+    }).then((result) => {
+      if (body.isNotified || body.idUsuarioNotificar) {
+        const data: UserToNotification = {
+          email: `${body.email}`,
+          usuario: body.usuario || 0,
+          estado: body.isNotified
+        }
+        const query = scriptSubscribeNotification(data, base)
+        return executeQuery<ResultSql>(query)
+      } else {
+        return result
+      }
     })
     res.json({
       message: 'Datos guardados',

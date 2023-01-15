@@ -15,7 +15,7 @@ export const scriptCompanyType = (base: string):string => {
 }
 
 export const scriptUsers = (base: string):string => {
-  return `SELECT *, fotoPerfil AS avatar, pe.permisos FROM ${base}.usuarios u JOIN ${base}.personas p ON p.documentoPersona = u.usuario JOIN ${base}.permisosUsuario pe ON pe.usuario = u.usuario;`
+  return `SELECT *, fotoPerfil AS avatar, pe.permisos, un.email, un.idUsuarioNotificar, un.estado AS isNotified FROM ${base}.usuarios u JOIN ${base}.personas p ON p.documentoPersona = u.usuario JOIN ${base}.permisosUsuario pe ON pe.usuario = u.usuario LEFT JOIN ${base}.usuariosNotificar un ON un.usuario = u.usuario;`
 }
 
 export const scriptValidateTpCompany = (nombreTipoEmpresa: string, base: string):string => {

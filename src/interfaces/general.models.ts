@@ -336,6 +336,19 @@ export interface Permisos {
   items: Item[];
 }
 
+export interface PermisosUser {
+  idPermisosUsuario: number;
+  permisos: string;
+  usuario: number;
+}
+
+export interface UserToNotification {
+  idUsuarioNotificar?: number;
+  usuario: number;
+  email: string;
+  estado: boolean;
+}
+
 export interface User extends Persona {
   usuario: number;
   password: string;

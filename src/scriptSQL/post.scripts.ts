@@ -17,8 +17,9 @@ import {
   Department,
   City,
   Adjunto,
-  Permisos,
-  HistoricalDisability
+  PermisosUser,
+  HistoricalDisability,
+  UserToNotification
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -30,9 +31,12 @@ export const sccriptCreateUser = (data: UserData, base: string):string => {
   return `INSERT INTO ${base}.usuarios(usuario, password, fkIdRol, estadoUsuario, fotoPerfil) VALUES (${data.usuario},'${encryptedAES(data.password)}',${data.fkIdRol},${data.estadoUsuario},'${data.fotoPerfil}') ON DUPLICATE KEY UPDATE usuario = ${data.usuario}, password = '${encryptedAES(data.password)}', fkIdRol = ${data.fkIdRol}, estadoUsuario = ${data.estadoUsuario}, fotoPerfil = '${data.fotoPerfil}';`
 }
 
-export const scriptCreatePermissionsUser = (data: Permisos, base: string): string => {
-  return `INSERT INTO ${base}.permisosUsuario (permisos, usuario) VALUES ('${data.permisos}', ${data.usuario}) ON DUPLICATE KEY UPDATE permisos ='${data.permisos}';
-  `
+export const scriptCreatePermissionsUser = (data: PermisosUser, base: string): string => {
+  return `INSERT INTO ${base}.permisosUsuario (permisos, usuario) VALUES ('${data.permisos}', ${data.usuario}) ON DUPLICATE KEY UPDATE permisos ='${data.permisos}';  `
+}
+
+export const scriptSubscribeNotification = (data: UserToNotification, base: string): string => {
+  return `INSERT INTO ${base}.usuariosNotificar (usuario, email, estado) VALUES (${data.usuario}, '${data.email}', ${data.estado}) ON DUPLICATE KEY UPDATE email ='${data.email}', estado = ${data.estado};  `
 }
 
 // Script para crear tipos de empresa

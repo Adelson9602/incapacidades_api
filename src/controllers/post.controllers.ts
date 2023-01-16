@@ -22,9 +22,12 @@ import {
   scriptSaveFile,
   scriptCreatePermissionsUser,
   scriptHistoricalDisability,
-  scriptSubscribeNotification
+  scriptSubscribeNotification,
+  scriptCreateNotification
 } from '../scriptSQL/post.scripts'
 import {
+  scriptCountDaysDisability,
+  scriptUsersToNotify,
   scriptValidatePosition,
   scriptValidateTpCompany
 } from '../scriptSQL/get.scripts'
@@ -369,5 +372,46 @@ export const createDucumentType = async (req: Request, res: Response) => {
       message: error.message,
       completeError: error
     }), 400)
+  }
+}
+
+export const createNotifications = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptCountDaysDisability(base)
+    const result = await executeQuery<any[]>(query)
+    const usersToNotify = await executeQuery<any[]>(scriptUsersToNotify(base))
+    const promesas: any[] = []
+    const notifications: any[] = []
+    result.forEach(disability => {
+      // Notificaciones para accidente de transito y enfermedad general
+      if (disability.fkIdTipoIncapacidad === 1 || disability.fkIdTipoIncapacidad === 2) {
+        if (disability.totalDias === 70) {
+          notifications.push({ ...disability, message: `La incapacidad con ID ${disability.idIncapacidad}, está a 10 días de cumpletar 80 días` })
+        } else if (disability.totalDias === 165) {
+          notifications.push({ ...disability, message: `La incapacidad con ID ${disability.idIncapacidad}, está a 15 días de cumpletar 180 días` })
+        }
+      }
+    })
+
+    notifications.forEach(n => {
+      usersToNotify.forEach(u => {
+        const data = {
+          idNotificacion: null,
+          usuario: u.usuario,
+          mensaje: n.message,
+          estado: 1
+        }
+        const queryNotification = scriptCreateNotification(base, data)
+        console.log(queryNotification)
+        promesas.push(executeQuery<any[]>(queryNotification))
+      })
+    })
+
+    const resultN = await Promise.all(promesas).then(res => res).catch(e => e)
+
+    res.status(200).json(resultN)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
   }
 }

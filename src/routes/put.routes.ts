@@ -5,4 +5,6 @@ const router = Router()
 
 router.put('/update_state_disability/', verifyToken, putCtroler.putChangeStateDisability)
 
+router.put('/update_state_notification/', verifyToken, putCtroler.putUpdateStateNotification)
+
 module.exports = router

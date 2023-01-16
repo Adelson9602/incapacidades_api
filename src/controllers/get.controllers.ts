@@ -31,7 +31,7 @@ import {
   scriptReportExcel,
   scriptDocumentsAttachByDisabilityType,
   scriptHistoricalDisability,
-  scriptCountDaysDisability
+  scriptGetToNotifies
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -608,12 +608,9 @@ export const getHistoricalDisability = async (req: Request, res: Response) => {
 export const getNotifications = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
-    const query = scriptCountDaysDisability(base)
+    const { usuario } = req.params
+    const query = scriptGetToNotifies(base, usuario)
     const result = await executeQuery<any[]>(query)
-
-    result.forEach(disability => {
-      console.log(disability)
-    })
 
     res.status(200).json(result)
   } catch (error: any) {

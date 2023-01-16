@@ -106,6 +106,9 @@ export const scriptCreateCity = (data: City, base: string):string => {
 }
 
 export const scriptHistoricalDisability = (base: string, data: HistoricalDisability):string => {
-  return `INSERT INTO ${base}.historicoIncapacidad (idHistorico, idIncapacidad, usuario, observaciones) VALUES (${data.idHistorico}, ${data.idIncapacidad}, ${data.usuario}, '${data.observaciones}');
-  `
+  return `INSERT INTO ${base}.historicoIncapacidad (idHistorico, idIncapacidad, usuario, observaciones) VALUES (${data.idHistorico}, ${data.idIncapacidad}, ${data.usuario}, '${data.observaciones}');`
+}
+
+export const scriptCreateNotification = (base: string, data: any):string => {
+  return `INSERT INTO ${base}.notificaciones (idNotificacion, usuario, mensaje, estado) VALUES (${data.idNotificacion}, ${data.usuario}, '${data.mensaje}', ${data.estado}) ON DUPLICATE KEY UPDATE estado=${data.estado};`
 }

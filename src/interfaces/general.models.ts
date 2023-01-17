@@ -63,6 +63,7 @@ export interface Employe {
   fkDocumentoPersona: number;
   fkIdCargo: number;
   fkIdEmpresa: number;
+  fechaInicioLaboral: string;
 }
 
 export interface ResultSql {

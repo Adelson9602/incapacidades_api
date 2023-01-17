@@ -184,7 +184,7 @@ export const createCity = async (req: Request, res: Response) => {
 export const createPerson = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    const { documentoPersona, fkIdCargo, fkIdContacto, fkIdEmpresa } = req.body
+    const { documentoPersona, fkIdCargo, fkIdContacto, fkIdEmpresa, fechaInicioLaboral } = req.body
 
     const script = scriptCreatePerson(req.body, base)
     const scriptContact = scriptCreateContacto(req.body, base)
@@ -208,7 +208,8 @@ export const createPerson = async (req: Request, res: Response) => {
           return executeQuery<ResultSql>(scriptEmploye({
             fkDocumentoPersona: documentoPersona,
             fkIdCargo,
-            fkIdEmpresa
+            fkIdEmpresa,
+            fechaInicioLaboral
           }, base))
         }
         return responseContact

@@ -32,6 +32,7 @@ import {
   scriptValidateTpCompany
 } from '../scriptSQL/get.scripts'
 import { TypeCompany, ResultSql, Adjunto, UserToNotification } from 'interfaces/general.models'
+import { Notifications } from '../interfaces/general.models'
 
 export const insertUser = async (req: Request, res: Response) => {
   try {
@@ -202,9 +203,31 @@ export const createPerson = async (req: Request, res: Response) => {
           return response
         }
       })
-      .then((responseContact) => {
+      .then(async (responseContact) => {
         // Se ejecuta si es empleado
         if (req.body.isEmploye) {
+          const firstDate = new Date(fechaInicioLaboral)
+          const secondDate = new Date(Date.now())
+          const timeDifference = Math.abs(secondDate.getTime() - firstDate.getTime())
+          const differentDays = Math.ceil(timeDifference / (1000 * 3600 * 24))
+          if (differentDays <= 30) {
+            const usersToNotify = await executeQuery<any[]>(scriptUsersToNotify(base))
+            const promesas: any[] = []
+            usersToNotify.forEach(u => {
+              const data: Notifications = {
+                idNotificacion: null,
+                usuario: u.usuario,
+                mensaje: `Empleado identificado con CC. ${documentoPersona}, está en periodo de carencia`,
+                estado: 1
+              }
+              const queryNotification = scriptCreateNotification(base, data)
+              console.log(queryNotification)
+              promesas.push(executeQuery<any[]>(queryNotification))
+            })
+
+            await Promise.all(promesas).then(res => res).catch(e => e)
+          }
+
           return executeQuery<ResultSql>(scriptEmploye({
             fkDocumentoPersona: documentoPersona,
             fkIdCargo,
@@ -397,7 +420,7 @@ export const createNotifications = async (req: Request, res: Response) => {
 
     notifications.forEach(n => {
       usersToNotify.forEach(u => {
-        const data = {
+        const data: Notifications = {
           idNotificacion: null,
           usuario: u.usuario,
           mensaje: n.message,

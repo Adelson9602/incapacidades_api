@@ -311,7 +311,7 @@ export const scriptCountDaysDisability = (base: string) :string => {
 }
 
 export const scriptUsersToNotify = (base: string) :string => {
-  return `SELECT * FROM ${base}.usuariosNotificar;`
+  return `SELECT * FROM ${base}.usuariosNotificar WHERE estado = 1;`
 }
 
 export const scriptGetToNotifies = (base: string, usuario: string) :string => {

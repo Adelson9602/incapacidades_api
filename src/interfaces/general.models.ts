@@ -77,6 +77,13 @@ export interface ResultSql {
   changedRows: number
 }
 
+export interface Notifications {
+  idNotificacion?: number | null;
+  usuario: number;
+  mensaje: string;
+  estado: number;
+}
+
 export interface Rol {
   idRol: number;
   nombreRol: string;

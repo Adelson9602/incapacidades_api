@@ -19,7 +19,8 @@ import {
   Adjunto,
   PermisosUser,
   HistoricalDisability,
-  UserToNotification
+  UserToNotification,
+  Notifications
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -109,6 +110,6 @@ export const scriptHistoricalDisability = (base: string, data: HistoricalDisabil
   return `INSERT INTO ${base}.historicoIncapacidad (idHistorico, idIncapacidad, usuario, observaciones) VALUES (${data.idHistorico}, ${data.idIncapacidad}, ${data.usuario}, '${data.observaciones}');`
 }
 
-export const scriptCreateNotification = (base: string, data: any):string => {
+export const scriptCreateNotification = (base: string, data: Notifications):string => {
   return `INSERT INTO ${base}.notificaciones (idNotificacion, usuario, mensaje, estado) VALUES (${data.idNotificacion}, ${data.usuario}, '${data.mensaje}', ${data.estado}) ON DUPLICATE KEY UPDATE estado=${data.estado};`
 }

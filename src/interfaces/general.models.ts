@@ -85,6 +85,20 @@ export interface rowsTable {
   value: string
 }
 
+export interface DisabilityTable {
+  idIncapacidad: number;
+  fkIdTipoIncapacidad: number;
+  nombreTipoIncapacidad: string;
+  fechaRegistro: string;
+  fkNitEmpresa: number;
+  razonSocial: string;
+  documentoPersona: string;
+  nombres: string;
+  totalDias: number;
+}
+
+export type TypeTable = 'carencia' | 'incapacidad'
+
 export interface Notifications {
   idNotificacion?: number | null;
   usuario: number;

@@ -235,17 +235,6 @@ export const createPerson = async (req: Request, res: Response) => {
               promesas.push(executeQuery<any[]>(queryNotification))
             })
 
-            // const columns: columnsTable[] = [
-            //   { label: 'ID INCAPACIDAD' },
-            //   { label: 'TIPO INCAPACIDAD' },
-            //   { label: 'NIT EMPRESA' },
-            //   { label: 'NOMBRE EMPRESA' },
-            //   { label: 'DOCUMENTO EMPLEADO' },
-            //   { label: 'NOMBRES EMPLEADOS' },
-            //   { label: 'TOTAL DÍAS' },
-            //   { label: 'FECHA REGISTRO' }
-            // ]
-
             const columns: columnsTable[] = [
               { label: 'DOCUMENTO EMPLEADO' },
               { label: 'NOMBRES EMPLEADO' },
@@ -444,16 +433,34 @@ export const createNotifications = async (req: Request, res: Response) => {
     const usersToNotify = await executeQuery<any[]>(scriptUsersToNotify(base))
     const promesas: any[] = []
     const notifications: any[] = []
+    const rows: rowsTable[] = []
+    const columns: columnsTable[] = [
+      { label: 'ID INCAPACIDAD' },
+      { label: 'TIPO INCAPACIDAD' },
+      { label: 'NIT EMPRESA' },
+      { label: 'NOMBRE EMPRESA' },
+      { label: 'DOCUMENTO EMPLEADO' },
+      { label: 'NOMBRES EMPLEADOS' },
+      { label: 'TOTAL DÍAS' }
+    ]
+    let mensaje = ''
+
     result.forEach(disability => {
       // Notificaciones para accidente de transito y enfermedad general
       if (disability.fkIdTipoIncapacidad === 1 || disability.fkIdTipoIncapacidad === 2) {
         if (disability.totalDias === 70) {
+          mensaje = 'Hemos encontrado incapacidades que están a 10 días de completar 80 días'
           notifications.push({ ...disability, message: `La incapacidad con ID ${disability.idIncapacidad}, está a 10 días de cumpletar 80 días` })
+          rows.push(disability)
         } else if (disability.totalDias === 165) {
+          mensaje = 'Hemos encontrado incapacidades que están a 15 días de completar 180 días'
           notifications.push({ ...disability, message: `La incapacidad con ID ${disability.idIncapacidad}, está a 15 días de cumpletar 180 días` })
+          rows.push(disability)
         }
       }
     })
+
+    const emails: string[] = []
 
     notifications.forEach(n => {
       usersToNotify.forEach(u => {
@@ -463,11 +470,13 @@ export const createNotifications = async (req: Request, res: Response) => {
           mensaje: n.message,
           estado: 1
         }
+        emails.push(u.email)
         const queryNotification = scriptCreateNotification(base, data)
-        console.log(queryNotification)
         promesas.push(executeQuery<any[]>(queryNotification))
       })
     })
+
+    sendEmail('incapacidad', emails, mensaje, rows, columns)
 
     const resultN = await Promise.all(promesas).then(res => res).catch(e => e)
 

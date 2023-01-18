@@ -52,4 +52,6 @@ router.post('/department', verifyToken, validateDeparment, postCtroler.createDep
 
 router.post('/city', verifyToken, validateCity, postCtroler.createCity)
 
+router.post('/notification', verifyToken, postCtroler.createNotifications)
+
 module.exports = router

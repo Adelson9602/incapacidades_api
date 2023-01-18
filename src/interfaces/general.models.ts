@@ -77,6 +77,14 @@ export interface ResultSql {
   changedRows: number
 }
 
+export interface columnsTable {
+  label: string
+}
+
+export interface rowsTable {
+  value: string
+}
+
 export interface Notifications {
   idNotificacion?: number | null;
   usuario: number;

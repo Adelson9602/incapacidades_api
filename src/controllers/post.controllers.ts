@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import httpError from '../helpers/handleError'
-import { executeQuery } from '../functions/global.functions'
+import { executeQuery, sendEmail } from '../functions/global.functions'
 import {
   sccriptCreateUser,
   scriptContacCompany,
@@ -32,7 +32,7 @@ import {
   scriptValidateTpCompany
 } from '../scriptSQL/get.scripts'
 import { TypeCompany, ResultSql, Adjunto, UserToNotification } from 'interfaces/general.models'
-import { Notifications } from '../interfaces/general.models'
+import { Notifications, columnsTable, rowsTable } from '../interfaces/general.models'
 
 export const insertUser = async (req: Request, res: Response) => {
   try {
@@ -185,7 +185,15 @@ export const createCity = async (req: Request, res: Response) => {
 export const createPerson = async (req: Request, res: Response) => {
   try {
     const base: string = req.headers.base as string
-    const { documentoPersona, fkIdCargo, fkIdContacto, fkIdEmpresa, fechaInicioLaboral } = req.body
+    const {
+      documentoPersona,
+      fkIdCargo,
+      fkIdContacto,
+      fkIdEmpresa,
+      fechaInicioLaboral,
+      primerNombre,
+      primerApellido
+    } = req.body
 
     const script = scriptCreatePerson(req.body, base)
     const scriptContact = scriptCreateContacto(req.body, base)
@@ -213,17 +221,46 @@ export const createPerson = async (req: Request, res: Response) => {
           if (differentDays <= 30) {
             const usersToNotify = await executeQuery<any[]>(scriptUsersToNotify(base))
             const promesas: any[] = []
+            const mails: string[] = []
             usersToNotify.forEach(u => {
+              const mensaje = `Empleado identificado con CC. ${documentoPersona}, está en periodo de carencia`
               const data: Notifications = {
                 idNotificacion: null,
                 usuario: u.usuario,
-                mensaje: `Empleado identificado con CC. ${documentoPersona}, está en periodo de carencia`,
+                mensaje,
                 estado: 1
               }
+              mails.push(u.email)
               const queryNotification = scriptCreateNotification(base, data)
-              console.log(queryNotification)
               promesas.push(executeQuery<any[]>(queryNotification))
             })
+
+            // const columns: columnsTable[] = [
+            //   { label: 'ID INCAPACIDAD' },
+            //   { label: 'TIPO INCAPACIDAD' },
+            //   { label: 'NIT EMPRESA' },
+            //   { label: 'NOMBRE EMPRESA' },
+            //   { label: 'DOCUMENTO EMPLEADO' },
+            //   { label: 'NOMBRES EMPLEADOS' },
+            //   { label: 'TOTAL DÍAS' },
+            //   { label: 'FECHA REGISTRO' }
+            // ]
+
+            const columns: columnsTable[] = [
+              { label: 'DOCUMENTO EMPLEADO' },
+              { label: 'NOMBRES EMPLEADO' },
+              { label: 'FECHA DE INGRESO LABORAL' }
+            ]
+
+            const rows: rowsTable[] = [
+              { value: documentoPersona },
+              { value: `${primerNombre} ${primerApellido}` },
+              { value: `${fechaInicioLaboral}` }
+            ]
+
+            const mensaje = 'Hemos encontrado que hay empleados que estan en periodo de carencia'
+
+            sendEmail('carencia', mails, mensaje, rows, columns)
 
             await Promise.all(promesas).then(res => res).catch(e => e)
           }

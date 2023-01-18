@@ -307,7 +307,20 @@ export const scriptHistoricalDisability = (base: string, idIncapacidad: number) 
 }
 
 export const scriptCountDaysDisability = (base: string) :string => {
-  return `SELECT idIncapacidad, fkIdTipoIncapacidad, IFNULL(totalDias + (SELECT SUM(diasProrroga) FROM ${base}.prorrogasIncapacidad WHERE fkIdIncapacidad = i.idIncapacidad), i.totalDias) AS totalDias FROM ${base}.incapacidades i;`
+  return `SELECT 
+    idIncapacidad,
+    fkIdTipoIncapacidad,
+    t.nombreTipoIncapacidad,
+    fechaRegistro,
+    fkNitEmpresa,
+    e.razonSocial,
+    p.documentoPersona,
+    CONCAT(p.primerNombre, p.primerApellido) AS nombres,
+    IFNULL(totalDias + (SELECT SUM(diasProrroga) FROM ${base}.prorrogasIncapacidad WHERE fkIdIncapacidad = i.idIncapacidad), i.totalDias) AS totalDias
+  FROM ${base}.incapacidades i
+  JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
+  JOIN ${base}.personas p ON p.documentoPersona = i.fkDocumentoPersona
+  JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad`
 }
 
 export const scriptUsersToNotify = (base: string) :string => {

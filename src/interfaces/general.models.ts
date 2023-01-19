@@ -95,6 +95,7 @@ export interface DisabilityTable {
   documentoPersona: string;
   nombres: string;
   totalDias: number;
+  observaciones: string;
 }
 
 export type TypeTable = 'carencia' | 'incapacidad'

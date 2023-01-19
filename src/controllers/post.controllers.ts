@@ -441,22 +441,29 @@ export const createNotifications = async (req: Request, res: Response) => {
       { label: 'NOMBRE EMPRESA' },
       { label: 'DOCUMENTO EMPLEADO' },
       { label: 'NOMBRES EMPLEADOS' },
-      { label: 'TOTAL DÍAS' }
+      { label: 'TOTAL DÍAS' },
+      { label: 'OBSERVACIONES' }
     ]
-    let mensaje = ''
+    const mensaje = 'Revisa las novedades con las siguientes incapacidades'
 
     result.forEach(disability => {
       // Notificaciones para accidente de transito y enfermedad general
       if (disability.fkIdTipoIncapacidad === 1 || disability.fkIdTipoIncapacidad === 2) {
         if (disability.totalDias === 70) {
-          mensaje = 'Hemos encontrado incapacidades que están a 10 días de completar 80 días'
+          disability.observaciones = 'Incapacidad a 10 días de completar 80 días'
           notifications.push({ ...disability, message: `La incapacidad con ID ${disability.idIncapacidad}, está a 10 días de cumpletar 80 días` })
           rows.push(disability)
         } else if (disability.totalDias === 165) {
-          mensaje = 'Hemos encontrado incapacidades que están a 15 días de completar 180 días'
+          disability.observaciones = 'Incapacidad a 15 días de completar 180 días'
           notifications.push({ ...disability, message: `La incapacidad con ID ${disability.idIncapacidad}, está a 15 días de cumpletar 180 días` })
           rows.push(disability)
         }
+      }
+      // Licencia de maternidad
+      if (disability.fkIdTipoIncapacidad === 3) {
+        disability.observaciones = 'Incapacidad no debe exceder los 30 días.'
+        notifications.push({ ...disability, message: `La incapacidad con ID ${disability.idIncapacidad}, no pueden exceder los 30 días` })
+        rows.push(disability)
       }
     })
 

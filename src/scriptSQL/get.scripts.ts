@@ -315,12 +315,14 @@ export const scriptCountDaysDisability = (base: string) :string => {
     fkNitEmpresa,
     e.razonSocial,
     p.documentoPersona,
+    fkIdEstadoIncapacidad,
     CONCAT(p.primerNombre, p.primerApellido) AS nombres,
     IFNULL(totalDias + (SELECT SUM(diasProrroga) FROM ${base}.prorrogasIncapacidad WHERE fkIdIncapacidad = i.idIncapacidad), i.totalDias) AS totalDias
   FROM ${base}.incapacidades i
-  JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
-  JOIN ${base}.personas p ON p.documentoPersona = i.fkDocumentoPersona
-  JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad`
+    JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
+    JOIN ${base}.personas p ON p.documentoPersona = i.fkDocumentoPersona
+    JOIN ${base}.tipoIncapacidad t ON t.idTipoIncapacidad = i.fkIdTipoIncapacidad
+  WHERE fkIdEstadoIncapacidad != 4 AND fkIdEstadoIncapacidad != 7`
 }
 
 export const scriptUsersToNotify = (base: string) :string => {

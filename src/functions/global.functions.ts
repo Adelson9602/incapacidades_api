@@ -39,7 +39,8 @@ export const sendEmail = (type: TypeTable, mails: string[], message?: any, rows?
   }
 
   // Configuraciones del remitente del email y contenido del email
-  mails.forEach(e => {
+  const uniqueMails = [...new Set(mails)]
+  uniqueMails.forEach(e => {
     const mailOptions = {
       from: 'Multiempleo <noreply@multiempleos.com.co>', // Remitente del mensaje
       to: e, // Receptor del mensaje
@@ -79,9 +80,7 @@ const genreTableEmail = (rows: rowsTable[], columns: columnsTable[], type: TypeT
           return `<th style="border: 1px solid #333;"> ${col.label} </th>`
         }).join('')}
       </thead>
-      <tr style="border: 1px solid #333;">
-        ${generateRowsTable(rows, type)}
-      </tr>
+      ${generateRowsTable(rows, type)}
     </table>
   `
   return message
@@ -98,6 +97,7 @@ const generateRowsTable = (rows: rowsTable[] | DisabilityTable[], type: 'carenci
     const rowsIncapacidad = [...rows] as DisabilityTable[]
     return rowsIncapacidad.map(row => {
       return `
+      <tr style="border: 1px solid #333;">
         <td style="border: 1px solid #333;">${row.idIncapacidad}</td>
         <td style="border: 1px solid #333;">${row.nombreTipoIncapacidad}</td>
         <td style="border: 1px solid #333;">${row.fkNitEmpresa}</td>
@@ -105,6 +105,8 @@ const generateRowsTable = (rows: rowsTable[] | DisabilityTable[], type: 'carenci
         <td style="border: 1px solid #333;">${row.documentoPersona}</td>
         <td style="border: 1px solid #333;">${row.nombres}</td>
         <td style="border: 1px solid #333;">${row.totalDias}</td>
+        <td style="border: 1px solid #333;">${row.observaciones}</td>
+      </tr>
       `
     }).join('')
   }

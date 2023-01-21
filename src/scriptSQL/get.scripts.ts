@@ -170,7 +170,8 @@ export const scriptDisability = (base: string, condition?: string):string => {
     e2.nit AS nitEntidad,
     e2.razonSocial AS razonSocialEntidad,
     td.nombreTipoDocumento,
-    ei.nombreEstadoIncapacidad
+    ei.nombreEstadoIncapacidad,
+    i.fechaRegistro
   FROM ${base}.incapacidades i
     INNER JOIN ${base}.personas p ON p.documentoPersona = i.fkDocumentoPersona
     INNER JOIN ${base}.tipoDocumento td ON p.fkIdTipoDocumento = td.idTipoDocumento

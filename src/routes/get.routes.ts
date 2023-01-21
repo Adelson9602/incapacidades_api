@@ -28,6 +28,8 @@ router.get('/disability_state', verifyToken, getCtroler.getStateDisability)
 
 router.get('/disability', verifyToken, getCtroler.getDisabilities)
 
+router.get('/disability_by_range', verifyToken, getCtroler.getDisabilitiesByRangeDate)
+
 router.get('/disability_delete', verifyToken, getCtroler.getDisabilitiesDelete)
 
 router.get('/disability_by_id/:idIncapacidad', verifyToken, getCtroler.getDisabilityById)

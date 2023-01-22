@@ -300,6 +300,31 @@ export const getDisabilitiesByRangeDate = async (req: Request, res: Response) =>
   }
 }
 
+export const getDisabilitiesByDocument = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { document } = req.params
+    const condition = `WHERE i.fkDocumentoPersona = "${document}"`
+    const query = scriptDisability(base, condition)
+    const result = await executeQuery<InformationDisability[]>(query)
+    const promisesFile: Promise<InformationDisability>[] = []
+    result.forEach(e => {
+      promisesFile.push(executeQuery<Adjunto[]>(scriptGetfilesByDisability(base, +e.radicado)).then(f => {
+        e.files = f
+        return e
+      }))
+    })
+    const resultFinal = await Promise.all(promisesFile)
+    res.status(200).json(resultFinal)
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al consultar las incapacidad',
+      error: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
 export const getDisabilitiesDelete = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string

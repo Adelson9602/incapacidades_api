@@ -147,6 +147,15 @@ const validateTypeDocument = [
   }
 ]
 
+const validateDocumentToAttach = [
+  check('idTipoIncapacidad').exists().not().isEmpty(),
+  check('documents.*.idTipoDocumentoAdjuntar').exists().not().isEmpty(),
+  check('documents.*.idTipoIncapacidad').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
 const validatePerson = [
   check('documentoPersona').exists().not().isEmpty(),
   check('fkIdTipoDocumento').exists().not().isEmpty(),
@@ -194,5 +203,6 @@ export {
   validateHistoricalDisability,
   validateTypeDocument,
   validateDeparment,
-  validateCity
+  validateCity,
+  validateDocumentToAttach
 }

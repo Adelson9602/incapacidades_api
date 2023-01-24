@@ -292,7 +292,7 @@ export const scriptGetPermissionsRol = (base: string, rol: number):string => {
 }
 
 export const scriptDocumentsAttachByDisabilityType = (base: string, idTipoIncapacidad: number):string => {
-  return `SELECT documento FROM ${base}.documentosAdjuntar ta INNER JOIN ${base}.tiposDocumentosAdjuntar tda ON tda.idDocumentoAdjuntar = ta.idTipoDocumentoAdjuntar WHERE ta.idTipoIncapacidad = ${idTipoIncapacidad};`
+  return `SELECT documento, idTipoDocumentoAdjuntar FROM ${base}.documentosAdjuntar ta INNER JOIN ${base}.tiposDocumentosAdjuntar tda ON tda.idDocumentoAdjuntar = ta.idTipoDocumentoAdjuntar WHERE ta.idTipoIncapacidad = ${idTipoIncapacidad};`
 }
 
 export const scriptConsolidaEstadoIncapacidades = (base: string):string => {

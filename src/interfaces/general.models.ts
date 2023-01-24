@@ -395,8 +395,14 @@ export interface ColumnsExcel {
   key: string;
 }
 
-export interface DocumentsAttach {
+export interface TypeDocumentsAttach {
   documento: string;
   idDocumentoAdjuntar?: number | null;
   descripcion?: string;
+}
+
+export interface DocumentsAttach {
+  idDocumentoAdjuntar: number | null;
+  idTipoDocumentoAdjuntar: number;
+  idTipoIncapacidad: number;
 }

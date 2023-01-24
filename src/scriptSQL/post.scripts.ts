@@ -21,6 +21,7 @@ import {
   HistoricalDisability,
   UserToNotification,
   Notifications,
+  TypeDocumentsAttach,
   DocumentsAttach
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
@@ -115,6 +116,10 @@ export const scriptCreateNotification = (base: string, data: Notifications):stri
   return `INSERT INTO ${base}.notificaciones (idNotificacion, usuario, mensaje, estado) VALUES (${data.idNotificacion}, ${data.usuario}, '${data.mensaje}', ${data.estado}) ON DUPLICATE KEY UPDATE estado=${data.estado};`
 }
 
-export const scriptCreateTypeOfDocumentToAttach = (base: string, data: DocumentsAttach):string => {
+export const scriptCreateTypeOfDocumentToAttach = (base: string, data: TypeDocumentsAttach):string => {
   return `INSERT INTO ${base}.tiposDocumentosAdjuntar (idDocumentoAdjuntar, documento, descripcion) VALUES (${data.idDocumentoAdjuntar}, '${data.documento}', '${data.descripcion}') ON DUPLICATE KEY UPDATE documento = '${data.documento}', descripcion = '${data.descripcion}';`
+}
+
+export const scriptCreateDocumentToAttach = (base: string, data: DocumentsAttach):string => {
+  return `INSERT INTO ${base}.documentosAdjuntar (idTipoDocumentoAdjuntar, idTipoIncapacidad) VALUES ( ${data.idTipoDocumentoAdjuntar}, ${data.idTipoIncapacidad}) ON DUPLICATE KEY UPDATE idTipoDocumentoAdjuntar = ${data.idTipoDocumentoAdjuntar}, idTipoIncapacidad = ${data.idTipoIncapacidad};`
 }

@@ -24,7 +24,8 @@ import {
   scriptHistoricalDisability,
   scriptSubscribeNotification,
   scriptCreateNotification,
-  scriptCreateTypeOfDocumentToAttach
+  scriptCreateTypeOfDocumentToAttach,
+  scriptCreateDocumentToAttach
 } from '../scriptSQL/post.scripts'
 import {
   scriptCountDaysDisability,
@@ -32,6 +33,7 @@ import {
   scriptValidatePosition,
   scriptValidateTpCompany
 } from '../scriptSQL/get.scripts'
+import { scriptDeleteDocumentsToAttach } from '../scriptSQL/delete.scripts'
 import { TypeCompany, ResultSql, Adjunto, UserToNotification } from 'interfaces/general.models'
 import { Notifications, columnsTable, rowsTable } from '../interfaces/general.models'
 
@@ -499,6 +501,38 @@ export const createTypeOfDocumentToAttach = async (req: Request, res: Response) 
     const base: string = req.headers.base as string
     const query = scriptCreateTypeOfDocumentToAttach(base, req.body)
     const result = await executeQuery<ResultSql>(query)
+    res.status(200).json({
+      message: 'Datos guardados',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createDocumentToAttach = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const { documents, idTipoIncapacidad } = req.body
+
+    const queryDelete = scriptDeleteDocumentsToAttach(base, idTipoIncapacidad)
+
+    const query = documents.map((e: any) => {
+      return scriptCreateDocumentToAttach(base, e)
+    }).join('')
+
+    console.log(query)
+
+    await executeQuery<ResultSql>(queryDelete)
+
+    const result = await executeQuery<ResultSql>(query)
+
+    // res.status(200).json({
+    //   message: 'Datos guardados'
+    // })
     res.status(200).json({
       message: 'Datos guardados',
       data: result

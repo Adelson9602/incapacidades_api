@@ -54,4 +54,6 @@ router.post('/city', verifyToken, validateCity, postCtroler.createCity)
 
 router.post('/notification', verifyToken, postCtroler.createNotifications)
 
+router.post('/type_of_document_to_attach', verifyToken, postCtroler.createTypeOfDocumentToAttach)
+
 module.exports = router

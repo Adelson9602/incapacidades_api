@@ -68,4 +68,6 @@ router.get('/documents_attach_by_disability_type/:disabilityType', verifyToken, 
 
 router.get('/notifications/:usuario', verifyToken, getCtroler.getNotifications)
 
+router.get('/type_of_document_to_attach', verifyToken, getCtroler.getTypeOfDocumentToAttach)
+
 module.exports = router

@@ -31,7 +31,8 @@ import {
   scriptReportExcel,
   scriptDocumentsAttachByDisabilityType,
   scriptHistoricalDisability,
-  scriptGetToNotifies
+  scriptGetToNotifies,
+  scriptGetTypeOfDocumentToAttach
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -665,6 +666,18 @@ export const getNotifications = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { usuario } = req.params
     const query = scriptGetToNotifies(base, usuario)
+    const result = await executeQuery<any[]>(query)
+
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+export const getTypeOfDocumentToAttach = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptGetTypeOfDocumentToAttach(base)
     const result = await executeQuery<any[]>(query)
 
     res.status(200).json(result)

@@ -23,7 +23,8 @@ import {
   scriptCreatePermissionsUser,
   scriptHistoricalDisability,
   scriptSubscribeNotification,
-  scriptCreateNotification
+  scriptCreateNotification,
+  scriptCreateTypeOfDocumentToAttach
 } from '../scriptSQL/post.scripts'
 import {
   scriptCountDaysDisability,
@@ -490,5 +491,22 @@ export const createNotifications = async (req: Request, res: Response) => {
     res.status(200).json(resultN)
   } catch (error: any) {
     httpError(res, req, error, 400)
+  }
+}
+
+export const createTypeOfDocumentToAttach = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const query = scriptCreateTypeOfDocumentToAttach(base, req.body)
+    const result = await executeQuery<ResultSql>(query)
+    res.status(200).json({
+      message: 'Datos guardados',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
   }
 }

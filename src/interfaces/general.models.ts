@@ -397,4 +397,6 @@ export interface ColumnsExcel {
 
 export interface DocumentsAttach {
   documento: string;
+  idDocumentoAdjuntar?: number | null;
+  descripcion?: string;
 }

@@ -20,7 +20,8 @@ import {
   PermisosUser,
   HistoricalDisability,
   UserToNotification,
-  Notifications
+  Notifications,
+  DocumentsAttach
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -112,4 +113,8 @@ export const scriptHistoricalDisability = (base: string, data: HistoricalDisabil
 
 export const scriptCreateNotification = (base: string, data: Notifications):string => {
   return `INSERT INTO ${base}.notificaciones (idNotificacion, usuario, mensaje, estado) VALUES (${data.idNotificacion}, ${data.usuario}, '${data.mensaje}', ${data.estado}) ON DUPLICATE KEY UPDATE estado=${data.estado};`
+}
+
+export const scriptCreateTypeOfDocumentToAttach = (base: string, data: DocumentsAttach):string => {
+  return `INSERT INTO ${base}.tiposDocumentosAdjuntar (idDocumentoAdjuntar, documento, descripcion) VALUES (${data.idDocumentoAdjuntar}, '${data.documento}', '${data.descripcion}') ON DUPLICATE KEY UPDATE documento = '${data.documento}', descripcion = '${data.descripcion}';`
 }

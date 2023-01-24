@@ -334,4 +334,8 @@ export const scriptGetToNotifies = (base: string, usuario: string) :string => {
   return `SELECT * FROM ${base}.notificaciones WHERE usuario = ${usuario};`
 }
 
+export const scriptGetTypeOfDocumentToAttach = (base: string) :string => {
+  return `SELECT * FROM ${base}.tiposDocumentosAdjuntar;`
+}
+
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

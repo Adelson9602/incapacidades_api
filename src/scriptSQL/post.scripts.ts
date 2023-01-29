@@ -23,7 +23,8 @@ import {
   Notifications,
   TypeDocumentsAttach,
   DocumentsAttach,
-  Cliente
+  Cliente,
+  Settings
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -127,4 +128,8 @@ export const scriptCreateDocumentToAttach = (base: string, data: DocumentsAttach
 
 export const scriptCreateClient = (data: Cliente): string => {
   return `INSERT INTO empresas (idEmpresa, razonSocial, nitEmpresa, nombreSistema, urlLogo, nombreBase, estado, direccion, telefono, email) VALUES (${data.idEmpresa}, '${data.razonSocial}', '${data.nitEmpresa}', '${data.nombreSistema}', '${data.urlLogo}', '${data.nombreBase}', ${data.estado}, '${data.direccion}', '${data.telefono}', '${data.email}') ON DUPLICATE KEY UPDATE razonSocial = '${data.razonSocial}', nitEmpresa = '${data.nitEmpresa}', nombreSistema = '${data.nombreSistema}', urlLogo = '${data.urlLogo}', nombreBase = '${data.nombreBase}', estado = ${data.estado}, direccion = '${data.direccion}', telefono = '${data.telefono}', email = '${data.email}';`
+}
+
+export const scriptCreateSetting = (base: string, data: Settings): string => {
+  return `INSERT INTO ${base}.settings (idSetting, salarioMinimo) VALUES (${data.idSetting}, ${data.salarioMinimo}) ON DUPLICATE KEY UPDATE idSetting = ${data.idSetting}, salarioMinimo = ${data.salarioMinimo};`
 }

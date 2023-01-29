@@ -407,6 +407,11 @@ export interface DocumentsAttach {
   idTipoIncapacidad: number;
 }
 
+export interface Settings {
+  idSetting: number | null;
+  salarioMinimo: number;
+}
+
 export interface Cliente {
   idEmpresa: number | null;
   razonSocial: string;
@@ -418,4 +423,6 @@ export interface Cliente {
   direccion: string;
   telefono: string;
   email: string;
+  salarioMinimo: number;
+  idSetting: number;
 }

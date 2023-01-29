@@ -258,7 +258,7 @@ export const scriptLatestDisabilities = (base: string):string => {
 }
 
 export const scriptGetSalary = (base: string):string => {
-  return `SELECT salarioMinimo FROM ${base}.settings;`
+  return `SELECT * FROM ${base}.settings;`
 }
 
 export const scriptGetDisabilityById = (base: string, idIncapacidad: number):string => {

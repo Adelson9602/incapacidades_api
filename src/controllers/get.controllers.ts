@@ -58,7 +58,9 @@ import {
   InfoCie,
   DisabilityWithCie,
   DocumentsAttach,
-  HistoricalDisability
+  HistoricalDisability,
+  Cliente,
+  Settings
 } from 'interfaces/general.models'
 import { generateExcel } from '../helpers/excel'
 
@@ -375,7 +377,6 @@ export const getSalary = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const query = scriptGetSalary(base)
-    console.log(query)
     const result = await executeQuery<Salary[]>(query)
     res.status(200).json(result[0])
   } catch (error: any) {
@@ -691,8 +692,20 @@ export const getTypeOfDocumentToAttach = async (req: Request, res: Response) => 
 export const getClients = async (req: Request, res: Response) => {
   try {
     const query = scriptGetClients()
-    const result = await executeQuery<any[]>(query)
+    const empresa = await executeQuery<Cliente[]>(query)
 
+    const promises: Promise<any>[] = []
+
+    empresa.forEach((empresa) => {
+      const querySalary = scriptGetSalary(empresa.nombreBase)
+      promises.push(executeQuery<Settings[]>(querySalary).then(([res]) => {
+        empresa.salarioMinimo = res.salarioMinimo || 0
+        empresa.idSetting = res.idSetting || 0
+        return empresa
+      }))
+    })
+
+    const result = await Promise.all(promises)
     res.status(200).json(result)
   } catch (error: any) {
     httpError(res, req, error, 400)

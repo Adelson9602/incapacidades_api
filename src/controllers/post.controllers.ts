@@ -26,7 +26,8 @@ import {
   scriptCreateNotification,
   scriptCreateTypeOfDocumentToAttach,
   scriptCreateDocumentToAttach,
-  scriptCreateClient
+  scriptCreateClient,
+  scriptCreateSetting
 } from '../scriptSQL/post.scripts'
 import {
   scriptCountDaysDisability,
@@ -518,6 +519,10 @@ export const createClient = async (req: Request, res: Response) => {
   try {
     const query = scriptCreateClient(req.body)
     const result = await executeQuery<ResultSql>(query)
+
+    const querySetting = scriptCreateSetting(req.body.nombreBase, req.body)
+    await executeQuery<ResultSql>(querySetting)
+
     res.status(200).json({
       message: 'Datos guardados',
       data: result

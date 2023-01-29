@@ -32,7 +32,8 @@ import {
   scriptDocumentsAttachByDisabilityType,
   scriptHistoricalDisability,
   scriptGetToNotifies,
-  scriptGetTypeOfDocumentToAttach
+  scriptGetTypeOfDocumentToAttach,
+  scriptGetClients
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -678,6 +679,18 @@ export const getTypeOfDocumentToAttach = async (req: Request, res: Response) => 
   try {
     const base:string = req.headers.base as string
     const query = scriptGetTypeOfDocumentToAttach(base)
+    const result = await executeQuery<any[]>(query)
+
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+// Controllers para base cliente
+export const getClients = async (req: Request, res: Response) => {
+  try {
+    const query = scriptGetClients()
     const result = await executeQuery<any[]>(query)
 
     res.status(200).json(result)

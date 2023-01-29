@@ -156,6 +156,22 @@ const validateDocumentToAttach = [
   }
 ]
 
+const validateClient = [
+  check('idEmpresa').exists(),
+  check('razonSocial').exists().not().isEmpty(),
+  check('nitEmpresa').exists().not().isEmpty(),
+  check('nombreSistema').exists().not().isEmpty(),
+  check('urlLogo').exists().not().isEmpty(),
+  check('nombreBase').exists().not().isEmpty(),
+  check('estado').exists().not().isEmpty(),
+  check('direccion').exists().not().isEmpty(),
+  check('telefono').exists().not().isEmpty(),
+  check('email').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
 const validatePerson = [
   check('documentoPersona').exists().not().isEmpty(),
   check('fkIdTipoDocumento').exists().not().isEmpty(),
@@ -204,5 +220,6 @@ export {
   validateTypeDocument,
   validateDeparment,
   validateCity,
-  validateDocumentToAttach
+  validateDocumentToAttach,
+  validateClient
 }

@@ -70,4 +70,6 @@ router.get('/notifications/:usuario', verifyToken, getCtroler.getNotifications)
 
 router.get('/type_of_document_to_attach', verifyToken, getCtroler.getTypeOfDocumentToAttach)
 
+router.get('/clients', verifyToken, getCtroler.getClients)
+
 module.exports = router

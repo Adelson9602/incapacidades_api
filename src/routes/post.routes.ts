@@ -18,7 +18,8 @@ import {
   validateDeparment,
   validateCity,
   validateHistoricalDisability,
-  validateDocumentToAttach
+  validateDocumentToAttach,
+  validateClient
 } from '../validators/post.validators'
 
 const router = Router()
@@ -58,5 +59,7 @@ router.post('/notification', verifyToken, postCtroler.createNotifications)
 router.post('/type_of_document_to_attach', verifyToken, postCtroler.createTypeOfDocumentToAttach)
 
 router.post('/document_to_attach', verifyToken, validateDocumentToAttach, postCtroler.createDocumentToAttach)
+
+router.post('/create_client', verifyToken, validateClient, postCtroler.createClient)
 
 module.exports = router

@@ -406,3 +406,16 @@ export interface DocumentsAttach {
   idTipoDocumentoAdjuntar: number;
   idTipoIncapacidad: number;
 }
+
+export interface Cliente {
+  idEmpresa: number | null;
+  razonSocial: string;
+  nitEmpresa: string;
+  nombreSistema: string;
+  urlLogo: string;
+  nombreBase: string;
+  estado: number;
+  direccion: string;
+  telefono: string;
+  email: string;
+}

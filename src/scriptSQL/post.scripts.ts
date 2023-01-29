@@ -22,7 +22,8 @@ import {
   UserToNotification,
   Notifications,
   TypeDocumentsAttach,
-  DocumentsAttach
+  DocumentsAttach,
+  Cliente
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -122,4 +123,8 @@ export const scriptCreateTypeOfDocumentToAttach = (base: string, data: TypeDocum
 
 export const scriptCreateDocumentToAttach = (base: string, data: DocumentsAttach):string => {
   return `INSERT INTO ${base}.documentosAdjuntar (idTipoDocumentoAdjuntar, idTipoIncapacidad) VALUES ( ${data.idTipoDocumentoAdjuntar}, ${data.idTipoIncapacidad}) ON DUPLICATE KEY UPDATE idTipoDocumentoAdjuntar = ${data.idTipoDocumentoAdjuntar}, idTipoIncapacidad = ${data.idTipoIncapacidad};`
+}
+
+export const scriptCreateClient = (data: Cliente): string => {
+  return `INSERT INTO empresas (idEmpresa, razonSocial, nitEmpresa, nombreSistema, urlLogo, nombreBase, estado, direccion, telefono, email) VALUES (${data.idEmpresa}, '${data.razonSocial}', '${data.nitEmpresa}', '${data.nombreSistema}', '${data.urlLogo}', '${data.nombreBase}', ${data.estado}, '${data.direccion}', '${data.telefono}', '${data.email}') ON DUPLICATE KEY UPDATE razonSocial = '${data.razonSocial}', nitEmpresa = '${data.nitEmpresa}', nombreSistema = '${data.nombreSistema}', urlLogo = '${data.urlLogo}', nombreBase = '${data.nombreBase}', estado = ${data.estado}, direccion = '${data.direccion}', telefono = '${data.telefono}', email = '${data.email}';`
 }

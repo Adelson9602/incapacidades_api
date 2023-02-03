@@ -28,7 +28,6 @@ export const deleteDisability = async (req: Request, res: Response) => {
     const base:string = req.headers.base as string
     const { numeroIncapacidad } = req.params
     const query = scriptDeleteDisability(base, +numeroIncapacidad)
-    console.log(query)
     await executeQuery<ResultSql>(query)
     res.status(200).json({
       message: 'Incapacidad eliminada'

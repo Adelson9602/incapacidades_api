@@ -9,4 +9,6 @@ router.put('/update_state_notification/', verifyToken, putCtroler.putUpdateState
 
 router.put('/update_user/', verifyToken, putCtroler.updateUser)
 
+router.post('/restore_disability/:numeroIncapacidad', verifyToken, putCtroler.restoreDisability)
+
 module.exports = router

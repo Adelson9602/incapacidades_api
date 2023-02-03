@@ -16,6 +16,7 @@ import {
 } from '../interfaces/general.models'
 import {
   scriptUpdateStatusDisability,
+  scriptRestoreDisability,
   scriptUpdateStatusNotification
 } from '../scriptSQL/put.scripts'
 import { scriptGetUser } from '../scriptSQL/auth.scripts'
@@ -87,6 +88,24 @@ export const updateUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const restoreDisability = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const { numeroIncapacidad } = req.params
+    const query = scriptRestoreDisability(base, +numeroIncapacidad)
+    await executeQuery<ResultSql>(query)
+    res.status(200).json({
+      message: 'Incapacidad restaurada'
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: 'Error al restaurar incapacidad',
+      error: error.message,
       completeError: error
     }), 400)
   }

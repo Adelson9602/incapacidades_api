@@ -113,16 +113,21 @@ export const getCompanies = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
     const { nit } = req.params
+    const { typeCompany } = req.query
 
+    let condition = ''
     if (nit) {
-      const query = scriptCompanies(base, nit)
-      const [result] = await executeQuery<InformationCompany[]>(query)
-      res.status(200).json(result)
+      condition = `WHERE nit = ${nit}`
     } else {
-      const query = scriptCompanies(base)
-      const result = await executeQuery<InformationCompany[]>(query)
-      res.status(200).json(result)
+      if (typeCompany && typeCompany === '5') {
+        condition = `WHERE e.fkIdTipoEmpresa = ${typeCompany}`
+      } else if (typeCompany && typeCompany !== '5') {
+        condition = 'WHERE e.fkIdTipoEmpresa != 5'
+      }
     }
+    const query = scriptCompanies(base, condition)
+    const result = await executeQuery<InformationCompany[]>(query)
+    res.status(200).json(result)
   } catch (error: any) {
     httpError(res, req, JSON.stringify({
       message: req.params.nit ? 'Error al consultar empresa' : 'Error al consultar empresas',

@@ -171,7 +171,7 @@ export const createNotifications = async (base: string) => {
       })
     })
 
-    sendEmail('incapacidad', emails, mensaje, rows, columns)
+    // sendEmail('incapacidad', emails, mensaje, rows, columns)
 
     await Promise.all(promesas).then(res => res).catch(e => e)
   } catch (error: any) {

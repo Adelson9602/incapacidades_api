@@ -26,7 +26,7 @@ export const scriptValidatePosition = (nombreCargo: string, base: string):string
   return `SELECT * FROM ${base}.cargo WHERE nombreCargo = '${nombreCargo}';`
 }
 
-export const scriptCompanies = (base: string, nit?: string):string => {
+export const scriptCompanies = (base: string, condition?: string):string => {
   return `SELECT
     nit,
     razonSocial,
@@ -50,7 +50,7 @@ export const scriptCompanies = (base: string, nit?: string):string => {
     INNER JOIN ${base}.contacto co ON co.idContacto = ce.fkidContacto
     INNER JOIN ${base}.ciudad ci ON ci.idCiudad = co.fkIdCiudad
     INNER JOIN ${base}.departamento de ON de.idDepartamento = ci.fkIdDepartamento
-  ${nit ? `WHERE nit = ${nit}` : ''};`
+  ${condition || ''};`
 }
 
 // Obtiene los datos de un empleado o todos los empleados

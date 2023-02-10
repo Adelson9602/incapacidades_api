@@ -66,7 +66,7 @@ export const scriptCreateContacto = (data: Contact, base: string):string => {
 }
 
 export const scriptDisabilityType = (data: DisabilityType, base: string):string => {
-  return `INSERT INTO ${base}.tipoIncapacidad(idTipoIncapacidad, nombreTipoIncapacidad, codigoDianostico) VALUES (${data.idTipoIncapacidad}, '${data.nombreTipoIncapacidad}', '${data.codigoDianostico}') ON DUPLICATE KEY UPDATE idTipoIncapacidad = ${data.idTipoIncapacidad}, nombreTipoIncapacidad = '${data.nombreTipoIncapacidad}', codigoDianostico = '${data.codigoDianostico}';`
+  return `INSERT INTO ${base}.tipoIncapacidad(idTipoIncapacidad, nombreTipoIncapacidad) VALUES (${data.idTipoIncapacidad}, '${data.nombreTipoIncapacidad}') ON DUPLICATE KEY UPDATE idTipoIncapacidad = ${data.idTipoIncapacidad}, nombreTipoIncapacidad = '${data.nombreTipoIncapacidad}';`
 }
 
 export const scriptCreatePosition = (data: Position, base: string):string => {
@@ -83,7 +83,7 @@ export const scriptCreateStateInability = (data: DisabilityState, base: string):
 
 // Incapaciades
 export const scriptCreateInability = (data: Disability, base: string):string => {
-  return `INSERT INTO ${base}.incapacidades(radicado, fkIdTipoIncapacidad, cie, fkNitEmpresa, numeroIncapacidad, fechaInicio, fechaFin, totalDias, ibc, valor, fkIdEstadoIncapacidad, fkDocumentoPersona, fkEntidad) VALUES (${data.radicado}, ${data.fkIdTipoIncapacidad}, '${data.cie}', ${data.fkNitEmpresa}, ${data.numeroIncapacidad}, '${data.fechaInicio}', '${data.fechaFin}', ${data.totalDias}, '${data.ibc}', ${data.valor}, ${data.fkIdEstadoIncapacidad}, ${data.fkDocumentoPersona}, ${data.fkEntidad}) ON DUPLICATE KEY UPDATE radicado =${data.radicado}, fkIdTipoIncapacidad =${data.fkIdTipoIncapacidad}, cie ='${data.cie}', fkNitEmpresa =${data.fkNitEmpresa}, numeroIncapacidad = ${data.numeroIncapacidad}, fechaInicio ='${data.fechaInicio}', fechaFin ='${data.fechaFin}', totalDias =${data.totalDias}, ibc ='${data.ibc}', valor =${data.valor}, fkIdEstadoIncapacidad =${data.fkIdEstadoIncapacidad}, fkDocumentoPersona =${data.fkDocumentoPersona}, fkEntidad =${data.fkEntidad};`
+  return `INSERT INTO ${base}.incapacidades(radicado, fkIdTipoIncapacidad, cie, fkNitEmpresa, numeroIncapacidad, fechaInicio, fechaFin, totalDias, ibc, valor, fkIdEstadoIncapacidad, fkDocumentoPersona, fkEntidad) VALUES (${data.radicado}, ${data.fkIdTipoIncapacidad}, '${data.cie}', ${data.fkNitEmpresa}, '${data.numeroIncapacidad}', '${data.fechaInicio}', '${data.fechaFin}', ${data.totalDias}, '${data.ibc}', ${data.valor}, ${data.fkIdEstadoIncapacidad}, ${data.fkDocumentoPersona}, ${data.fkEntidad}) ON DUPLICATE KEY UPDATE radicado =${data.radicado}, fkIdTipoIncapacidad =${data.fkIdTipoIncapacidad}, cie ='${data.cie}', fkNitEmpresa =${data.fkNitEmpresa}, numeroIncapacidad = '${data.numeroIncapacidad}', fechaInicio ='${data.fechaInicio}', fechaFin ='${data.fechaFin}', totalDias =${data.totalDias}, ibc ='${data.ibc}', valor =${data.valor}, fkIdEstadoIncapacidad =${data.fkIdEstadoIncapacidad}, fkDocumentoPersona =${data.fkDocumentoPersona}, fkEntidad =${data.fkEntidad};`
 }
 
 export const scriptSaveFile = (data: Adjunto, base: string):string => {

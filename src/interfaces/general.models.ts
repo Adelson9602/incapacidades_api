@@ -202,11 +202,12 @@ export interface Disability {
   fkIdEstadoIncapacidad: number;
   fkDocumentoPersona: number;
   fkEntidad: number;
+  usuario?: number;
 }
 
 export interface Adjunto {
   idFiles?: number;
-  fkRadicado: number;
+  fkIdIncapacidad: number;
   url: string;
   nombreArchivo: string;
   fkIdTipoFile: number

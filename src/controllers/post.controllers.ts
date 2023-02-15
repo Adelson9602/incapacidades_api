@@ -337,7 +337,7 @@ export const createInability = async (req: Request, res: Response) => {
     if (req.body.files.length > 0) {
       let queryFile = ''
       req.body.files.forEach((element: Adjunto) => {
-        element.fkRadicado = req.body.radicado ? req.body.radicado : result.insertId
+        element.fkIdIncapacidad = req.body.fkIdIncapacidad ? req.body.fkIdIncapacidad : result.insertId
         queryFile = queryFile + scriptSaveFile(element, base)
       })
       const resultFiles = await executeQuery<ResultSql[]>(queryFile)

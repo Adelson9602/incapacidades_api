@@ -11,7 +11,6 @@ export const uploadFile = (req: Request, res: Response) => {
   if (files) {
     const tempCompany = company.replace(/ /g, '_')
     for (let i = 0; i < files.length; i++) {
-      console.log(files[i])
       reqFiles.push({
         saved: true,
         nameFile: files[i].originalname,

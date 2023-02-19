@@ -21,7 +21,6 @@ import {
   scriptTotalDisabilitiesByStatus,
   scriptLatestDisabilities,
   scriptGetSalary,
-  scriptCieGroup,
   scriptCieCode,
   scriptGetfilesByDisability,
   scriptGetDisabilityById,
@@ -517,20 +516,10 @@ export const getLatestDisabilities = async (req: Request, res: Response) => {
 export const getCie = async (req: Request, res: Response) => {
   try {
     const base:string = req.headers.base as string
-    const query = scriptCieGroup(base)
+    const query = scriptCieCode(base)
     const response = await executeQuery<any[]>(query)
-    const promises:any = []
 
-    response.forEach(e => {
-      const query = scriptCieCode(base, e.idGrupoCie)
-      promises.push(executeQuery<any[]>(query).then(data => {
-        e.cieCodes = data
-        return e
-      }).catch(e => e))
-    })
-
-    const resAll = await Promise.all(promises)
-    res.status(200).json(resAll)
+    res.status(200).json(response)
   } catch (error: any) {
     httpError(res, req, error, 400)
   }
@@ -580,7 +569,7 @@ export const getExcelReport = async (req: Request, res: Response) => {
   const { nit, cc, nitEntidad } = req.query
 
   const columnsGeneral = [
-    { header: 'NUMERO DE CONSECUTIVO', key: 'idIncapacidad' },
+    { header: '# DE INCAPACIDAD', key: 'numeroIncapacidad' },
     { header: 'FECHA RAICADO', key: 'fechaRegistro' },
     // { header: 'EMPRESA', key: '' },
     // { header: 'CENTRO DE COSTOS', key: '' },

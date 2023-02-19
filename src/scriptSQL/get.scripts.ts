@@ -234,8 +234,12 @@ export const scriptCieDsibality = (base: string, cie: string):string => {
     WHERE codigo = "${cie}";`
 }
 
-export const scriptCieCode = (base: string, idGrupo: number):string => {
+export const scriptCieCodeByGroup = (base: string, idGrupo: number):string => {
   return `SELECT * FROM ${base}.codigoCie WHERE idGrupo = ${idGrupo};`
+}
+
+export const scriptCieCode = (base: string):string => {
+  return `SELECT * FROM ${base}.codigoCie;`
 }
 
 export const scriptTotalDisabilities = (base: string):string => {

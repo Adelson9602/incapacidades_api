@@ -32,7 +32,8 @@ import {
   scriptHistoricalDisability,
   scriptGetToNotifies,
   scriptGetTypeOfDocumentToAttach,
-  scriptGetClients
+  scriptGetClients,
+  scriptGroundsForRejection
 } from '../scriptSQL/get.scripts'
 import { executeQuery } from '../functions/global.functions'
 import {
@@ -59,7 +60,8 @@ import {
   DocumentsAttach,
   HistoricalDisability,
   Cliente,
-  Settings
+  Settings,
+  GroundsForRejection
 } from 'interfaces/general.models'
 import { generateExcel } from '../helpers/excel'
 
@@ -700,6 +702,19 @@ export const getClients = async (req: Request, res: Response) => {
     })
 
     const result = await Promise.all(promises)
+    res.status(200).json(result)
+  } catch (error: any) {
+    httpError(res, req, error, 400)
+  }
+}
+
+// Controllers para consultar los causales de rechazo
+export const getGroundsForRejection = async (req: Request, res: Response) => {
+  try {
+    const base:string = req.headers.base as string
+    const query = scriptGroundsForRejection(base, 'WHERE estado = 1')
+    const result = await executeQuery<GroundsForRejection[]>(query)
+
     res.status(200).json(result)
   } catch (error: any) {
     httpError(res, req, error, 400)

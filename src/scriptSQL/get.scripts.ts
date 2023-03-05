@@ -346,4 +346,8 @@ export const scriptGetClients = () :string => {
   return 'SELECT * FROM empresas;'
 }
 
+export const scriptGroundsForRejection = (base: string, condition?: string) :string => {
+  return `SELECT * FROM ${base}.causalRechazo ${condition || ''};`
+}
+
 // SELECT DATE_FORMAT(fechaRegistro, '%M') AS mes, e.nombreEstadoIncapacidad, COUNT(i.numeroIncapacidad) AS numeroIncapacidades, SUM(valor) AS totalIncapacidades FROM ${base}.incapacidades i INNER JOIN ${base}.estadoIncapacidad e ON e.idEstadoIncapacidad = i.fkIdEstadoIncapacidad GROUP BY DATE_FORMAT(fechaRegistro, '%M');

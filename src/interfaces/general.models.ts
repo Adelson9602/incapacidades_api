@@ -427,3 +427,9 @@ export interface Cliente {
   salarioMinimo: number;
   idSetting: number;
 }
+
+export interface GroundsForRejection {
+  idCausalRechazo: number;
+  causalRechazo: string;
+  estado: number;
+}

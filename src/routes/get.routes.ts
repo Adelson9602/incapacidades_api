@@ -72,4 +72,6 @@ router.get('/type_of_document_to_attach', verifyToken, getCtroler.getTypeOfDocum
 
 router.get('/clients', verifyToken, getCtroler.getClients)
 
+router.get('/get_grounds_for_rejection', verifyToken, getCtroler.getGroundsForRejection)
+
 module.exports = router

@@ -24,7 +24,8 @@ import {
   TypeDocumentsAttach,
   DocumentsAttach,
   Cliente,
-  Settings
+  Settings,
+  DisabilityRejected
 } from '../interfaces/general.models'
 import { encryptedAES } from '../helpers/encrypt'
 
@@ -132,4 +133,8 @@ export const scriptCreateClient = (data: Cliente): string => {
 
 export const scriptCreateSetting = (base: string, data: Settings): string => {
   return `INSERT INTO ${base}.settings (idSetting, salarioMinimo) VALUES (${data.idSetting}, ${data.salarioMinimo}) ON DUPLICATE KEY UPDATE idSetting = ${data.idSetting}, salarioMinimo = ${data.salarioMinimo};`
+}
+
+export const scrriptDisabilityRejected = (base: string, data: DisabilityRejected): string => {
+  return `INSERT INTO ${base}.incapacidadesRechazadas (idIncapacidadRechazada, idIncapacidad, idCausalRechazo) VALUES (${data.idIncapacidadRechazada || 'NULL'}, ${data.idIncapacidad}, ${data.idCausalRechazo}) ON DUPLICATE KEY UPDATE idCausalRechazo = ${data.idCausalRechazo};`
 }

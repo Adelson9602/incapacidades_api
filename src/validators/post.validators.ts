@@ -172,6 +172,15 @@ const validateClient = [
   }
 ]
 
+const validateDisabilityRejected = [
+  check('idIncapacidadRechazada').exists(),
+  check('idCausalRechazo').exists().not().isEmpty(),
+  check('idIncapacidad').exists().not().isEmpty(),
+  (req: Request, res: Response, next: NextFunction) => {
+    validateResult(req, res, next)
+  }
+]
+
 const validatePerson = [
   check('documentoPersona').exists().not().isEmpty(),
   check('fkIdTipoDocumento').exists().not().isEmpty(),
@@ -221,5 +230,6 @@ export {
   validateDeparment,
   validateCity,
   validateDocumentToAttach,
-  validateClient
+  validateClient,
+  validateDisabilityRejected
 }

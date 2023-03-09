@@ -19,7 +19,8 @@ import {
   validateCity,
   validateHistoricalDisability,
   validateDocumentToAttach,
-  validateClient
+  validateClient,
+  validateDisabilityRejected
 } from '../validators/post.validators'
 
 const router = Router()
@@ -61,5 +62,7 @@ router.post('/type_of_document_to_attach', verifyToken, postCtroler.createTypeOf
 router.post('/document_to_attach', verifyToken, validateDocumentToAttach, postCtroler.createDocumentToAttach)
 
 router.post('/create_client', verifyToken, validateClient, postCtroler.createClient)
+
+router.post('/create_disability_rejected', verifyToken, validateDisabilityRejected, postCtroler.createDisabilityRejected)
 
 module.exports = router

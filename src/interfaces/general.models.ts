@@ -433,3 +433,9 @@ export interface GroundsForRejection {
   causalRechazo: string;
   estado: number;
 }
+
+export interface DisabilityRejected {
+  idIncapacidadRechazada: number | null;
+  idIncapacidad: number;
+  idCausalRechazo: number;
+}

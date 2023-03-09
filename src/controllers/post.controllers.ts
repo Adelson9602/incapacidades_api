@@ -27,7 +27,8 @@ import {
   scriptCreateTypeOfDocumentToAttach,
   scriptCreateDocumentToAttach,
   scriptCreateClient,
-  scriptCreateSetting
+  scriptCreateSetting,
+  scrriptDisabilityRejected
 } from '../scriptSQL/post.scripts'
 import {
   scriptCountDaysDisability,
@@ -502,6 +503,23 @@ export const createTypeOfDocumentToAttach = async (req: Request, res: Response) 
   try {
     const base: string = req.headers.base as string
     const query = scriptCreateTypeOfDocumentToAttach(base, req.body)
+    const result = await executeQuery<ResultSql>(query)
+    res.status(200).json({
+      message: 'Datos guardados',
+      data: result
+    })
+  } catch (error: any) {
+    httpError(res, req, JSON.stringify({
+      message: error.message,
+      completeError: error
+    }), 400)
+  }
+}
+
+export const createDisabilityRejected = async (req: Request, res: Response) => {
+  try {
+    const base: string = req.headers.base as string
+    const query = scrriptDisabilityRejected(base, req.body)
     const result = await executeQuery<ResultSql>(query)
     res.status(200).json({
       message: 'Datos guardados',

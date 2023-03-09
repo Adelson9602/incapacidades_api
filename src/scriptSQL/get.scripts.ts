@@ -171,7 +171,9 @@ export const scriptDisability = (base: string, condition?: string):string => {
     e2.razonSocial AS razonSocialEntidad,
     td.nombreTipoDocumento,
     ei.nombreEstadoIncapacidad,
-    i.fechaRegistro
+    i.fechaRegistro,
+    ir.idIncapacidadRechazada,
+    ir.idCausalRechazo
   FROM ${base}.incapacidades i
     INNER JOIN ${base}.personas p ON p.documentoPersona = i.fkDocumentoPersona
     INNER JOIN ${base}.tipoDocumento td ON p.fkIdTipoDocumento = td.idTipoDocumento
@@ -181,6 +183,7 @@ export const scriptDisability = (base: string, condition?: string):string => {
     INNER JOIN ${base}.grupoCie gc ON gc.idGrupoCie = ci.idGrupo
     LEFT JOIN ${base}.empresa e ON e.nit = i.fkNitEmpresa
     LEFT JOIN ${base}.empresa e2 ON i.fkEntidad = e2.nit
+    LEFT JOIN ${base}.incapacidadesRechazadas ir ON ir.idIncapacidad = i.idIncapacidad
   ${condition}
   ORDER BY radicado DESC`
 }
